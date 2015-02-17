@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46146BB71A93389300C35A02 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46146BB51A93389300C35A02 /* LoginVC.swift */; };
+		46146BB81A93389300C35A02 /* SigupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46146BB61A93389300C35A02 /* SigupVC.swift */; };
 		464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D681A92594000396EE8 /* AppDelegate.swift */; };
 		464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */; };
 		464E9D711A92594000396EE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D6F1A92594000396EE8 /* Main.storyboard */; };
@@ -15,8 +17,6 @@
 		464E9D821A92594000396EE8 /* Let_s_EatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D811A92594000396EE8 /* Let_s_EatTests.swift */; };
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
 		464E9D921A925A9000396EE8 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D911A925A9000396EE8 /* check.png */; };
-		464E9D941A925BB900396EE8 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D931A925BB900396EE8 /* LoginVC.swift */; };
-		464E9D961A925BCB00396EE8 /* SigupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D951A925BCB00396EE8 /* SigupVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		46146BB51A93389300C35A02 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		46146BB61A93389300C35A02 /* SigupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigupVC.swift; sourceTree = "<group>"; };
 		464E9D631A92594000396EE8 /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		464E9D671A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		464E9D681A92594000396EE8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -42,8 +44,6 @@
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		464E9D911A925A9000396EE8 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
-		464E9D931A925BB900396EE8 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		464E9D951A925BCB00396EE8 /* SigupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SigupVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,14 +64,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46146BB41A93389300C35A02 /* Entry VC  */ = {
+			isa = PBXGroup;
+			children = (
+				46146BB51A93389300C35A02 /* LoginVC.swift */,
+				46146BB61A93389300C35A02 /* SigupVC.swift */,
+			);
+			path = "Entry VC ";
+			sourceTree = "<group>";
+		};
 		464E9D5A1A92594000396EE8 = {
 			isa = PBXGroup;
 			children = (
 				464E9D651A92594000396EE8 /* Let's Eat */,
 				464E9D7E1A92594000396EE8 /* Let's EatTests */,
 				464E9D641A92594000396EE8 /* Products */,
-				464E9D931A925BB900396EE8 /* LoginVC.swift */,
-				464E9D951A925BCB00396EE8 /* SigupVC.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,6 +94,7 @@
 		464E9D651A92594000396EE8 /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
+				46146BB41A93389300C35A02 /* Entry VC  */,
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
 				464E9D6F1A92594000396EE8 /* Main.storyboard */,
 				464E9D8F1A925A3300396EE8 /* ViewController.swift */,
@@ -225,10 +233,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464E9D961A925BCB00396EE8 /* SigupVC.swift in Sources */,
+				46146BB81A93389300C35A02 /* SigupVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
-				464E9D941A925BB900396EE8 /* LoginVC.swift in Sources */,
+				46146BB71A93389300C35A02 /* LoginVC.swift in Sources */,
 				464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
