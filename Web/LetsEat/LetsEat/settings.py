@@ -53,7 +53,7 @@ ROOT_URLCONF = 'LetsEat.urls'
 
 WSGI_APPLICATION = 'LetsEat.wsgi.application'
 
-AUTH_USER_MODEL = 'backend.User'
+AUTH_USER_MODEL = 'backend.LetsEatUser'
 
 
 # Database

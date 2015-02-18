@@ -11,7 +11,7 @@ from django.contrib.auth.models import (
 )
 
 
-class UserManager(BaseUserManager):
+class LetsEatUserManager(BaseUserManager):
     def create_user(self, name=None, surname=None, email=None, password=None):
         if not (name and surname and password and email):
             raise ValueError('An user requires name, surname, email, password')
@@ -47,7 +47,7 @@ class UserManager(BaseUserManager):
         return activation_key
 
 
-class User(AbstractBaseUser):
+class LetsEatUser(AbstractBaseUser):
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
 
@@ -64,6 +64,11 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
 
     is_admin = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'surname']
+
+    objects = UserManager()
 
     class Meta:
         pass
