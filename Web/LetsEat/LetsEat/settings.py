@@ -53,6 +53,8 @@ ROOT_URLCONF = 'LetsEat.urls'
 
 WSGI_APPLICATION = 'LetsEat.wsgi.application'
 
+AUTH_USER_MODEL = 'backend.User'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
