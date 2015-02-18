@@ -2,10 +2,9 @@ __author__ = 'Hakan Uyumaz'
 
 import random
 import datetime
+
 import pytz
-
 from django.db import models
-
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
@@ -20,7 +19,7 @@ class LetsEatUserManager(BaseUserManager):
             name=name.title(),
             surname=surname.title(),
             email=self.normalize_email(email),
-            activation_key=self.generate_token_with_email(),
+            activation_key=self.generate_token(),
             activation_expire_date=datetime.datetime.now(pytz.utc) + datetime.timedelta(2),
         )
 
@@ -68,7 +67,19 @@ class LetsEatUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'surname']
 
-    objects = UserManager()
+    objects = LetsEatUserManager()
 
     class Meta:
         pass
+
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
+
+    def get_short_name(self):
+        return self.name
