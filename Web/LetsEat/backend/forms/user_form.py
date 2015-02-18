@@ -1,11 +1,12 @@
 __author__ = 'Hakan Uyumaz'
 
 from django import forms
-from django.forms import ModelForm
-from ..models import User
 
-class UserCreationForm(forms.ModelForm):
+from ..models import LetsEatUser
+
+
+class LetsEatUserCreationForm(forms.ModelForm):
 
     class Meta:
-        model = User
+        model = LetsEatUser
         fields =['name', 'surname', 'email', 'password',]
