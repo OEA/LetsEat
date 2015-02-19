@@ -17,6 +17,7 @@
 		464E9D821A92594000396EE8 /* Let_s_EatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D811A92594000396EE8 /* Let_s_EatTests.swift */; };
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
 		464E9D921A925A9000396EE8 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D911A925A9000396EE8 /* check.png */; };
+		465F3EFF1A9647EC006A6AA6 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465F3EFE1A9647EC006A6AA6 /* ProfileVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		464E9D911A925A9000396EE8 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		465F3EFE1A9647EC006A6AA6 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileVC.swift; path = "../TabBar VC/Profile Tab/ProfileVC.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		464E9D651A92594000396EE8 /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
+				465F3EFB1A964703006A6AA6 /* TabBar VC */,
 				46146BB41A93389300C35A02 /* Entry VC  */,
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
 				464E9D6F1A92594000396EE8 /* Main.storyboard */,
@@ -130,6 +133,15 @@
 				464E9D801A92594000396EE8 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		465F3EFB1A964703006A6AA6 /* TabBar VC */ = {
+			isa = PBXGroup;
+			children = (
+				465F3EFE1A9647EC006A6AA6 /* ProfileVC.swift */,
+			);
+			name = "TabBar VC";
+			path = "Entry VC ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				465F3EFF1A9647EC006A6AA6 /* ProfileVC.swift in Sources */,
 				46146BB81A93389300C35A02 /* SigupVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,

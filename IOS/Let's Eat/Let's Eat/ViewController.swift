@@ -53,9 +53,10 @@ class ViewController: UIViewController {
     }
   
     @IBAction func logoutTapped(sender: UIBarButtonItem) {
-        let appDomain = NSBundle.mainBundle().bundleIdentifier
-        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain!)
-        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("USERNAME")
+
         self.performSegueWithIdentifier("goto_login", sender: self)
     }
 

@@ -62,9 +62,16 @@ class SigupVC: UIViewController {
             self.view.endEditing(true)
         }
     }
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBAction func scrollForEditing(sender: UITextField) {
+        // If it is in landscape
+        if sender == textPassword {
+            scrollView.setContentOffset(CGPointMake(0, 20), animated: true)
+            
+        }
+    }
 
-    
-    
     @IBAction func signupTapped() {
         self.view.endEditing(true)
         var name:NSString = textName.text as NSString

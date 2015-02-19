@@ -18,7 +18,7 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -61,7 +61,6 @@ class LoginVC: UIViewController {
             let userDefaults = NSUserDefaults.standardUserDefaults()
             if let defaultItems = userDefaults.arrayForKey("userInfoList") {
                 let existentUser = (defaultItems.filter{ (($0["username"]) as String) == username })
-                println(existentUser.count)
                 if existentUser.count == 1 {
                     let user = existentUser[0] as [String: NSString]
                     if let savedPassword = user["password"] {
