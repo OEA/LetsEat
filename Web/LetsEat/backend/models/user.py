@@ -11,11 +11,12 @@ from django.contrib.auth.models import (
 
 
 class LetsEatUserManager(BaseUserManager):
-    def create_user(self, name=None, surname=None, email=None, password=None):
+    def create_user(self, username=None, name=None, surname=None, email=None, password=None):
         if not (name and surname and password and email):
             raise ValueError('An user requires name, surname, email, password')
 
         user = self.model(
+            username=username,
             name=name.title(),
             surname=surname.title(),
             email=self.normalize_email(email),
@@ -28,18 +29,19 @@ class LetsEatUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, name=None, surname=None, email=None, password=None):
-        doctor = self.create_user(
+    def create_superuser(self, username=None, name=None, surname=None, email=None, password=None):
+        user = self.create_user(
+            username=username,
             name=name,
             surname=surname,
             email=email,
             password=password
         )
 
-        doctor.is_active = True
-        doctor.is_admin = True
-        doctor.save(using=self._db)
-        return doctor
+        user.is_active = True
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
     def generate_token(self):
         activation_key = str(random.random()).encode('utf8')
@@ -47,6 +49,8 @@ class LetsEatUserManager(BaseUserManager):
 
 
 class LetsEatUser(AbstractBaseUser):
+    username = models.CharField('Username', max_length=50)
+
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
 
@@ -65,7 +69,7 @@ class LetsEatUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'surname']
+    REQUIRED_FIELDS = ['username', 'name', 'surname']
 
     objects = LetsEatUserManager()
 
