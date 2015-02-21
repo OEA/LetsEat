@@ -5,5 +5,6 @@ from backend import views as backend_views
 
 urlpatterns = patterns('',
     url(r'^register/', backend_views.registration_view, name='register'),
+    url(r'^login/', backend_views.login_view, name='login'),
     url(r'^admin/', include(admin.site.urls)),
 )
