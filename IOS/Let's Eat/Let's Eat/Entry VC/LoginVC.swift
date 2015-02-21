@@ -65,7 +65,7 @@ class LoginVC: UIViewController {
                     let user = existentUser[0] as [String: NSString]
                     if let savedPassword = user["password"] {
                         if password == savedPassword as NSString {
-                            userDefaults.setObject(existentUser[0], forKey: "userInfo")
+                            userDefaults.setObject(user, forKey: "userInfo")
                             userDefaults.setObject(username, forKey: "USERNAME")
                             userDefaults.setInteger(1, forKey: "ISLOGGEDIN")
                             self.dismissViewControllerAnimated(true, completion: nil)

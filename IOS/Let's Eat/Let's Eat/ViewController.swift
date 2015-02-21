@@ -30,6 +30,13 @@ class ViewController: UIViewController {
             self.performSegueWithIdentifier("goto_login", sender: self)
         } else {
             self.usernameLabel.text = prefs.valueForKey("USERNAME") as NSString
+            if let defaultItems = prefs.arrayForKey("userInfoList") {
+                let existentUser = (defaultItems.filter{ (($0["username"]) as String) == prefs.stringForKey("USERNAME") })
+                if existentUser.count == 1 {
+                    prefs.setObject(existentUser[0], forKey: "USER")
+                    
+                }
+            }
             self.reloadInputViews()
         }
 

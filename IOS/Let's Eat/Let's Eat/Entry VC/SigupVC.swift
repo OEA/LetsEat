@@ -81,7 +81,7 @@ class SigupVC: UIViewController {
         var password:NSString = textPassword.text as NSString
         var confirm_password:NSString = textConfirmPassword.text as NSString
         
-        if ( name.isEqualToString("") || surname.isEqualToString("") || username.isEqualToString("")  || password.isEqualToString("") || email.isEqualToString("")) {
+        if ( name.isEqualToString("") || surname.isEqualToString("") || username.isEqualToString("")  || password.isEqualToString("") || confirm_password.isEqualToString("") || email.isEqualToString("")) {
             
             emptyFieldError()
             

@@ -25,40 +25,35 @@ class ProfileVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = false
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let defaultItems = userDefaults.arrayForKey("userInfoList") {
-            let existentUser = (defaultItems.filter{ (($0["username"]) as String) == userDefaults.stringForKey("USERNAME") })
-            if existentUser.count == 1 {
-                user = existentUser[0] as [String: NSString]
-
-                nameField.text = user["name"]
-                surnameField.text = user["surname"]
-                userNameField.text = user["username"]
-                emailField.text = user["email"]
-            }
+        if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{
+            user = userInfo
+            nameField.text = user["name"]
+            surnameField.text = user["surname"]
+            userNameField.text = user["username"]
+            emailField.text = user["email"]
         }
+
+    }
+    override func viewDidAppear(animated: Bool) {
     }
   
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-      /*if sender is UIButton{
+      if sender is UIButton{
         if sender as UIButton == infoButton{
             let infoVC = segue.destinationViewController as ChangeInfoVC
-            infoVC.ozyegin = ozyegin
             if user != nil {
                 infoVC.user = user
-                let a = sender as UIButton
-                
-                println(a.backgroundColor)
             }
         }else {
-          let passwordVC = segue.destinationViewController as ChangePasswordVC
+          /*let passwordVC = segue.destinationViewController as ChangePasswordVC
             if user != nil {
                 passwordVC.user = user
-            }
+            }*/
         }
-      }*/
+      }
     }
 
     /*
