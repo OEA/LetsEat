@@ -2,13 +2,11 @@ __author__ = 'Burak Atalay'
 
 from django.conf.urls import patterns, url
 
-from views import user_views
+from backend import views
 
 urlpatterns = patterns('',
-   # ex: /polls/
-                       # url(r'^$', user_views.registration_view, name='register'),
-   # ex: /polls/5/
-                       # url(r'^(?P<question_id>\d+)/$', views.detail, name='detail'),
-   # ex: /polls/5/results/
-                       #  url(r'^(?P<question_id>\d+)/results/$', views.results, name='results'),
+   # ex: /profile/username/
+   url(r'^(?P<username>\d+)/$', views.profile, name='profile'),
+   # ex: /profile/username/edit/
+   url(r'^(?P<username>\d+)/edit/$', views.edit, name='edit'),
 )

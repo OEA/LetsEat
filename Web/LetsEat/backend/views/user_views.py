@@ -2,6 +2,7 @@ __author__ = 'Hakan Uyumaz & Burak Atalay'
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 
 from ..forms.user_form import LetsEatUserCreationForm
 from ..models.user import LetsEatUser
@@ -35,3 +36,9 @@ def login_view(request):
             return redirect("profile_page")
     else:
         return redirect("invalid_login_page")
+
+def profile(request, username):
+    return HttpResponse("You are looking at profile page of %s." %username)
+
+def edit(request, username):
+    return HttpResponse("You are editing the profile of user: %s." %username)
