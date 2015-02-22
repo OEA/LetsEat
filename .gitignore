@@ -1,5 +1,5 @@
 ### Pycharm
-Web/LetsEat/.idea/
+web/.idea/
 .idea/
 
 ### Mac OS X
@@ -54,7 +54,7 @@ coverage.xml
 
 # Django stuff:
 *.log
-Web/LetsEat/db.sqlite3
+webdb.sqlite3
 
 # Sphinx documentation
 docs/_build/
