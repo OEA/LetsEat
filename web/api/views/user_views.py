@@ -38,7 +38,7 @@ def login_view(request):
         else:
             return redirect('invalid_login.html')
     else:
-        return HttpResponse("No request found")
+        return render(request, 'login.html')
 
 def profile(request, username):
     return HttpResponse("You are looking at profile page of user: %s" %username)
