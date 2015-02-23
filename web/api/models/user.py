@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, username=None, name=None, surname=None, email=None, password=None):
         user = self.create_user(
             username=username.encode('utf8'),
-            name=name.endoce('utf8'),
+            name=name.encode('utf8'),
             surname=surname.encode('utf8'),
             email=email,
             password=password
