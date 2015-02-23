@@ -33,9 +33,9 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user is not None:
             login(request, user)
-            return redirect("profile_page")
+            return redirect('profile.html')
     else:
-        return redirect("invalid_login_page")
+        return redirect('invalid_login.html')
 
 def profile(request, username):
     return HttpResponse("You are looking at profile page of user: %s" %username)
