@@ -16,7 +16,7 @@ def registration_view(request):
             form = UserCreationForm(request.POST)
 
             if form.errors:
-                print form.errors
+                print(form.errors)
                 return render(request, 'register.html', dict(errors=form.errors))
 
             user = form.save(commit=False)
