@@ -13,5 +13,4 @@ urlpatterns = patterns('',
     url(r'^login/', user_views.login_view, name='login'),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('api.urls')),
 )
