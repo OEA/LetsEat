@@ -16,9 +16,9 @@ class UserManager(BaseUserManager):
             raise ValueError('An user requires name, surname, email, password')
 
         user = self.model(
-            username=username.encode('utf8'),
-            name=name.title().encode('utf8'),
-            surname=surname.title().encode('utf8'),
+            username=username,
+            name=name.title(),
+            surname=surname.title(),
             email=self.normalize_email(email),
             activation_key=self.generate_token(),
             activation_expire_date=datetime.datetime.now(pytz.utc) + datetime.timedelta(2),
@@ -31,9 +31,9 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, username=None, name=None, surname=None, email=None, password=None):
         user = self.create_user(
-            username=username.encode('utf8'),
-            name=name.encode('utf8'),
-            surname=surname.encode('utf8'),
+            username=username,
+            name=name,
+            surname=surname,
             email=email,
             password=password
         )
