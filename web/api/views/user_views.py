@@ -28,14 +28,17 @@ def registration_view(request):
             return render(request, 'register.html')
 
 def login_view(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-            login(request, user)
-            return redirect('profile.html')
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+                login(request, user)
+                return redirect('profile.html')
+        else:
+            return redirect('invalid_login.html')
     else:
-        return redirect('invalid_login.html')
+        return HttpResponse("No request found")
 
 def profile(request, username):
     return HttpResponse("You are looking at profile page of user: %s" %username)
