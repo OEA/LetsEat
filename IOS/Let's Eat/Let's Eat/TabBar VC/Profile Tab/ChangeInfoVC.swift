@@ -8,12 +8,13 @@
 
 import UIKit
 
-class ChangeInfoVC: UIViewController {
+class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var surnameField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var userImageView: UIImageView!
   
     var user: [String: NSString]!
     
@@ -23,7 +24,14 @@ class ChangeInfoVC: UIViewController {
         surnameField.text = user["surname"]
         usernameField.text = user["username"]
         emailField.text = user["email"]
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+                //load image from server
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                //userImageView.image = userImage
+            })
+        })
     }
+    
     
     @IBAction func changeInfoTapped() {
         var newUser = user
@@ -31,6 +39,7 @@ class ChangeInfoVC: UIViewController {
         newUser["surname"] = surnameField.text
         newUser["username"] = usernameField.text
         newUser["email"] = emailField.text
+        
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let defaultItems = userDefaults.arrayForKey("userInfoList") {
@@ -42,6 +51,9 @@ class ChangeInfoVC: UIViewController {
                         savedList.removeAtIndex(index)
                         savedList.append(newUser)
                         userDefaults.setObject(savedList, forKey: "userInfoList")
+                        if userImageView.image != nil {
+                            //save image to server
+                        }
                         userDefaults.setObject(usernameField.text, forKey: "USERNAME")
                         userDefaults.setObject(newUser, forKey: "userInfo")
                         self.navigationController?.popViewControllerAnimated(true)
@@ -52,6 +64,19 @@ class ChangeInfoVC: UIViewController {
     }
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
+    }
+
+    @IBAction func editTapped() {
+        var imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .PhotoLibrary
+        self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        userImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func nextKey(sender: UITextField) {

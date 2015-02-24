@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */; };
 		464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D681A92594000396EE8 /* AppDelegate.swift */; };
 		464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */; };
 		464E9D711A92594000396EE8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D6F1A92594000396EE8 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		464E9D631A92594000396EE8 /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		464E9D671A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		464E9D681A92594000396EE8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 		46FE77671A9911DA003BDD80 /* Profile Tab */ = {
 			isa = PBXGroup;
 			children = (
+				464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */,
 				46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */,
 				46FE77691A9911DA003BDD80 /* ProfileVC.swift */,
 			);
@@ -258,6 +261,7 @@
 				46FE776A1A9911DA003BDD80 /* ChangeInfoVC.swift in Sources */,
 				46FE77661A9911B8003BDD80 /* SigupVC.swift in Sources */,
 				46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */,
+				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,

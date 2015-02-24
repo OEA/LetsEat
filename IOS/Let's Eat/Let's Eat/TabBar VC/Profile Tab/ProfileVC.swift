@@ -14,6 +14,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var surnameField: UILabel!
     @IBOutlet weak var userNameField: UILabel!
     @IBOutlet weak var emailField: UILabel!
+    @IBOutlet weak var changePasswordButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
     override func viewDidLoad() {
@@ -40,6 +41,13 @@ class ProfileVC: UIViewController {
     override func viewDidAppear(animated: Bool) {
     }
   
+    @IBAction func logoutTapped() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("USERNAME")
+        self.navigationController?.popToRootViewControllerAnimated(true)
+        //self.performSegueWithIdentifier("goToLogin", sender: self)
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if sender is UIButton{
         if sender as UIButton == infoButton{
@@ -47,11 +55,11 @@ class ProfileVC: UIViewController {
             if user != nil {
                 infoVC.user = user
             }
-        }else {
-          /*let passwordVC = segue.destinationViewController as ChangePasswordVC
+        }else if sender as UIButton == changePasswordButton{
+            let passwordVC = segue.destinationViewController as ChangePasswordVC
             if user != nil {
                 passwordVC.user = user
-            }*/
+            }
         }
       }
     }
