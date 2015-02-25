@@ -1,44 +1,64 @@
 __author__ = 'Hakan Uyumaz & Burak Atalay'
 
-from django.shortcuts import render, redirect
+import json
+
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 
 from ..forms.user_form import UserCreationForm
-from ..models.user import User
 
 
 def registration_view(request):
+    responseJSON = {}
     if request.user.is_authenticated():
-        return redirect("homepage")
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "Authenticated user cannot register."
+        return HttpResponse(json.dumps(responseJSON))
     else:
         if request.method == "POST":
             form = UserCreationForm(request.POST)
 
             if form.errors:
-                print(form.errors)
-                return render(request, 'register.html', dict(errors=form.errors))
+                responseJSON["status"] = "failed"
+                responseJSON["message"] = "Errors occurred."
+                return HttpResponse(json.dumps(responseJSON))
 
             user = form.save(commit=False)
             user.is_active = True
             user.save()
 
-            return redirect("homepage")
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Successfully registered."
+            return HttpResponse(json.dumps(responseJSON))
         else:
-            return render(request, 'register.html')
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "No request found."
+            return HttpResponse(json.dumps(responseJSON))
 
 def login_view(request):
+    responseJSON = {}
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
                 login(request, user)
-                return redirect('profile.html')
+                responseJSON["status"] = "success"
+                responseJSON["container"] = {}
+                responseJSON["container"]["username"] = user.username
+                responseJSON["container"]["name"] = user.name
+                responseJSON["container"]["surname"] = user.surname
+                responseJSON["container"]["email"] = user.email
+                responseJSON["message"] = "Authenticated user cannot register"
+                return HttpResponse(json.dumps(responseJSON))
         else:
-            return redirect('invalid_login.html')
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "User credentials are not correct."
+            return HttpResponse(json.dumps(responseJSON))
     else:
-        return render(request, 'login.html')
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+        return HttpResponse(json.dumps(responseJSON))
 
 def profile(request, username):
     return HttpResponse("You are looking at profile page of user: %s" %username)

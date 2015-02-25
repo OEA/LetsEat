@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from api.views import user_views
 
+
 urlpatterns = patterns('',
 
     #Just for testing urls
