@@ -1,15 +1,22 @@
 __author__ = 'Omer Aslan'
 
-import json
-
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 
 def registration_view(request):
-    return HttpResponse("Register Page")
+    if request.user.is_authenticated():
+        return redirect("homepage.html")
+    else:
+        return render(request, "register.html")
 
 def login_view(request):
-    return HttpResponse("Login Page")
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        return HttpResponse("kullanici: "+username+", pass: "+password)
+    else:
+        return render(request, "login.html")
 
 def profile(request, username):
     return HttpResponse("You are looking at profile page of user: %s" %username)
