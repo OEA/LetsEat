@@ -20,6 +20,7 @@ def login_view(request):
         r1 = conn.getresponse()
         data = r1.read()
         print(data)
+        
         return HttpResponse(data)
     else:
         return render(request, "login.html")
