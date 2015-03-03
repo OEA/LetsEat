@@ -1,5 +1,6 @@
 __author__ = 'Omer Aslan'
 
+import http.client
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
@@ -14,7 +15,12 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        return HttpResponse("kullanici: "+username+", pass: "+password)
+        conn =  http.client.HTTPConnection('127.0.0.1',8000)
+        conn.request("POST", "/api/login/")
+        r1 = conn.getresponse()
+        data = r1.read()
+        print(data)
+        return HttpResponse(data)
     else:
         return render(request, "login.html")
 
