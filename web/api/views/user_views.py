@@ -61,7 +61,17 @@ def login_view(request):
         return HttpResponse(json.dumps(responseJSON))
 
 def profile(request, username):
-    return HttpResponse("You are looking at profile page of user: %s" %username)
+	responseJSON = {}
+	if request.user.is_authenticated():
+		responseJSON["status"] = "success"
+		responseJSON["container"] = {}
+        responseJSON["container"]["username"] = user.username
+        responseJSON["container"]["name"] = user.name
+        return HttpResponse(json.dumps(responseJSON))
+	else:
+		responseJSON["status"] = "failed"
+        responseJSON["message"] = "Please login."
+		return HttpResponse(json.dumps(responseJSON))
 
 def edit(request, username):
     return HttpResponse("You are editing the profile of user: %s." %username)
