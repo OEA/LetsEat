@@ -3,6 +3,7 @@ __author__ = 'Hakan Uyumaz & Burak Atalay'
 import json
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from django.http import HttpResponse
 
 from ..forms.user_form import UserCreationForm
@@ -72,6 +73,11 @@ def profile(request, username):
 		responseJSON["status"] = "failed"
         responseJSON["message"] = "Please login."
 		return HttpResponse(json.dumps(responseJSON))
+
+def logout(request):
+    logout(request)
+
+    return HttpResponse('Successful logout')
 
 def edit(request, username):
     return HttpResponse("You are editing the profile of user: %s." %username)
