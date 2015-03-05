@@ -1,10 +1,10 @@
 __author__ = 'Omer Aslan'
 
 import http.client
+
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
-from django.db import models
+
 
 def registration_view(request):
     if request.user.is_authenticated():
@@ -21,7 +21,7 @@ def login_view(request):
         r1 = conn.getresponse()
         data = r1.read()
         print(data)
-        
+
         return HttpResponse(data)
     else:
         return render(request, "login.html")
@@ -30,11 +30,11 @@ def profile(request, username):
     if request.user.is_authenticated():
         conn =  http.client.HTTPConnection('127.0.0.1',8000)
         conn.request("POST", "/api/profile/(?P<username>\w+)/$")
-		r1 = conn.getresponse()
+        r1 = conn.getresponse()
         data = r1.read()
-		print(data)
-		
-		return HttpResponse(data)
+        print(data)
+
+        return HttpResponse(data)
     else:
         return redirect("login.html")
 

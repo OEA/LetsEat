@@ -62,17 +62,17 @@ def login_view(request):
         return HttpResponse(json.dumps(responseJSON))
 
 def profile(request, username):
-	responseJSON = {}
-	if request.user.is_authenticated():
-		responseJSON["status"] = "success"
-		responseJSON["container"] = {}
+    responseJSON = {}
+    if request.user.is_authenticated():
+        responseJSON["status"] = "success"
+        responseJSON["container"] = {}
         responseJSON["container"]["username"] = user.username
         responseJSON["container"]["name"] = user.name
         return HttpResponse(json.dumps(responseJSON))
-	else:
-		responseJSON["status"] = "failed"
+    else:
+        responseJSON["status"] = "failed"
         responseJSON["message"] = "Please login."
-		return HttpResponse(json.dumps(responseJSON))
+        return HttpResponse(json.dumps(responseJSON))
 
 def logout(request):
     logout(request)
