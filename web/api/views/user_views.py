@@ -62,6 +62,7 @@ def login_view(request):
         return HttpResponse(json.dumps(responseJSON))
 
 def profile(request, username):
+
     responseJSON = {}
     if request.user.is_authenticated():
         responseJSON["status"] = "success"

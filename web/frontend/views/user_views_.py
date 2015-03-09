@@ -1,6 +1,6 @@
 __author__ = 'Omer Aslan'
 
-import http.client
+import http.client,urllib.parse
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -16,8 +16,10 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
+        params = urllib.parse.urlencode({'username': 'asd', 'password': 'issue'})
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
         conn =  http.client.HTTPConnection('127.0.0.1',8000)
-        conn.request("POST", "/api/login/")
+        conn.request("POST", "/api/login/", params, headers)
         r1 = conn.getresponse()
         data = r1.read()
         print(data)
