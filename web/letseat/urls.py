@@ -19,5 +19,6 @@ urlpatterns = patterns('',
     url(r'^register/$', user_views_.registration_view, name='register'),
     url(r'^profile/(?P<username>\w+)/$', user_views_.profile, name='profile'),
     url(r'^profile/(?P<username>\w+)/edit/$', user_views_.edit, name='edit'),
+    url(r'^homepage/$', user_views_.home_view, name='home'),
     url(r'^admin/', include(admin.site.urls)),
 )

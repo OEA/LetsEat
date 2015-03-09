@@ -4,11 +4,11 @@ import http.client,urllib.parse,json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.sessions.backends.db import SessionStore
+from django.contrib.auth import authenticate, login
 
 def registration_view(request):
     if request.user.is_authenticated():
-        return redirect("./homepage.html")
+        return redirect("../homepage")
     else:
         if request.method == "POST":
             name = request.POST['name']
@@ -46,10 +46,16 @@ def login_view(request):
         r1 = conn.getresponse()
         data = r1.read()
         dict = json.loads(data.decode("utf-8"))
-        session = SessionStore()
-        session['json'] = dict
-        session.save()
-        return redirect("../homepage.html")
+        print(dict['status'])
+        user = None
+        if dict['status'] == "success":
+            print("successfully logged in")
+            user = authenticate(username=username, password=password)
+            return redirect("../homepage")
+        if user is not None:
+            return render(request, "./login.html")
+
+        return redirect("../homepage")
     else:
         return render(request, "./login.html")
 
@@ -59,11 +65,10 @@ def profile(request, username):
         conn.request("POST", "/api/profile/(?P<username>\w+)/$")
         r1 = conn.getresponse()
         data = r1.read()
-        print(data)
 
         return HttpResponse(data)
     else:
-        return redirect("login.html")
+        return redirect("../login")
 
 def edit(request, username):
     return HttpResponse("You are editing the profile of user: %s." %username)
@@ -71,3 +76,7 @@ def edit(request, username):
 def test(request):
     return HttpResponse("Successful")
 
+def home_view(request):
+    if "json" in request.session:
+        print("test")
+    return HttpResponse("test")
