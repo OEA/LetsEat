@@ -1,10 +1,10 @@
 __author__ = 'Omer Aslan'
 
-import http.client,urllib.parse
+import http.client,urllib.parse,json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
+from django.contrib.sessions.backends.db import SessionStore
 
 def registration_view(request):
     if request.user.is_authenticated():
@@ -45,8 +45,10 @@ def login_view(request):
         conn.request("POST", "/api/login/", params, headers)
         r1 = conn.getresponse()
         data = r1.read()
-        print(data)
-
+        dict = json.loads(data.decode("utf-8"))
+        session = SessionStore()
+        session['json'] = dict
+        session.save()
         return HttpResponse(data)
     else:
         return render(request, "./login.html")
