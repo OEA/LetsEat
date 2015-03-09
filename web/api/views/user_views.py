@@ -3,7 +3,7 @@ __author__ = 'Hakan Uyumaz & Burak Atalay'
 import json
 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout
+from django.contrib import auth
 from django.http import HttpResponse
 
 from ..forms.user_form import UserCreationForm
@@ -76,8 +76,7 @@ def profile(request, username):
         return HttpResponse(json.dumps(responseJSON))
 
 def logout(request):
-    logout(request)
-
+    auth.logout(request)
     return HttpResponse('Successful logout')
 
 def edit(request, username):
