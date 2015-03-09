@@ -3,7 +3,7 @@ __author__ = 'Hakan Uyumaz'
 import random
 import datetime
 
-#import pytz
+import pytz
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
