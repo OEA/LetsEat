@@ -6,58 +6,121 @@
     {%load staticfiles %}
     <!-- CSS Files -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <style>
+
+    .front-bg {
+        position: fixed;
+        width: 200%;
+        height: 200%;
+        left: -50%;
+        top:0;
+        background: black;
+    }
+
+    .front-bg img {
+        display: block;
+        margin: auto;
+        min-width: 50%;
+        min-height: 50%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+        h3 {
+            color: #ffffff;
+            font-size: 27pt;
+        }
+
+        .message {
+            color: #fff;
+  font-size: 21px;
+  line-height: 31px;
+  text-shadow: none;
+        }
+    </style>
 </head>
+
 <body>
-<div id="login-overlay" class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title" id="myModalLabel">Login to site.com</h4>
-          </div>
-          <div class="modal-body">
+<header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="../" class="navbar-brand">LetsEat</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse">
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Profile</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div class="front-bg"><image src="http://a0.twimg.com/a/1349296073/t1/img/front_page/city-balcony@2x.jpg" /></div>
+            <div class="container">
               <div class="row">
-                  <div class="col-xs-6">
-                      <div class="well">
+
+                  <div class="col-md-5 col-md-offset-1">
+                      <h3>Lets Eat'e hoş geldin.</h3>
+
+                      <p class="message">Arkadaşlarınla ve diğer etkileyici kişiler ile iletişim kur. İlgini çeken konulardaki güncellemelerden anında haberdar ol. Ve öne çıkan olayları gelişmeleriyle birlikte, gerçek zamanlı olarak ve her yönüyle izle.</p>
+                  </div>
+                  <div class="col-md-3 col-md-offset-1">
+                      <div class="panel" style="margin-top: 20px;">
+                          <div class="panel-body">
                           <form id="loginForm" method="POST" action="/login/" novalidate="novalidate">
-                              {% csrf_token %} 
+                              {% csrf_token %}
                               <div class="form-group">
-                                  <label for="username" class="control-label">Username</label>
                                   <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com">
                                   <span class="help-block"></span>
                               </div>
-                              <div class="form-group">
-                                  <label for="password" class="control-label">Password</label>
-                                  <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password">
+                              <div class="form-group row">
+                                  <div class="col-md-7">
+                                        <input type="password" class="form-control" id="password" name="password" value="" required="" title="Please enter your password" placeholder="password">
+                                  </div>
+                                  <div class="col-md-5">
+                                      <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                  </div>
                                   <span class="help-block"></span>
                               </div>
                               <div id="loginErrorMsg" class="alert alert-error hide">Wrong username og password</div>
-                              <div class="checkbox">
-                                  <label>
-                                      <input type="checkbox" name="remember" id="remember"> Remember login
-                                  </label>
-                                  <p class="help-block">(if this is a private computer)</p>
-                              </div>
-                              <button type="submit" class="btn btn-success btn-block">Login</button>
-                              <a href="/forgot/" class="btn btn-default btn-block">Help to login</a>
+
+                                      <input type="checkbox" name="remember" id="remember"> <small style="color:#adadad">Remember</small>
+
+                              <a href="/forgot/" class="pull-right">forgot?</a>
                           </form>
+                              </div>
+                      </div>
+                      <div class="panel panel-default">
+                            <div class="panel-heading">Lets Eat'de yeni misin ? <strong>Kaydol</strong></div>
+                            <div class="panel-body">
+                                <form id="signUpForm" method="POST" action="/signup/" novalidate="novalidate">
+                              {% csrf_token %}
+                              <div class="form-group">
+                                  <input type="text" class="form-control" name="name" value="" required="" title="Please enter you name and surname" placeholder="Name and Surname">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <input type="text" class="form-control" name="username" value="" required="" title="Please enter you email" placeholder="Email">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <input type="password" class="form-control" name="password" value="" required="" title="Please enter you password" placeholder="Password">
+                                  <span class="help-block"></span>
+                              </div>
+                                <button type="submit" class="btn btn-warning btn-block">Register</button>
+
+                          </form>
+                            </div>
                       </div>
                   </div>
-                  <div class="col-xs-6">
-                      <p class="lead">Register now for <span class="text-success">FREE</span></p>
-                      <ul class="list-unstyled" style="line-height: 2">
-                          <li><span class="fa fa-check text-success"></span> See all your orders</li>
-                          <li><span class="fa fa-check text-success"></span> Fast re-order</li>
-                          <li><span class="fa fa-check text-success"></span> Save your favorites</li>
-                          <li><span class="fa fa-check text-success"></span> Fast checkout</li>
-                          <li><span class="fa fa-check text-success"></span> Get a gift <small>(only new customers)</small></li>
-                          <li><a href="/read-more/"><u>Read more</u></a></li>
-                      </ul>
-                      <p><a href="/new-customer/" class="btn btn-info btn-block">Yes please, register now!</a></p>
-                  </div>
               </div>
-          </div>
-      </div>
-  </div>
     <!-- JS Files-->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
