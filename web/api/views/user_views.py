@@ -71,8 +71,8 @@ def profile(request, username):
     if request.user.is_authenticated():
         responseJSON["status"] = "success"
         responseJSON["container"] = {}
-        responseJSON["container"]["username"] = user.username
-        responseJSON["container"]["name"] = user.name
+        responseJSON["container"]["username"] = request.user.username
+        responseJSON["container"]["name"] = request.user.name
         return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
     else:
@@ -83,11 +83,11 @@ def profile(request, username):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponse('Successful logout', ensure_ascii=False).encode('utf8')
+    return HttpResponse('Successful logout')
 
 def edit(request, username):
-    return HttpResponse("You are editing the profile of user: %s." % username, ensure_ascii=False).encode('utf8')
+    return HttpResponse("You are editing the profile of user: %s." % username)
 
 def test(request):
-    return HttpResponse("Successful", ensure_ascii=False).encode('utf8')
+    return HttpResponse("Successful")
 
