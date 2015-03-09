@@ -2,6 +2,7 @@ __author__ = 'Hakan Uyumaz & Burak Atalay'
 
 import json
 
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.http import HttpResponse
@@ -82,8 +83,10 @@ def profile(request, username):
                             content_type="application/json")
 
 def logout(request):
-    auth.logout(request)
-    return HttpResponse('Successful logout')
+    if request.user.is_authenticated():
+        auth.logout(request)
+
+    return redirect("../login")
 
 def edit(request, username):
     return HttpResponse("You are editing the profile of user: %s." % username)
