@@ -21,17 +21,22 @@
                           <form id="loginForm" method="POST" action="/register/" novalidate="novalidate">
                               {% csrf_token %} 
                               <div class="form-group">
-                                  <label for="username" class="control-label">Name</label>
+                                  <label for="name" class="control-label">Name</label>
                                   <input type="text" class="form-control" id="name" name="name" value="" required="" title="Please enter you name" placeholder="Name">
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group">
-                                  <label for="username" class="control-label">Surname</label>
+                                  <label for="surname" class="control-label">Surname</label>
                                   <input type="text" class="form-control" id="surname" name="surname" value="" required="" title="Please enter you surname" placeholder="Surname">
                                   <span class="help-block"></span>
                               </div>
+                               <div class="form-group">
+                                  <label for="username" class="control-label">Username</label>
+                                  <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="username">
+                                  <span class="help-block"></span>
+                              </div>
                               <div class="form-group">
-                                  <label for="username" class="control-label">Email</label>
+                                  <label for="email" class="control-label">Email</label>
                                   <input type="email" class="form-control" id="email" name="email" value="" required="" title="Please enter you email" placeholder="example@gmail.com">
                                   <span class="help-block"></span>
                               </div>

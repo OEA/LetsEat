@@ -20,8 +20,8 @@ class UserManager(BaseUserManager):
             name=name.title(),
             surname=surname.title(),
             email=self.normalize_email(email),
-            activation_key=self.generate_token(),
-            activation_expire_date=datetime.datetime.now(pytz.utc) + datetime.timedelta(2),
+            #activation_key=self.generate_token(),
+            #activation_expire_date=datetime.datetime.now(pytz.utc) + datetime.timedelta(2),
         )
 
         user.is_active = False
@@ -62,8 +62,8 @@ class User(AbstractBaseUser):
 
     photo = models.ImageField(upload_to='uploaded/user_photos/%Y/%m/%d/%h/', null=True, blank=True)
 
-    activation_key = models.CharField(max_length=40, blank=True)
-    activation_expire_date = models.DateTimeField()
+    #activation_key = models.CharField(max_length=40, blank=True)
+    #activation_expire_date = models.DateTimeField()
     is_active = models.BooleanField(default=True)
 
     is_admin = models.BooleanField(default=False)
