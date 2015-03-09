@@ -71,8 +71,8 @@ def profile(request, username):
     if request.user.is_authenticated():
         responseJSON["status"] = "success"
         responseJSON["container"] = {}
-        responseJSON["container"]["username"] = user.username
-        responseJSON["container"]["name"] = user.name
+        responseJSON["container"]["username"] = request.user.username
+        responseJSON["container"]["name"] = request.user.name
         return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
     else:
