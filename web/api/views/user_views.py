@@ -83,11 +83,11 @@ def profile(request, username):
 
 def logout(request):
     auth.logout(request)
-    return HttpResponse('Successful logout', ensure_ascii=False).encode('utf8')
+    return HttpResponse('Successful logout')
 
 def edit(request, username):
-    return HttpResponse("You are editing the profile of user: %s." % username, ensure_ascii=False).encode('utf8')
+    return HttpResponse("You are editing the profile of user: %s." % username)
 
 def test(request):
-    return HttpResponse("Successful", ensure_ascii=False).encode('utf8')
+    return HttpResponse("Successful")
 
