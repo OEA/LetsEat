@@ -50,7 +50,6 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     username = models.CharField('Username', max_length=50)
-
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
 
