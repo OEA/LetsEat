@@ -8,7 +8,7 @@ from django.http import HttpResponse
 
 def registration_view(request):
     if request.user.is_authenticated():
-        return redirect("homepage.html")
+        return redirect("./homepage.html")
     else:
         if request.method == "POST":
             name = request.POST['name']
@@ -24,7 +24,7 @@ def registration_view(request):
             print(data)
             return HttpResponse(data)
         else:
-            return render(request, "register.html")
+            return render(request, "./register.html")
 
 def login_view(request):
     if request.method == "POST":
@@ -40,7 +40,7 @@ def login_view(request):
 
         return HttpResponse(data)
     else:
-        return render(request, "login.html")
+        return render(request, "./login.html")
 
 def profile(request, username):
     if request.user.is_authenticated():
