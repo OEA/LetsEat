@@ -3,6 +3,11 @@ __author__ = 'ynsy'
 from django.test import TestCase
 from .models.user import User
 from .models.user import UserManager
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import auth
+from django.http import HttpResponse
+
 
 class modelTest(TestCase):
     def setUp(self):
@@ -47,3 +52,11 @@ class modelTest(TestCase):
         firstToken = UserManager.generate_token(self)
         secondToken = UserManager.generate_token(self)
         self.assertNotEqual(firstToken, secondToken)
+
+    #def registrationJSONTest(request,self):
+    #    username = request.POST['username']
+    #    password = request.POST['password']
+    #    user = authenticate(username="ynsy", password="123456")
+    #
+    #    responseJSON = {}
+    #    user.is_authenticated()

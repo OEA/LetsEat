@@ -79,4 +79,4 @@ def test(request):
 def home_view(request):
     if "json" in request.session:
         print("test")
-    return HttpResponse("test")
+    return HttpResponse("naber")
