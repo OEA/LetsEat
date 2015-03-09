@@ -49,7 +49,7 @@ def login_view(request):
         session = SessionStore()
         session['json'] = dict
         session.save()
-        return HttpResponse(data)
+        return redirect("../homepage.html")
     else:
         return render(request, "./login.html")
 
