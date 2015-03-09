@@ -10,13 +10,27 @@ def registration_view(request):
     if request.user.is_authenticated():
         return redirect("homepage.html")
     else:
-        return render(request, "register.html")
+        if request.method == "POST":
+            name = request.POST['name']
+            surname = request.POST['surname']
+            email = request.POST['email']
+            password = request.POST['password']
+            params = urllib.parse.urlencode({'name': name, 'surname': surname, 'email': email, 'password': password})
+            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            conn =  http.client.HTTPConnection('127.0.0.1',8000)
+            conn.request("POST", "/api/register/", params, headers)
+            r1 = conn.getresponse()
+            data = r1.read()
+            print(data)
+            return HttpResponse(data)
+        else:
+            return render(request, "register.html")
 
 def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        params = urllib.parse.urlencode({'username': 'asd', 'password': 'issue'})
+        params = urllib.parse.urlencode({'username': username, 'password': password})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
         conn =  http.client.HTTPConnection('127.0.0.1',8000)
         conn.request("POST", "/api/login/", params, headers)
