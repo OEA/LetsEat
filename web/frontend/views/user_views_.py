@@ -15,13 +15,22 @@ def registration_view(request):
             surname = request.POST['surname']
             email = request.POST['email']
             password = request.POST['password']
-            params = urllib.parse.urlencode({'name': name, 'surname': surname, 'email': email, 'password': password})
-            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-            conn =  http.client.HTTPConnection('127.0.0.1',8000)
+            username = request.POST['username']
+
+            params = urllib.parse.urlencode(
+                {'name': name,
+                 'surname': surname,
+                 'email': email,
+                 'password': password,
+                 'username': username,
+                })
+
+
+            headers={"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            conn = http.client.HTTPConnection('127.0.0.1', 8000)
             conn.request("POST", "/api/register/", params, headers)
             r1 = conn.getresponse()
             data = r1.read()
-            print(data)
             return HttpResponse(data)
         else:
             return render(request, "./register.html")
@@ -32,7 +41,7 @@ def login_view(request):
         password = request.POST['password']
         params = urllib.parse.urlencode({'username': username, 'password': password})
         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-        conn =  http.client.HTTPConnection('127.0.0.1',8000)
+        conn = http.client.HTTPConnection('127.0.0.1',8000)
         conn.request("POST", "/api/login/", params, headers)
         r1 = conn.getresponse()
         data = r1.read()
