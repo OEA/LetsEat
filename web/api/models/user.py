@@ -49,7 +49,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    username = models.CharField('Username', max_length=50)
+    username = models.CharField('Username', max_length=50, unique=True)
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
 
@@ -67,8 +67,8 @@ class User(AbstractBaseUser):
 
     is_admin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'name', 'surname']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'name', 'surname']
 
     objects = UserManager()
 
