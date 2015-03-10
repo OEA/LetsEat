@@ -4,6 +4,7 @@ import http.client,urllib.parse,json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+
 from django.contrib.auth import authenticate, login
 
 def registration_view(request):
@@ -61,16 +62,15 @@ def login_view(request):
         return render(request, "./login.html")
 
 def profile(request, username):
+    print(username)
+    user = None
     if request.user.is_authenticated():
-        conn =  http.client.HTTPConnection('127.0.0.1',8000)
-        conn.request("POST", "/api/profile/(?P<username>\w+)/$")
-        r1 = conn.getresponse()
-        data = r1.read()
-
-        return HttpResponse(data)
+        #It will be replaced by web service when it runs
+        user = request.user
+        context = {'user' : user}
+        return render(request, 'profile.html', context)
     else:
         return redirect("../login")
-
 def edit(request, username):
     return HttpResponse("You are editing the profile of user: %s." %username)
 
@@ -78,6 +78,12 @@ def test(request):
     return HttpResponse("Successful")
 
 def home_view(request):
-    if "json" in request.session:
-        print("test")
-    return HttpResponse(request.user.is_authenticated())
+    # if request.user.is_authenticated():
+    #     conn =  http.client.HTTPConnection('127.0.0.1',8000)
+    #     conn.request("POST", "/api/profile/(?P<username>\w+)/$")
+    #     r1 = conn.getresponse()
+    #     data = r1.read()
+    #
+    #     return HttpResponse(data)
+    # else:
+        return redirect("../login")
