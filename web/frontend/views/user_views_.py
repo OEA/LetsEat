@@ -1,8 +1,6 @@
 __author__ = 'Omer Aslan'
 
-import http.client
-import urllib.parse
-import json
+import http.client,urllib.parse,json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse

@@ -85,6 +85,8 @@ class SigupVC: UIViewController {
             
             emptyFieldError()
             
+        }else if !isEmailValid(email){
+            unValidEmailError()
         }else if password != confirm_password {
             confirmError()
         }else if !isPasswordValid() {
@@ -242,6 +244,13 @@ class SigupVC: UIViewController {
         return false
     }
     
+    func isEmailValid(email:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        if let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx) {
+            return emailTest.evaluateWithObject(email)
+        }
+        return false
+    }
     
     func emptyFieldError(){
         var alertView:UIAlertView = UIAlertView()
@@ -256,6 +265,15 @@ class SigupVC: UIViewController {
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Sign Up Failed!"
         alertView.message = "Passwords doesn't Match!"
+        alertView.delegate = self
+        alertView.addButtonWithTitle("OK")
+        alertView.show()
+    }
+    
+    func unValidEmailError(){
+        var alertView:UIAlertView = UIAlertView()
+        alertView.title = "Sign Up Failed!"
+        alertView.message = "E-mail is not valid! \nPlease check your e-mail."
         alertView.delegate = self
         alertView.addButtonWithTitle("OK")
         alertView.show()

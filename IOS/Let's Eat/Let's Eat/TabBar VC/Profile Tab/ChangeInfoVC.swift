@@ -47,16 +47,20 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 let savedUser = defaultItems[index] as [String: NSString]
                 if let uname = savedUser["username"] {
                     if uname == userDefaults.stringForKey("USERNAME")! {
-                        var savedList = defaultItems
-                        savedList.removeAtIndex(index)
-                        savedList.append(newUser)
-                        userDefaults.setObject(savedList, forKey: "userInfoList")
-                        if userImageView.image != nil {
-                            //save image to server
+                        if isEmailValid(emailField.text){
+                            var savedList = defaultItems
+                            savedList.removeAtIndex(index)
+                            savedList.append(newUser)
+                            userDefaults.setObject(savedList, forKey: "userInfoList")
+                            if userImageView.image != nil {
+                                //save image to server
+                            }
+                            userDefaults.setObject(usernameField.text, forKey: "USERNAME")
+                            userDefaults.setObject(newUser, forKey: "userInfo")
+                            self.navigationController?.popViewControllerAnimated(true)
+                        }else {
+                            unValidEmailError()
                         }
-                        userDefaults.setObject(usernameField.text, forKey: "USERNAME")
-                        userDefaults.setObject(newUser, forKey: "userInfo")
-                        self.navigationController?.popViewControllerAnimated(true)
                     }
                 }
             }
@@ -90,6 +94,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             self.view.endEditing(true)
         }
     }
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
     }
@@ -103,12 +108,21 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         emailField.text = user["email"]
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func isEmailValid(email:String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        if let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx) {
+            return emailTest.evaluateWithObject(email)
+        }
+        return false
     }
     
-    
-    
+    func unValidEmailError(){
+        var alertView:UIAlertView = UIAlertView()
+        alertView.title = "Sign Up Failed!"
+        alertView.message = "E-mail is not valid! \nPlease check your e-mail."
+        alertView.delegate = self
+        alertView.addButtonWithTitle("OK")
+        alertView.show()
+    }
 }
 
