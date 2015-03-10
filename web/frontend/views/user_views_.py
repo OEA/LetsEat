@@ -1,6 +1,8 @@
 __author__ = 'Omer Aslan'
 
-import http.client,urllib.parse,json
+import http.client
+import urllib.parse
+import json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -51,10 +53,11 @@ def login_view(request):
         if dict['status'] == "success":
             print("successfully logged in")
             user = authenticate(username=username, password=password)
+            login(request, user)
+            print(user.email)
             return redirect("../homepage")
-        if user is not None:
+        if user is None:
             return render(request, "./login.html")
-
         return redirect("../homepage")
     else:
         return render(request, "./login.html")
@@ -79,4 +82,4 @@ def test(request):
 def home_view(request):
     if "json" in request.session:
         print("test")
-    return HttpResponse("test")
+    return HttpResponse(request.user.is_authenticated())
