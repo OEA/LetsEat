@@ -14,6 +14,7 @@ class LoginVC: UIViewController {
     @IBOutlet weak var textUsername: UITextField!
     @IBOutlet weak var textPassword: UITextField!
     @IBOutlet weak var checkImage: UIButton!
+    var bgSetter: BackgroundSetter!
     
     override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -22,7 +23,8 @@ class LoginVC: UIViewController {
             textUsername.text = username as NSString
             textPassword.text = userDefaults.valueForKey("savedPass") as NSString
         }
-
+        bgSetter = BackgroundSetter(viewControler: self)
+        bgSetter.getBackgroundView()
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -68,7 +70,7 @@ class LoginVC: UIViewController {
                             userDefaults.setObject(user, forKey: "userInfo")
                             userDefaults.setObject(username, forKey: "USERNAME")
                             userDefaults.setInteger(1, forKey: "ISLOGGEDIN")
-                            if userDefaults.valueForKey("savedUsername") == nil && saveSwitch.on == true{
+                            if saveSwitch.on == true{
                                 userDefaults.setObject(username, forKey: "savedUsername")
                                 userDefaults.setObject(password, forKey: "savedPass")
                             }
@@ -190,6 +192,17 @@ class LoginVC: UIViewController {
         
     }
     
+    override func viewWillDisappear(animated: Bool) {
+
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "signUpSegue"{
+            let signUpVC = segue.destinationViewController as SignupVC
+            signUpVC.view.backgroundColor = self.view.backgroundColor
+        }
+    }
+    
     @IBAction func switchTapped() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if saveSwitch.on == false {
@@ -200,6 +213,7 @@ class LoginVC: UIViewController {
         }
         userDefaults.setBool(saveSwitch.on, forKey: "saveSwitch")
     }
+    
     func loginError(){
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Sign in Failed!"
@@ -209,6 +223,7 @@ class LoginVC: UIViewController {
         alertView.show()
 
     }
+
     /*
     // MARK: - Navigation
 

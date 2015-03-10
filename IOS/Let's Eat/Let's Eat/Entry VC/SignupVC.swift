@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SigupVC: UIViewController {
+class SignupVC: UIViewController {
 
     @IBOutlet weak var textName: UITextField!
     
@@ -32,16 +32,10 @@ class SigupVC: UIViewController {
     @IBOutlet weak var passwordConfirmCheck: UIButton!
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    override func viewWillAppear(animated: Bool) {
+        let bgSetter = BackgroundSetter(viewControler: self)
+        bgSetter.getBackgroundView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
     }
@@ -228,8 +222,6 @@ class SigupVC: UIViewController {
     @IBAction func backToLogin() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    
     
     func isPasswordValid() -> Bool {
         var passwordConfirmTxt: NSString = textConfirmPassword.text

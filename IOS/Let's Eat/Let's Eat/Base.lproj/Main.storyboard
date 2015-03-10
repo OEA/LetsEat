@@ -141,7 +141,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Jca-Xf-rke" kind="presentation" id="FuX-N2-Hml"/>
+                                    <segue destination="Jca-Xf-rke" kind="presentation" identifier="signUpSegue" id="FuX-N2-Hml"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save Password?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lg3-T2-dcO">
@@ -151,7 +151,7 @@
                                     <constraint firstAttribute="width" constant="130" id="Tls-om-aAb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcp-JV-H2e">
@@ -530,7 +530,7 @@
         <!--Sign Up-->
         <scene sceneID="Y9l-uu-cIP">
             <objects>
-                <viewController title="Sign Up" id="Jca-Xf-rke" customClass="SigupVC" customModule="Let_s_Eat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Sign Up" id="Jca-Xf-rke" customClass="SignupVC" customModule="Let_s_Eat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Z5w-Vs-LB6"/>
                         <viewControllerLayoutGuide type="bottom" id="B2u-Kd-9st"/>
@@ -724,7 +724,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8a6-gU-odP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="421" y="1315"/>
+            <point key="canvasLocation" x="421" y="1267"/>
         </scene>
         <!--Change Info-->
         <scene sceneID="dtC-zk-9po">
