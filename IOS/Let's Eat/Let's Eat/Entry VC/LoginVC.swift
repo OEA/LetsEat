@@ -10,20 +10,20 @@ import UIKit
 
 class LoginVC: UIViewController {
 
+    @IBOutlet weak var saveSwitch: UISwitch!
     @IBOutlet weak var textUsername: UITextField!
     @IBOutlet weak var textPassword: UITextField!
     @IBOutlet weak var checkImage: UIButton!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    override func viewWillAppear(animated: Bool) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        saveSwitch.on = userDefaults.boolForKey("saveSwitch")
+        if let username: AnyObject = userDefaults.valueForKey("savedUsername") {
+            textUsername.text = username as NSString
+            textPassword.text = userDefaults.valueForKey("savedPass") as NSString
+        }
+
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
     }
@@ -68,6 +68,10 @@ class LoginVC: UIViewController {
                             userDefaults.setObject(user, forKey: "userInfo")
                             userDefaults.setObject(username, forKey: "USERNAME")
                             userDefaults.setInteger(1, forKey: "ISLOGGEDIN")
+                            if userDefaults.valueForKey("savedUsername") == nil && saveSwitch.on == true{
+                                userDefaults.setObject(username, forKey: "savedUsername")
+                                userDefaults.setObject(password, forKey: "savedPass")
+                            }
                             self.dismissViewControllerAnimated(true, completion: nil)
                         }else {
                             loginError()
@@ -186,6 +190,16 @@ class LoginVC: UIViewController {
         
     }
     
+    @IBAction func switchTapped() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if saveSwitch.on == false {
+            userDefaults.removeObjectForKey("savedUsername")
+            userDefaults.removeObjectForKey("savedPass")
+            textPassword.text = ""
+            textUsername.text = ""
+        }
+        userDefaults.setBool(saveSwitch.on, forKey: "saveSwitch")
+    }
     func loginError(){
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Sign in Failed!"
