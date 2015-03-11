@@ -72,18 +72,36 @@ def profile(request, username):
     else:
         return redirect("../login")
 def edit(request, username):
-    return HttpResponse("You are editing the profile of user: %s." %username)
 
+    user = None
+    if request.user.is_authenticated():
+        #It will be replaced by web service when it runs
+        username = request.POST['username']
+        password = request.POST['password']
+        params = urllib.parse.urlencode({'username': username, 'password': password})
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+        conn = http.client.HTTPConnection('127.0.0.1',8000)
+        conn.request("POST", "/api/login/", params, headers)
+        r1 = conn.getresponse()
+        data = r1.read()
+        dict = json.loads(data.decode("utf-8"))
+        print(dict['status'])
+        user = request.user
+        context = {'user' : user}
+        return render(request, 'profile_edit.html', context)
+    else:
+        return redirect("../login")
 def test(request):
     return HttpResponse("Successful")
 
 def home_view(request):
-    # if request.user.is_authenticated():
+    if request.user.is_authenticated():
+        return redirect("../profile/"+request.user.username)
     #     conn =  http.client.HTTPConnection('127.0.0.1',8000)
     #     conn.request("POST", "/api/profile/(?P<username>\w+)/$")
     #     r1 = conn.getresponse()
     #     data = r1.read()
     #
     #     return HttpResponse(data)
-    # else:
+    else:
         return redirect("../login")

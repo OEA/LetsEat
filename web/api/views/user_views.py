@@ -1,4 +1,4 @@
-__author__ = 'Hakan Uyumaz & Burak Atalay'
+__author__ = 'Hakan Uyumaz & Burak Atalay & Omer Aslan'
 
 import json
 
@@ -112,7 +112,30 @@ def logout(request):
     return redirect("../login")
 
 def edit(request, username):
-    return HttpResponse("You are editing the profile of user: %s." % username)
+    responseJSON = {}
+    if request.user.is_authenticated():
+        user = User.objects.get(username=username)
+        if user.is_authenticated():
+            if request.method == "POST":
+                form = UserCreationForm(data=request.POST, instance=request.user)
+                if form.errors:
+                    responseJSON["status"] = "failed"
+                    responseJSON["message"] = "Errors occurred."
+                    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+                user = form.save(commit=False)
+                user.is_active = True
+                user.save()
+
+                responseJSON["status"] = "success"
+                responseJSON["message"] = "Successfully updated."
+                return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+            else:
+                #
+                redirect("../login")
+        else:
+            redirect("asd")
+    else:
+        return HttpResponse("You are editing the profile of user: %s." % username)
 
 def test(request):
     return HttpResponse("Successful")
