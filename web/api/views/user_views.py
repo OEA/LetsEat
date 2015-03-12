@@ -115,6 +115,7 @@ def edit(request, username):
     responseJSON = {}
     if request.user.is_authenticated():
         user = User.objects.get(username=username)
+
         if user.is_authenticated():
             if request.method == "POST":
                 form = UserCreationForm(data=request.POST, instance=request.user)
@@ -133,7 +134,9 @@ def edit(request, username):
                 #
                 redirect("../login")
         else:
-            redirect("asd")
+            print("api calismadi")
+            return HttpResponse("You are editing the profile of user: %s." % username)
+        return HttpResponse("You are editing the profile of user: %s." % username)
     else:
         return HttpResponse("You are editing the profile of user: %s." % username)
 

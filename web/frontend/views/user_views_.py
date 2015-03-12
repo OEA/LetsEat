@@ -71,24 +71,28 @@ def profile(request, username):
         return render(request, 'profile.html', context)
     else:
         return redirect("../login")
-def edit(request, username):
-
+def edit(request, uname):
+    username = None
     user = None
     if request.user.is_authenticated():
         #It will be replaced by web service when it runs
-        username = request.POST['username']
-        password = request.POST['password']
-        params = urllib.parse.urlencode({'username': username, 'password': password})
-        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-        conn = http.client.HTTPConnection('127.0.0.1',8000)
-        conn.request("POST", "/api/login/", params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
-        dict = json.loads(data.decode("utf-8"))
-        print(dict['status'])
-        user = request.user
-        context = {'user' : user}
-        return render(request, 'profile_edit.html', context)
+        if request.method == "POST":
+            password = request.POST['password']
+            name = request.POST['name']
+            surname = request.POST['surname']
+            params = urllib.parse.urlencode({'name' : name, 'surname': surname})
+            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            conn = http.client.HTTPConnection('127.0.0.1',8000)
+            conn.request("POST", "/api/profile/"+uname+"/edit", params, headers)
+            r1 = conn.getresponse()
+            data = r1.read()
+            user = request.user
+            context = {'user' : user}
+            return render(request, 'profile_edit.html', context)
+        else:
+            user = request.user
+            context = {'user' : user}
+            return render(request, 'profile_edit.html', context)
     else:
         return redirect("../login")
 def test(request):
