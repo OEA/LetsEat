@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         let isLoggedIn = prefs.integerForKey("ISLOGGEDIN")
         if (isLoggedIn != 1) {
             self.performSegueWithIdentifier("goto_login", sender: self)
+            
         } else {
             self.usernameLabel.text = prefs.valueForKey("USERNAME") as NSString
             if let defaultItems = prefs.arrayForKey("userInfoList") {
@@ -38,8 +39,13 @@ class ViewController: UIViewController {
                 }
             }
             self.reloadInputViews()
+            self.performSegueWithIdentifier("goto_Main", sender: self)
         }
-
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
     }
     
     private func update(){
@@ -59,13 +65,5 @@ class ViewController: UIViewController {
       }*/
     }
   
-    @IBAction func logoutTapped(sender: UIBarButtonItem) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
-        userDefaults.removeObjectForKey("USERNAME")
-
-        self.performSegueWithIdentifier("goto_login", sender: self)
-    }
-
 }
 

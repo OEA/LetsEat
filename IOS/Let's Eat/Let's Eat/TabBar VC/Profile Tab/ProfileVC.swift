@@ -17,17 +17,13 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var changePasswordButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    
+    override func viewWillDisappear(animated: Bool) {
+         self.navigationController?.navigationBarHidden = false
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
+        self.navigationController?.navigationBarHidden = true
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{
             user = userInfo
@@ -37,8 +33,6 @@ class ProfileVC: UIViewController {
             emailField.text = user["email"]
         }
 
-    }
-    override func viewDidAppear(animated: Bool) {
     }
   
     @IBAction func logoutTapped() {
