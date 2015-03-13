@@ -41,29 +41,32 @@ def registration_view(request):
 
 
 def login_view(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
-        params = urllib.parse.urlencode({'username': username, 'password': password})
-        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-        conn = http.client.HTTPConnection('127.0.0.1',8000)
-        conn.request("POST", "/api/login/", params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
-        dict = json.loads(data.decode("utf-8"))
-        print(dict['status'])
-        user = None
-        if dict['status'] == "success":
-            print("successfully logged in")
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            print(user.email)
-            return redirect("../homepage")
-        if user is None:
-            return render(request, "./login.html")
+    if request.user.is_authenticated():
         return redirect("../homepage")
     else:
-        return render(request, "./login.html")
+        if request.method == "POST":
+            username = request.POST['username']
+            password = request.POST['password']
+            params = urllib.parse.urlencode({'username': username, 'password': password})
+            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            conn = http.client.HTTPConnection('127.0.0.1',8000)
+            conn.request("POST", "/api/login/", params, headers)
+            r1 = conn.getresponse()
+            data = r1.read()
+            dict = json.loads(data.decode("utf-8"))
+            print(dict['status'])
+            user = None
+            if dict['status'] == "success":
+                print("successfully logged in")
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                print(user.email)
+                return redirect("../homepage")
+            if user is None:
+                return render(request, "./login.html")
+            return redirect("../homepage")
+        else:
+            return render(request, "./login.html")
 
 
 
