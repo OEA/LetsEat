@@ -106,10 +106,13 @@ def profile(request, username):
                             content_type="application/json")
 
 def logout(request):
-    if request.user.is_authenticated():
-        auth.logout(request)
+    responseJSON = {}
+    auth.logout(request)
+    responseJSON["status"] = "success"
+    responseJSON["message"] = "User logout successfully"
+    return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
+                            content_type="application/json")
 
-    return redirect("../login")
 
 def edit(request, username):
     responseJSON = {}

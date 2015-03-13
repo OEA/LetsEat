@@ -4,9 +4,8 @@ import http.client,urllib.parse,json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
 from django.contrib.auth import authenticate, login
-
+from django.contrib import auth
 
 
 def registration_view(request):
@@ -26,7 +25,7 @@ def registration_view(request):
                  'email': email,
                  'password': password,
                  'username': username,
-                })
+                 })
 
 
             headers={"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
@@ -54,13 +53,11 @@ def login_view(request):
             r1 = conn.getresponse()
             data = r1.read()
             dict = json.loads(data.decode("utf-8"))
-            print(dict['status'])
             user = None
             if dict['status'] == "success":
-                print("successfully logged in")
+                #print("successfully logged in")
                 user = authenticate(username=username, password=password)
                 login(request, user)
-                print(user.email)
                 return redirect("../homepage")
             if user is None:
                 return render(request, "./login.html")
@@ -71,7 +68,6 @@ def login_view(request):
 
 
 def profile(request, username):
-    print(username)
     user = None
     if request.user.is_authenticated():
         #It will be replaced by web service when it runs
@@ -99,16 +95,25 @@ def edit(request, uname):
             r1 = conn.getresponse()
             data = r1.read()
             user = request.user
-            context = {'user' : user}
+            context = {'user': user}
             return render(request, 'profile_edit.html', context)
         else:
             user = request.user
-            context = {'user' : user}
+            context = {'user': user}
             return render(request, 'profile_edit.html', context)
     else:
         return redirect("../login")
+
+
 def test(request):
     return HttpResponse("Successful")
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("../login")
+
+
 
 def home_view(request):
     if request.user.is_authenticated():
