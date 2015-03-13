@@ -29,7 +29,7 @@ class LoginVC: UIViewController {
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background.jpg")!)
         bgSetter = BackgroundSetter(viewControler: self)
-        bgSetter.getBackgroundView()
+        //bgSetter.getBackgroundView()
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -152,9 +152,11 @@ class LoginVC: UIViewController {
                         prefs.setObject(username, forKey: "USERNAME")
                         prefs.setInteger(1, forKey: "ISLOGGEDIN")
                         prefs.synchronize()
-                        
-                        
-
+                        let userDefaults = NSUserDefaults.standardUserDefaults()
+                        if saveSwitch.on == true{
+                            userDefaults.setObject(username, forKey: "savedUsername")
+                            userDefaults.setObject(password, forKey: "savedPass")
+                        }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
                         var error_msg:NSString

@@ -36,10 +36,95 @@ class ProfileVC: UIViewController {
     }
   
     @IBAction func logoutTapped() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
-        userDefaults.removeObjectForKey("USERNAME")
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/logout/")!
+
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        
+        var reponseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+        
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                
+                NSLog("Response ==> %@", responseData);
+                
+                var error: NSError?
+                let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+            
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Status: " + status)
+                
+                if(status == "success")
+                {
+                    NSLog("Logout SUCCESS");
+                    let userDefaults = NSUserDefaults.standardUserDefaults()
+                    userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+                    userDefaults.removeObjectForKey("USERNAME")
+                    
+                    var message:NSString
+                    if jsonData["message"] as? NSString != nil {
+                        message = jsonData["message"] as NSString
+                    } else {
+                        message = "Logout Successfuly"
+                    }
+                    var alertView:UIAlertView = UIAlertView()
+                    alertView.title = "Sign in Failed!"
+                    alertView.message = message
+                    alertView.delegate = self
+                    alertView.addButtonWithTitle("OK")
+                    alertView.show()
+                    
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                    
+                } else {
+                    var error_msg:NSString
+                    
+                    if jsonData["error_message"] as? NSString != nil {
+                        error_msg = jsonData["error_message"] as NSString
+                    } else {
+                        error_msg = "Unknown Error"
+                    }
+                    var alertView:UIAlertView = UIAlertView()
+                    alertView.title = "Sign in Failed!"
+                    alertView.message = error_msg
+                    alertView.delegate = self
+                    alertView.addButtonWithTitle("OK")
+                    alertView.show()
+                    
+                }
+                
+            } else {
+                var alertView:UIAlertView = UIAlertView()
+                alertView.title = "Sign in Failed!"
+                alertView.message = "Connection Failed"
+                alertView.delegate = self
+                alertView.addButtonWithTitle("OK")
+                alertView.show()
+            }
+        } else {
+            var alertView:UIAlertView = UIAlertView()
+            alertView.title = "Sign in Failed!"
+            alertView.message = "Connection Failure"
+            if let error = reponseError {
+                alertView.message = (error.localizedDescription)
+            }
+            alertView.delegate = self
+            alertView.addButtonWithTitle("OK")
+            alertView.show()
+        }
+
+        //self.navigationController?.popToRootViewControllerAnimated(true)
         //self.performSegueWithIdentifier("goToLogin", sender: self)
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

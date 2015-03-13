@@ -34,7 +34,7 @@ class SignupVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let bgSetter = BackgroundSetter(viewControler: self)
-        bgSetter.getBackgroundView()
+        //bgSetter.getBackgroundView()
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -111,11 +111,11 @@ class SignupVC: UIViewController {
             
 
             /*
-            var post:NSString = "name=\(name)&surname=\(surname)&faculty=\(faculty)&username=\(username)&password=\(password)"
+            var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&password=\(password)&username=\(username)"
             
             NSLog("PostData: %@",post);
             
-            var url:NSURL = NSURL(string: "http://dipinkrishna.com/jsonsignup.php")!
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/register/")!
             
             var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
             
