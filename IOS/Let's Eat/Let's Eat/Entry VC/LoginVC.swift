@@ -18,11 +18,16 @@ class LoginVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        saveSwitch.on = userDefaults.boolForKey("saveSwitch")
+        if let switchBool: Bool = userDefaults.objectForKey("saveSwitch") as? Bool{
+            saveSwitch.on = switchBool
+        }
+        
         if let username: AnyObject = userDefaults.valueForKey("savedUsername") {
             textUsername.text = username as NSString
             textPassword.text = userDefaults.valueForKey("savedPass") as NSString
         }
+        
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background.jpg")!)
         bgSetter = BackgroundSetter(viewControler: self)
         bgSetter.getBackgroundView()
     }
@@ -60,7 +65,7 @@ class LoginVC: UIViewController {
             alertView.addButtonWithTitle("OK")
             alertView.show()
         } else {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
+           /* let userDefaults = NSUserDefaults.standardUserDefaults()
             if let defaultItems = userDefaults.arrayForKey("userInfoList") {
                 let existentUser = (defaultItems.filter{ (($0["username"]) as String) == username })
                 if existentUser.count == 1 {
@@ -91,14 +96,14 @@ class LoginVC: UIViewController {
                 alertView.delegate = self
                 alertView.addButtonWithTitle("OK")
                 alertView.show()
-            }
+            }*/
             
-            /*
+            
             var post:NSString = "username=\(username)&password=\(password)"
             
             NSLog("PostData: %@",post);
             
-            var url:NSURL = NSURL(string: "http://dipinkrishna.com/jsonlogin2.php")!
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/login/")!
             
             var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
             
@@ -129,17 +134,16 @@ class LoginVC: UIViewController {
                     NSLog("Response ==> %@", responseData);
                     
                     var error: NSError?
-                    
                     let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
                     
                     
-                    let success:NSInteger = jsonData.valueForKey("success") as NSInteger
+                    let status:NSString = jsonData.valueForKey("status") as NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
-                    NSLog("Success: %ld", success);
+                    println("Success: " + status)
                     
-                    if(success == 1)
+                    if(status == "success")
                     {
                         NSLog("Login SUCCESS");
                         
@@ -187,13 +191,9 @@ class LoginVC: UIViewController {
                 alertView.delegate = self
                 alertView.addButtonWithTitle("OK")
                 alertView.show()
-            }*/
+            }
         }
         
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -211,7 +211,7 @@ class LoginVC: UIViewController {
             textPassword.text = ""
             textUsername.text = ""
         }
-        userDefaults.setBool(saveSwitch.on, forKey: "saveSwitch")
+        userDefaults.setObject(saveSwitch.on, forKey: "saveSwitch")
     }
     
     func loginError(){
