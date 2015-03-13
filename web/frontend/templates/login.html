@@ -76,7 +76,7 @@
                           <form id="loginForm" method="POST" action="/login/" novalidate="novalidate">
                               {% csrf_token %}
                               <div class="form-group">
-                                  <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="example@gmail.com">
+                                  <input type="text" class="form-control" id="username" name="username" value="" required="" title="Please enter you username" placeholder="Username">
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group row">
@@ -102,11 +102,19 @@
                                 <form id="signUpForm" method="POST" action="/signup/" novalidate="novalidate">
                               {% csrf_token %}
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="name" value="" required="" title="Please enter you name and surname" placeholder="Name and Surname">
+                                  <input type="text" class="form-control" name="name" value="" required="" title="Please enter you name" placeholder="Name">
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="username" value="" required="" title="Please enter you email" placeholder="Email">
+                                  <input type="text" class="form-control" name="surname" value="" required="" title="Please enter you name" placeholder="Surname">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <input type="text" class="form-control" name="username" value="" required="" title="Please enter you username" placeholder="Username">
+                                  <span class="help-block"></span>
+                              </div>
+                              <div class="form-group">
+                                  <input type="text" class="form-control" name="email" value="" required="" title="Please enter you e-mail" placeholder="Email">
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group">

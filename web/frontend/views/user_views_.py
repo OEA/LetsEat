@@ -7,6 +7,8 @@ from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
 
+
+
 def registration_view(request):
     if request.user.is_authenticated():
         return redirect("../homepage")
@@ -36,6 +38,8 @@ def registration_view(request):
         else:
             return render(request, "./register.html")
 
+
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -61,6 +65,8 @@ def login_view(request):
     else:
         return render(request, "./login.html")
 
+
+
 def profile(request, username):
     print(username)
     user = None
@@ -71,6 +77,9 @@ def profile(request, username):
         return render(request, 'profile.html', context)
     else:
         return redirect("../login")
+
+
+
 def edit(request, uname):
     username = None
     user = None
