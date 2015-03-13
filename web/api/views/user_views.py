@@ -109,7 +109,7 @@ def logout(request):
     responseJSON = {}
     auth.logout(request)
     responseJSON["status"] = "success"
-    responseJSON["message"] = "User logout successfully"
+    responseJSON["message"] = "You logout successfully"
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 

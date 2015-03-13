@@ -123,9 +123,6 @@ class ProfileVC: UIViewController {
             alertView.addButtonWithTitle("OK")
             alertView.show()
         }
-
-        //self.navigationController?.popToRootViewControllerAnimated(true)
-        //self.performSegueWithIdentifier("goToLogin", sender: self)
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if sender is UIButton{
