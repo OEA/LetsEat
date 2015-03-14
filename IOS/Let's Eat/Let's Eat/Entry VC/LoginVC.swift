@@ -121,7 +121,6 @@ class LoginVC: UIViewController {
             var response: NSURLResponse?
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
-            
             if ( urlData != nil ) {
                 let res = response as NSHTTPURLResponse!;
                 
@@ -131,7 +130,7 @@ class LoginVC: UIViewController {
                 {
                     var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
                     
-                    NSLog("Response ==> %@", responseData);
+                    println("Response ==>  \(responseData)");
                     
                     var error: NSError?
                     let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
@@ -151,6 +150,8 @@ class LoginVC: UIViewController {
                         
                         prefs.setObject(username, forKey: "USERNAME")
                         prefs.setInteger(1, forKey: "ISLOGGEDIN")
+                        let userInfo: AnyObject? = jsonData.valueForKey("container")
+                        prefs.setObject(userInfo, forKey: "userInfo")
                         prefs.synchronize()
                         let userDefaults = NSUserDefaults.standardUserDefaults()
                         if saveSwitch.on == true{
