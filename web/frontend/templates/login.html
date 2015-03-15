@@ -65,7 +65,7 @@
             <div class="container">
               <div class="row">
 
-                  <div class="col-md-5 col-md-offset-1" style="margin-top:20px;opacity:0.8">
+                  <div class="col-md-5 col-md-offset-1" style="opacity:0.8">
                       <div class="panel panel-default">
                             <div class="panel-heading">Lets Eat'e hoş geldin.</div>
                             <div class="panel-body">
@@ -75,8 +75,8 @@
 
 
                   </div>
-                  <div class="col-md-3 col-md-offset-1">
-                      <div class="panel" style="margin-top: 20px;">
+                  <div class="col-md-3 col-md-offset-1" style="opacity:0.8">
+                      <div class="panel">
                           <div class="panel-body">
                           <form id="loginForm" method="POST" action="/login/" novalidate="novalidate">
                               {% csrf_token %}
@@ -93,13 +93,16 @@
                                   </div>
                                   <span class="help-block"></span>
                               </div>
+                           	</div>
+                           	<div class="panel-footer">
+                           		<input type="checkbox" name="remember" id="remember"> <small style="color:#adadad">Remember</small>
+                             	<a href="/forgot_password" class="pull-right">Şifreni mi unuttun?</a>
+                           	</div>
                               <div id="loginErrorMsg" class="alert alert-error hide">Wrong username or password</div>
 
-                                      <input type="checkbox" name="remember" id="remember"> <small style="color:#adadad">Remember</small>
-
-                              <a href="/forgot_password" class="pull-right">Şifreni mi unuttun?</a>
+                                      
                           </form>
-                              </div>
+                              
                       </div>
                       <div class="panel panel-default">
                             <div class="panel-heading">Lets Eat'de yeni misin ? <strong>Kaydol</strong></div>
@@ -126,10 +129,13 @@
                                   <input type="password" class="form-control" name="password" value="" required="" title="Please enter you password" placeholder="Password" autocomplete="off">
                                   <span class="help-block"></span>
                               </div>
+                              </div>
+                              <div class="panel-footer">
                                 <button type="submit" class="btn btn-warning btn-block">Kaydol</button>
+                              </div>
 
                           </form>
-                            </div>
+                            
                       </div>
                   </div>
               </div>
