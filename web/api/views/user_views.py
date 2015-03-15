@@ -2,12 +2,11 @@ __author__ = 'Hakan Uyumaz & Burak Atalay & Omer Aslan'
 
 import json
 
-from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.http import HttpResponse
 
-from ..forms import UserCreationForm
+from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
 
 
@@ -116,32 +115,24 @@ def logout(request):
 
 def edit(request, username):
     responseJSON = {}
-    if request.user.is_authenticated():
-        user = User.objects.get(username=username)
-
-        if user.is_authenticated():
-            if request.method == "POST":
-                form = UserCreationForm(data=request.POST, instance=request.user)
-                if form.errors:
-                    responseJSON["status"] = "failed"
-                    responseJSON["message"] = "Errors occurred."
-                    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
-                user = form.save(commit=False)
-                user.is_active = True
-                user.save()
-
-                responseJSON["status"] = "success"
-                responseJSON["message"] = "Successfully updated."
-                return HttpResponse(json.dumps(responseJSON), content_type="application/json")
-            else:
-                #
-                redirect("../login")
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        password = request.POST["password"]
+        if form.errors:
+            print(form.errors)
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Form errors occurred."
         else:
-            print("api calismadi")
-            return HttpResponse("You are editing the profile of user: %s." % username)
-        return HttpResponse("You are editing the profile of user: %s." % username)
-    else:
-        return HttpResponse("You are editing the profile of user: %s." % username)
+            user = form.save(commit=False)
+            if (password != ""):
+                print("Password changed")
+                user.set_password(password)
+            user.is_active = True
+            user.save()
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Successfully updated."
+        return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
 
 def test(request):
     return HttpResponse("Successful")

@@ -17,3 +17,10 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ['password', 'email', 'username', ]
+        fields = ['name', 'surname', ]

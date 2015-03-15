@@ -1,11 +1,15 @@
 __author__ = 'Omer Aslan'
 
-import http.client,urllib.parse,json
+import http.client
+import urllib.parse
+import json
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
+
+from api.views import user_views as functions
 
 
 def registration_view(request):
@@ -78,22 +82,11 @@ def profile(request, username):
         return redirect("../login")
 
 
-
-def edit(request, uname):
-    username = None
-    user = None
+def edit(request, username):
     if request.user.is_authenticated():
         #It will be replaced by web service when it runs
         if request.method == "POST":
-            password = request.POST['password']
-            name = request.POST['name']
-            surname = request.POST['surname']
-            params = urllib.parse.urlencode({'name' : name, 'surname': surname})
-            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-            conn = http.client.HTTPConnection('127.0.0.1',8000)
-            conn.request("POST", "/api/profile/"+uname+"/edit", params, headers)
-            r1 = conn.getresponse()
-            data = r1.read()
+            functions.edit(request, username)
             user = request.user
             context = {'user': user}
             return render(request, 'profile_edit.html', context)
@@ -102,7 +95,7 @@ def edit(request, uname):
             context = {'user': user}
             return render(request, 'profile_edit.html', context)
     else:
-        return redirect("../login")
+        return redirect("login")
 
 
 def test(request):

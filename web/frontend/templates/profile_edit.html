@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="../" class="navbar-brand">LetsEat</a>
+            <a href="{% url 'home_view' %}" class="navbar-brand">LetsEat</a>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse">
 
@@ -28,8 +28,8 @@
                     {% if user %}
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ user.username }}<b class="caret"></b></a>
                     <ul class="dropdown-menu" style="min-width:250px;">
-                        <li><a href="/profile/{{ user.username }}/edit">Edit Profile</a></li>
-                        <li><a href="/logout/">Logout</a></li>
+                        <li><a href="{% url 'edit' user.username %}">Edit Profile</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
                     </ul>
                     {% else %}
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<b class="caret"></b></a>
@@ -52,7 +52,7 @@
 
                                 <div style="margin-bottom:10px;">
                                     <input type="submit" class="btn btn-default" value="Login">
-                                    <a href="/register/" class="btn btn-danger">Sign Up</a>
+                                    <a href="{% url 'register' %}" class="btn btn-danger">Sign Up</a>
                                 </div>
 
                             </form>
@@ -107,8 +107,7 @@
             <hr>
 
             <div style="margin-bottom:10px;">
-                <input type="submit" class="btn btn-default" value="Login">
-                <a href="/register/" class="btn btn-danger">Sign Up</a>
+                <input type="submit" class="btn btn-default" value="Edit">
             </div>
 
         </form>
