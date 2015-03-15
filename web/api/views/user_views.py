@@ -12,30 +12,25 @@ from ..models import User
 
 def registration_view(request):
     responseJSON = {}
-    if request.user.is_authenticated():
-        responseJSON["status"] = "failed"
-        responseJSON["message"] = "Authenticated user cannot register."
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.errors:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Errors occurred."
+            return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+        user = form.save(commit=False)
+        user.is_active = True
+        user.save()
+
+        responseJSON["status"] = "success"
+        responseJSON["message"] = "Successfully registered."
         return HttpResponse(json.dumps(responseJSON), content_type="application/json")
     else:
-        if request.method == "POST":
-            form = UserCreationForm(request.POST)
-
-            if form.errors:
-                responseJSON["status"] = "failed"
-                responseJSON["message"] = "Errors occurred."
-                return HttpResponse(json.dumps(responseJSON), content_type="application/json")
-
-            user = form.save(commit=False)
-            user.is_active = True
-            user.save()
-
-            responseJSON["status"] = "success"
-            responseJSON["message"] = "Successfully registered."
-            return HttpResponse(json.dumps(responseJSON), content_type="application/json")
-        else:
-            responseJSON["status"] = "failed"
-            responseJSON["message"] = "No request found."
-            return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+        return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 def login_view(request):
     responseJSON = {}
@@ -70,38 +65,26 @@ def login_view(request):
 def user_profile(request):
 
     responseJSON = {}
-    if request.user.is_authenticated():
-        responseJSON["status"] = "success"
-        responseJSON["container"] = {}
-        responseJSON["container"]["username"] = request.user.username
-        responseJSON["container"]["name"] = request.user.name
-        responseJSON["container"]["surname"] = request.user.surname
-        responseJSON["container"]["email"] = request.user.email
-        return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
-                            content_type="application/json")
-    else:
-        responseJSON["status"] = "failed"
-        responseJSON["message"] = "Please login."
-        return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
-                            content_type="application/json")
+    responseJSON["status"] = "success"
+    responseJSON["container"] = {}
+    responseJSON["container"]["username"] = request.user.username
+    responseJSON["container"]["name"] = request.user.name
+    responseJSON["container"]["surname"] = request.user.surname
+    responseJSON["container"]["email"] = request.user.email
+    return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
+                        content_type="application/json")
 
 
 def profile(request, username):
     responseJSON = {}
-    if request.user.is_authenticated():
-        user = User.objects.get(username=username)
-        responseJSON["status"] = "success"
-        responseJSON["container"] = {}
-        responseJSON["container"]["username"] = user.username
-        responseJSON["container"]["name"] = user.name
-        responseJSON["container"]["surname"] = user.surname
-        responseJSON["container"]["email"] = user.email
-        return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
-                            content_type="application/json")
-    else:
-        responseJSON["status"] = "failed"
-        responseJSON["message"] = "Please login."
-        return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
+    user = User.objects.get(username=username)
+    responseJSON["status"] = "success"
+    responseJSON["container"] = {}
+    responseJSON["container"]["username"] = user.username
+    responseJSON["container"]["name"] = user.name
+    responseJSON["container"]["surname"] = user.surname
+    responseJSON["container"]["email"] = user.email
+    return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
 def logout(request):
