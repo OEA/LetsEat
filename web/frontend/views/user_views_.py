@@ -83,7 +83,7 @@ def profile(request, username):
         context = {'user' : user}
         return render(request, 'profile.html', context)
     else:
-        return redirect("../login")
+        return redirect("http://127.0.0.1:8000/login/")
 
 
 def edit(request, username):
