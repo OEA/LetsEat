@@ -88,7 +88,7 @@ class SignupVC: UIViewController {
             unValidPasswordError()
             
         }else {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
+            /*let userDefaults = NSUserDefaults.standardUserDefaults()
             if let defaultItems = userDefaults.arrayForKey("userInfoList") {
                 let existentUser = (defaultItems.filter{ (($0["username"]) as String) == username })
                 if existentUser.count > 0 {
@@ -107,10 +107,10 @@ class SignupVC: UIViewController {
                 var userInfos = [newUser]
                 userDefaults.setObject(userInfos, forKey: "userInfoList")
                 self.dismissViewControllerAnimated(true, completion: nil)
-            }
+            }*/
             
 
-            /*
+            
             var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&password=\(password)&username=\(username)"
             
             NSLog("PostData: %@",post);
@@ -150,13 +150,13 @@ class SignupVC: UIViewController {
                     let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
                     
                     
-                    let success:NSInteger = jsonData.valueForKey("success") as NSInteger
+                    let success:NSString = jsonData.valueForKey("status") as NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
                     NSLog("Success: %ld", success);
                     
-                    if(success == 1)
+                    if(success == "success")
                     {
                         NSLog("Sign Up SUCCESS");
                         
@@ -200,7 +200,7 @@ class SignupVC: UIViewController {
                 alertView.delegate = self
                 alertView.addButtonWithTitle("OK")
                 alertView.show()
-            }*/
+            }
         }
     }
     
