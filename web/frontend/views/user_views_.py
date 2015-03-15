@@ -69,7 +69,11 @@ def login_view(request):
         else:
             return render(request, "./login.html")
 
-
+def forgot_password_view(request):
+    if request.user.is_authenticated():
+        return redirect("../homepage")
+    else:
+        return render(request, "./forgot_password.html")
 
 def profile(request, username):
     user = None
