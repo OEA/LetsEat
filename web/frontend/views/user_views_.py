@@ -31,15 +31,19 @@ def registration_view(request):
                  'username': username,
                  })
 
-
-            headers={"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
             conn = http.client.HTTPConnection('127.0.0.1', 8000)
             conn.request("POST", "/api/register/", params, headers)
             r1 = conn.getresponse()
             data = r1.read()
-            return HttpResponse(data)
+            dict = json.loads(data.decode("utf-8"))
+            print(dict)
+            if dict["status"] == "success":
+                return render(request, "login.html", {"registration": True})
+            else:
+                return render(request, "login.html", {"error": True, "error_message": dict["message"]})
         else:
-            return render(request, "./register.html")
+            return render(request, "register.html")
 
 
 
@@ -51,7 +55,7 @@ def login_view(request):
             username = request.POST['username']
             password = request.POST['password']
             params = urllib.parse.urlencode({'username': username, 'password': password})
-            headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+            headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
             conn = http.client.HTTPConnection('127.0.0.1',8000)
             conn.request("POST", "/api/login/", params, headers)
             r1 = conn.getresponse()

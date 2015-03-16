@@ -63,12 +63,22 @@
 </header>
 <div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div>
             <div class="container">
-              <div class="row">
+
+
+                <div class="row">
 
                   <div class="col-md-5 col-md-offset-1" style="opacity:0.8">
                       <div class="panel panel-default">
                             <div class="panel-heading">Lets Eat'e hoş geldin.</div>
                             <div class="panel-body">
+                                {% if error %}
+                                <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                                {% endif %}
+                                {% if registration %}
+                                <div class="alert alert-success" role="alert">
+                                    Your registration is successful.
+                                </div>
+                                {% endif %}
                               Yemek yemek için arkadaşların ile LetsEat üzerinden iletişime geç. İlgini çeken mekanlarda, istediğin kişilerle yemek yeme daveti oluştur.Arkadaşlarının geçmiş ve gelecek etkinliklerinden anında haberdar ol.
                             </div>
                       </div>
