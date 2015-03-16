@@ -17,6 +17,8 @@
 		464E9D821A92594000396EE8 /* Let_s_EatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D811A92594000396EE8 /* Let_s_EatTests.swift */; };
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
 		464E9D921A925A9000396EE8 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D911A925A9000396EE8 /* check.png */; };
+		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
+		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
 		46DBF7761AAED2E6009E72F2 /* Login_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7751AAED2E6009E72F2 /* Login_Test.swift */; };
 		46DBF7781AAF0A12009E72F2 /* BackgroundSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */; };
 		46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77631A9911B8003BDD80 /* LoginVC.swift */; };
@@ -50,6 +52,8 @@
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		464E9D911A925A9000396EE8 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
+		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
+		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewController.swift; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
 		46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundSetter.swift; sourceTree = "<group>"; };
 		46FE77631A9911B8003BDD80 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 		464E9D651A92594000396EE8 /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
+				46C3B7B01AB787C700333E5F /* SideBar.swift */,
+				46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */,
 				465F3EFB1A964703006A6AA6 /* TabBar VC */,
 				46146BB41A93389300C35A02 /* Entry VC */,
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
@@ -279,8 +285,10 @@
 				46DBF7781AAF0A12009E72F2 /* BackgroundSetter.swift in Sources */,
 				46FE77661A9911B8003BDD80 /* SignupVC.swift in Sources */,
 				46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */,
+				46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */,
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
+				46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,

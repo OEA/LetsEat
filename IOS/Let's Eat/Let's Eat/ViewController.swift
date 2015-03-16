@@ -8,20 +8,34 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, SideBarDelegate {
 
 
-    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    var sideBar:SideBar = SideBar()
+    
+    func sideBarDidSelectButtonAtIndex(index: Int) {
+        if index == 0{
+            performSegueWithIdentifier("goto_Main", sender: UITableViewCell())
+        } else if index == 1{
+            performSegueWithIdentifier("goto_Profile", sender: UITableViewCell())
+        }
+    }
+    @IBAction func menuTapped(sender: UIBarButtonItem) {
+        sideBar.showSideBar(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        sideBar = SideBar(sourceView: self.view, menuItems: ["Friend List", "Profile"])
+        sideBar.delegate = self
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool) {
+        sideBar.showSideBar(false)
     }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         let prefs = NSUserDefaults.standardUserDefaults()
@@ -30,22 +44,9 @@ class ViewController: UIViewController {
             self.performSegueWithIdentifier("goto_login", sender: self)
             
         } else {
-            self.usernameLabel.text = prefs.valueForKey("USERNAME") as NSString
-            if let defaultItems = prefs.arrayForKey("userInfoList") {
-                let existentUser = (defaultItems.filter{ (($0["username"]) as String) == prefs.stringForKey("USERNAME") })
-                if existentUser.count == 1 {
-                    prefs.setObject(existentUser[0], forKey: "USER")
-                    
-                }
-            }
-            self.reloadInputViews()
-            self.performSegueWithIdentifier("goto_Main", sender: self)
+            
         }
-        
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
+
     }
     
     private func update(){
@@ -65,5 +66,13 @@ class ViewController: UIViewController {
       }*/
     }
   
+    @IBAction func logoutTapped(sender: UIBarButtonItem) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("USERNAME")
+
+        self.performSegueWithIdentifier("goto_login", sender: self)
+    }
+
 }
 

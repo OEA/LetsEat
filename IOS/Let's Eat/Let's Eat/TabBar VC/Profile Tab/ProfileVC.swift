@@ -20,12 +20,7 @@ class ProfileVC: UIViewController {
     
    
     
-    override func viewWillDisappear(animated: Bool) {
-         self.navigationController?.navigationBarHidden = false
-    }
-    
     override func viewDidAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{
             user = userInfo
