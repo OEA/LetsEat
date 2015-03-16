@@ -2,6 +2,8 @@ __author__ = 'ynsy'
 
 from django.test import TestCase
 from .models.user import User
+import urllib.parse
+import http.client
 import json
 
 
@@ -25,12 +27,20 @@ class modelTest(TestCase):
 
 
     def test_user_login(self):
-        data = {"username": "kalaomer",
-                "password": "123456"
-                }
-        response = self.send_post({}, "/api/login/")
 
-        self.assertEqual(response["status"], "success")
+        params = urllib.parse.urlencode(
+                { "password": '123456',
+                  "username": 'tdgunes'
+                })
+
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+        conn = http.client.HTTPConnection('127.0.0.1', 8000)
+        conn.request("POST", "/api/login/", params, headers)
+        r1 = conn.getresponse()
+        data = r1.read()
+        dict = json.loads(data.decode("utf-8"))
+        print(dict)
+        self.assertEqual(dict["status"], "success")
 
 
     def test_user_logout(self):
@@ -39,18 +49,23 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
     def test_user_registeration(self):
-        data = {"name": "Burak",
-                "surname": "Atalay",
-                "email": "burak.atalay@ozu.edu.tr",
-                "password": "123456",
-                "username": "burakatalay"
-                }
-        response = self.client.post("/api/registration/", json.dumps(data), "application/x-www-form-urlencoded",
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest').content.decode("utf-8")
-        print(response)
-        response = json.loads(response)
 
-        self.assertEqual(response["status"], "success")
+        params = urllib.parse.urlencode(
+                { "name": "Burak",
+                  "surname": "Atalay",
+                  "email": "burak.atalay@ozu.edu.tr",
+                  "password": "123456",
+                  "username": "burakatlay"
+                })
+
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+        conn = http.client.HTTPConnection('127.0.0.1', 8000)
+        conn.request("POST", "/api/register/", params, headers)
+        r1 = conn.getresponse()
+        data = r1.read()
+        dict = json.loads(data.decode("utf-8"))
+
+        self.assertEqual(dict["status"], "success")
 
 
 
