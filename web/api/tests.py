@@ -25,20 +25,18 @@ class modelTest(TestCase):
 
 
     def test_user_login(self):
+        data = {"username": "kalaomer",
+                "password": "123456"
+                }
         response = self.send_post({}, "/api/login/")
 
         self.assertEqual(response["status"], "success")
 
 
     def test_user_logout(self):
-        data = {"username": "kalaomer",
-                "password": "123456"
-                }
-        response = self.send_post(data, "/api/logout/")
+        response = self.send_post({}, "/api/logout/")
 
         self.assertEqual(response["status"], "success")
-
-        
 
     def test_user_registeration(self):
         data = {"name": "Burak",
