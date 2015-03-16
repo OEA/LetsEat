@@ -99,21 +99,28 @@ def logout(request):
 def edit(request, username):
     responseJSON = {}
     if request.method == "POST":
-        form = UserUpdateForm(request.POST, instance=request.user)
-        password = request.POST["password"]
-        if form.errors:
-            print(form.errors)
-            responseJSON["status"] = "failed"
-            responseJSON["message"] = "Form errors occurred."
+        user = User.objects.get(username=username)
+        form = UserUpdateForm(request.POST, instance=user)
+        new_password = request.POST["newPassword"]
+        new_password2 = request.POST["newPassword2"]
+        current_password = request.POST["currentPassword"]
+        if user.check_password(current_password):
+            if form.errors:
+                print(form.errors)
+                responseJSON["status"] = "failed"
+                responseJSON["message"] = "Form errors occurred."
+            else:
+                user = form.save(commit=False)
+                if new_password != "" and new_password == new_password2:
+                    print("Password changed")
+                    user.set_password(new_password)
+                user.is_active = True
+                user.save()
+                responseJSON["status"] = "success"
+                responseJSON["message"] = "Successfully updated."
         else:
-            user = form.save(commit=False)
-            if (password != ""):
-                print("Password changed")
-                user.set_password(password)
-            user.is_active = True
-            user.save()
-            responseJSON["status"] = "success"
-            responseJSON["message"] = "Successfully updated."
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Current password is invalid."
         return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
