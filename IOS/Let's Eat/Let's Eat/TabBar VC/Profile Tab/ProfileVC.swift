@@ -109,8 +109,8 @@ class ProfileVC: UIViewController {
         } else {
             var error_msg:NSString
             
-            if jsonData["error_message"] as? NSString != nil {
-                error_msg = jsonData["error_message"] as NSString
+            if jsonData["message"] as? NSString != nil {
+                error_msg = jsonData["message"] as NSString
             } else {
                 error_msg = "Unknown Error"
             }
@@ -128,6 +128,7 @@ class ProfileVC: UIViewController {
     func logoutProcess(jsonData: NSDictionary){
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("userInfo")
         userDefaults.removeObjectForKey("USERNAME")
         
         getSuccesLogoutAleart(jsonData)
@@ -166,15 +167,5 @@ class ProfileVC: UIViewController {
         }
       }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

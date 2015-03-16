@@ -15,6 +15,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var passwordField: UITextField!
   
     var user: [String: NSString]!
     
@@ -37,35 +38,102 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         var newUser = user
         newUser["name"] = nameField.text
         newUser["surname"] = surnameField.text
-        newUser["username"] = usernameField.text
-        newUser["email"] = emailField.text
+        var password = passwordField.text
+        var str = ""
+        
+        var post:NSString = "name=\(nameField.text)&surname=\(surnameField.text)&currentPassword=\(password)&newPassword=\(str)&newPassword2=\(str)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(usernameField.text)/edit/")!
+        
+        var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+        
+        var postLength:NSString = String( postData.length )
+        
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = postData
+        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let defaultItems = userDefaults.arrayForKey("userInfoList") {
-            for index in 0...defaultItems.count-1 {
-                let savedUser = defaultItems[index] as [String: NSString]
-                if let uname = savedUser["username"] {
-                    if uname == userDefaults.stringForKey("USERNAME")! {
-                        if isEmailValid(emailField.text){
-                            var savedList = defaultItems
-                            savedList.removeAtIndex(index)
-                            savedList.append(newUser)
-                            userDefaults.setObject(savedList, forKey: "userInfoList")
-                            if userImageView.image != nil {
-                                //save image to server
-                            }
-                            userDefaults.setObject(usernameField.text, forKey: "USERNAME")
-                            userDefaults.setObject(newUser, forKey: "userInfo")
-                            self.navigationController?.popViewControllerAnimated(true)
-                        }else {
-                            unValidEmailError()
-                        }
+        var reponseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+        
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                
+                NSLog("Response ==> %@", responseData);
+                
+                var error: NSError?
+                
+                let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                
+                
+                let success:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                NSLog("Success: %ld", success);
+                
+                if(success == "success")
+                {
+                    NSLog("Edit SUCCESS");
+                    
+                    var userDefaults:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                    
+                    userDefaults.setObject(newUser, forKey: "userInfo")
+                    self.navigationController?.popViewControllerAnimated(true)
+                    
+                    
+                } else {
+                    var error_msg:NSString
+                    
+                    if jsonData["message"] as? NSString != nil {
+                        error_msg = jsonData["message"] as NSString
+                    } else {
+                        error_msg = "Unknown Error"
                     }
+                    var alertView:UIAlertView = UIAlertView()
+                    alertView.title = "Changing Failed!"
+                    alertView.message = error_msg
+                    alertView.delegate = self
+                    alertView.addButtonWithTitle("OK")
+                    alertView.show()
+                    
                 }
+                
+            } else {
+                var alertView:UIAlertView = UIAlertView()
+                alertView.title = "Changing Failed!"
+                alertView.message = "Connection Failed"
+                alertView.delegate = self
+                alertView.addButtonWithTitle("OK")
+                alertView.show()
             }
+        }  else {
+            var alertView:UIAlertView = UIAlertView()
+            alertView.title = "Changing Failed!"
+            alertView.message = "Connection Failure"
+            if let error = reponseError {
+                alertView.message = (error.localizedDescription)
+            }
+            alertView.delegate = self
+            alertView.addButtonWithTitle("OK")
+            alertView.show()
         }
     }
+    
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }

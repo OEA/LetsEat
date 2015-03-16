@@ -29,7 +29,7 @@ class LoginVC: UIViewController {
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background.jpg")!)
         bgSetter = BackgroundSetter(viewControler: self)
-        //bgSetter.getBackgroundView()
+        bgSetter.getBackgroundView()
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -65,39 +65,6 @@ class LoginVC: UIViewController {
             alertView.addButtonWithTitle("OK")
             alertView.show()
         } else {
-           /* let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let defaultItems = userDefaults.arrayForKey("userInfoList") {
-                let existentUser = (defaultItems.filter{ (($0["username"]) as String) == username })
-                if existentUser.count == 1 {
-                    let user = existentUser[0] as [String: NSString]
-                    if let savedPassword = user["password"] {
-                        if password == savedPassword as NSString {
-                            userDefaults.setObject(user, forKey: "userInfo")
-                            userDefaults.setObject(username, forKey: "USERNAME")
-                            userDefaults.setInteger(1, forKey: "ISLOGGEDIN")
-                            if saveSwitch.on == true{
-                                userDefaults.setObject(username, forKey: "savedUsername")
-                                userDefaults.setObject(password, forKey: "savedPass")
-                            }
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                        }else {
-                            loginError()
-                        }
-                    }else {
-                        loginError()
-                    }
-                }else {
-                    loginError()
-                }
-            }else {
-                var alertView:UIAlertView = UIAlertView()
-                alertView.title = "Sign in Failed!"
-                alertView.message = "Please Sign-Up!"
-                alertView.delegate = self
-                alertView.addButtonWithTitle("OK")
-                alertView.show()
-            }*/
-            
             
             var post:NSString = "username=\(username)&password=\(password)"
             
@@ -162,8 +129,8 @@ class LoginVC: UIViewController {
                     } else {
                         var error_msg:NSString
                         
-                        if jsonData["error_message"] as? NSString != nil {
-                            error_msg = jsonData["error_message"] as NSString
+                        if jsonData["message"] as? NSString != nil {
+                            error_msg = jsonData["message"] as NSString
                         } else {
                             error_msg = "Unknown Error"
                         }

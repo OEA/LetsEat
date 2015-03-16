@@ -105,6 +105,7 @@ def edit(request, username):
         new_password2 = request.POST["newPassword2"]
         current_password = request.POST["currentPassword"]
         if user.check_password(current_password):
+            responseJSON["status"] = "success"
             if form.errors:
                 print(form.errors)
                 responseJSON["status"] = "failed"

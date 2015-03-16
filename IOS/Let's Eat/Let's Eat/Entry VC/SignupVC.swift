@@ -34,7 +34,7 @@ class SignupVC: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let bgSetter = BackgroundSetter(viewControler: self)
-        //bgSetter.getBackgroundView()
+        bgSetter.getBackgroundView()
     }
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -88,28 +88,6 @@ class SignupVC: UIViewController {
             unValidPasswordError()
             
         }else {
-            /*let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let defaultItems = userDefaults.arrayForKey("userInfoList") {
-                let existentUser = (defaultItems.filter{ (($0["username"]) as String) == username })
-                if existentUser.count > 0 {
-                    userError()
-                }else {
-                    var newUser = ["name": name, "surname": surname, "username": username, "email": email, "password": password]
-                    var userInfos = defaultItems as [[String : NSString]]
-                    userInfos.append(newUser)
-                    userDefaults.setObject(userInfos, forKey: "userInfoList")
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-                
-                
-            } else {
-                var newUser = ["name": name, "surname": surname, "username": username, "email": email, "password": password]
-                var userInfos = [newUser]
-                userDefaults.setObject(userInfos, forKey: "userInfoList")
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }*/
-            
-
             
             var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&password=\(password)&username=\(username)"
             
@@ -168,8 +146,8 @@ class SignupVC: UIViewController {
                     } else {
                         var error_msg:NSString
                         
-                        if jsonData["error_message"] as? NSString != nil {
-                            error_msg = jsonData["error_message"] as NSString
+                        if jsonData["message"] as? NSString != nil {
+                            error_msg = jsonData["message"] as NSString
                         } else {
                             error_msg = "Unknown Error"
                         }
