@@ -18,11 +18,13 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
     
+   
+    
     override func viewWillDisappear(animated: Bool) {
          self.navigationController?.navigationBarHidden = false
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         self.navigationController?.navigationBarHidden = true
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{

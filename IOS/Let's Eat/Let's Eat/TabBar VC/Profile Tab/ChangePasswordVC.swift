@@ -57,119 +57,116 @@ class ChangePasswordVC: UIViewController {
     }
     @IBAction func changePasswordTapped(sender: UIButton) {
         self.view.endEditing(true)
-        
-        
-                    if isPasswordValid(){
-                    
+        if isPasswordValid(){
+            
+            var name = user["name"]!
+            var surname = user["surname"]!
+            var username = user["username"]!
+    
+            var post:NSString = "name=\(name)&surname=\(surname)&currentPassword=\(oldPasswordField.text)&newPassword=\(passwordField.text)&newPassword2=\(passwordConfirmField.text)"
                         
-                        var name = user["name"]!
-                        var surname = user["surname"]!
-                        var username = user["username"]!
+            NSLog("PostData: %@",post);
                         
-                        var post:NSString = "name=\(name)&surname=\(surname)&currentPassword=\(oldPasswordField.text)&newPassword=\(passwordField.text)&newPassword2=\(passwordConfirmField.text)"
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(username)/edit/")!
                         
-                        NSLog("PostData: %@",post);
+            var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
                         
-                        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(username)/edit/")!
+            var postLength:NSString = String( postData.length )
                         
-                        var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+            var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+            request.HTTPMethod = "POST"
+            request.HTTPBody = postData
+            request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
                         
-                        var postLength:NSString = String( postData.length )
+            var reponseError: NSError?
+            var response: NSURLResponse?
                         
-                        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-                        request.HTTPMethod = "POST"
-                        request.HTTPBody = postData
-                        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-                        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                        request.setValue("application/json", forHTTPHeaderField: "Accept")
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
                         
-                        
-                        var reponseError: NSError?
-                        var response: NSURLResponse?
-                        
-                        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
-                        
-                        if ( urlData != nil ) {
-                            let res = response as NSHTTPURLResponse!;
+            if ( urlData != nil ) {
+                let res = response as NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
                             
-                            NSLog("Response code: %ld", res.statusCode);
-                            
-                            if (res.statusCode >= 200 && res.statusCode < 300)
-                            {
-                                var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                if (res.statusCode >= 200 && res.statusCode < 300)
+                {
+                    var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
                                 
-                                NSLog("Response ==> %@", responseData);
+                    NSLog("Response ==> %@", responseData);
                                 
-                                var error: NSError?
+                    var error: NSError?
                                 
-                                let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                    let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
                                 
                                 
-                                let success:NSString = jsonData.valueForKey("status") as NSString
+                    let success:NSString = jsonData.valueForKey("status") as NSString
                                 
                                 //[jsonData[@"success"] integerValue];
                                 
-                                println("Status: \(success)")
+                    println("Status: \(success)")
                                 
-                                if(success == "success")
-                                {
-                                    NSLog("Edit SUCCESS");
+                    if(success == "success")
+                    {
+                        NSLog("Edit SUCCESS");
                                     
 
-                                    sender.backgroundColor = UIColor (red: 0, green: 0.501961, blue: 0, alpha: 1.0)
+                        sender.backgroundColor = UIColor (red: 0, green: 0.501961, blue: 0, alpha: 1.0)
                                     passwordChangedAlert()
                                     
-                                    self.navigationController?.popViewControllerAnimated(true)
+                        self.navigationController?.popViewControllerAnimated(true)
                                     
                                     
-                                } else {
-                                    var error_msg:NSString
-                                    
-                                    if jsonData["message"] as? NSString != nil {
-                                        error_msg = jsonData["message"] as NSString
-                                    } else {
-                                        error_msg = "Unknown Error"
-                                    }
-                                    var alertView:UIAlertView = UIAlertView()
-                                    alertView.title = "Changing Failed!"
-                                    alertView.message = error_msg
-                                    alertView.delegate = self
-                                    alertView.addButtonWithTitle("OK")
-                                    alertView.show()
-                                    
-                                }
-                                
-                            } else {
-                                var alertView:UIAlertView = UIAlertView()
-                                alertView.title = "Changing Failed!"
-                                alertView.message = "Connection Failed"
-                                alertView.delegate = self
-                                alertView.addButtonWithTitle("OK")
-                                alertView.show()
-                            }
-                        }  else {
-                            var alertView:UIAlertView = UIAlertView()
-                            alertView.title = "Changing Failed!"
-                            alertView.message = "Connection Failure"
-                            if let error = reponseError {
-                                alertView.message = (error.localizedDescription)
-                            }
-                            alertView.delegate = self
-                            alertView.addButtonWithTitle("OK")
-                            alertView.show()
+                    } else {
+                        var error_msg:NSString
+                        
+                        if jsonData["message"] as? NSString != nil {
+                            error_msg = jsonData["message"] as NSString
+                        } else {
+                            error_msg = "Unknown Error"
                         }
-
-                    }else{
-                        var passwordConfirmTxt: NSString = passwordConfirmField.text
-                        var passwordTxt: NSString = passwordField.text
-                        if passwordTxt == "" || passwordConfirmTxt == "" || oldPasswordField.text == ""{
-                            emptyFieldError()
-                        }else if passwordTxt != passwordConfirmTxt {
-                            confirmError()
-                        }else{
-                            unValidPasswordError()
+                        var alertView:UIAlertView = UIAlertView()
+                        alertView.title = "Changing Failed!"
+                        alertView.message = error_msg
+                        alertView.delegate = self
+                        alertView.addButtonWithTitle("OK")
+                        alertView.show()
+                                    
                         }
-                    }
+                    
+                    
+                } else {
+                    var alertView:UIAlertView = UIAlertView()
+                    alertView.title = "Changing Failed!"
+                    alertView.message = "Connection Failed"
+                    alertView.delegate = self
+                    alertView.addButtonWithTitle("OK")
+                    alertView.show()
+                }
+            }  else {
+                var alertView:UIAlertView = UIAlertView()
+                alertView.title = "Changing Failed!"
+                alertView.message = "Connection Failure"
+                if let error = reponseError {
+                    alertView.message = (error.localizedDescription)
+                }
+                alertView.delegate = self
+                alertView.addButtonWithTitle("OK")
+                alertView.show()
+            }
+        }else{
+            var passwordConfirmTxt: NSString = passwordConfirmField.text
+            var passwordTxt: NSString = passwordField.text
+            if passwordTxt == "" || passwordConfirmTxt == "" || oldPasswordField.text == ""{
+                emptyFieldError()
+            }else if passwordTxt != passwordConfirmTxt {
+                confirmError()
+            }else{
+                unValidPasswordError()
+            }
+        }
         
     }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A15521AB78535009DA34E /* FriendsViewController.swift */; };
 		464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */; };
 		464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D681A92594000396EE8 /* AppDelegate.swift */; };
 		464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		461A15521AB78535009DA34E /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		464E9D631A92594000396EE8 /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		464E9D671A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +84,14 @@
 				46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */,
 			);
 			path = "Entry VC";
+			sourceTree = "<group>";
+		};
+		461A15511AB78525009DA34E /* Friends Tab */ = {
+			isa = PBXGroup;
+			children = (
+				461A15521AB78535009DA34E /* FriendsViewController.swift */,
+			);
+			name = "Friends Tab";
 			sourceTree = "<group>";
 		};
 		464E9D5A1A92594000396EE8 = {
@@ -148,6 +158,7 @@
 		465F3EFB1A964703006A6AA6 /* TabBar VC */ = {
 			isa = PBXGroup;
 			children = (
+				461A15511AB78525009DA34E /* Friends Tab */,
 				46FE77671A9911DA003BDD80 /* Profile Tab */,
 			);
 			path = "TabBar VC";
@@ -270,6 +281,7 @@
 				46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */,
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
+				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,
 				464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */,
