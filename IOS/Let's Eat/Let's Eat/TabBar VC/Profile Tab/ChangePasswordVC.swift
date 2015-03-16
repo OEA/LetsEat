@@ -58,29 +58,107 @@ class ChangePasswordVC: UIViewController {
     @IBAction func changePasswordTapped(sender: UIButton) {
         self.view.endEditing(true)
         
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            if let savedPassword = user["password"] {
-                if oldPasswordField.text == savedPassword {
+        
                     if isPasswordValid(){
                     
-                        user["password"] = passwordField.text
-                        if let defaultItems = userDefaults.arrayForKey("userInfoList") {
-                            for index in 0...defaultItems.count-1 {
-                                let savedUser = defaultItems[index] as [String: NSString]
-                                if let uname = savedUser["username"] {
-                                    if uname == userDefaults.stringForKey("USERNAME")! {
-                                        var savedList = defaultItems
-                                        savedList.removeAtIndex(index)
-                                        savedList.append(user)
-                                        userDefaults.setObject(savedList, forKey: "userInfoList")
-                                        sender.backgroundColor = UIColor (red: 0, green: 0.501961, blue: 0, alpha: 1.0)
-                                        passwordChangedAlert()
-                                        break
+                        
+                        var name = user["name"]!
+                        var surname = user["surname"]!
+                        var username = user["username"]!
+                        
+                        var post:NSString = "name=\(name)&surname=\(surname)&currentPassword=\(oldPasswordField.text)&newPassword=\(passwordField.text)&newPassword2=\(passwordConfirmField.text)"
+                        
+                        NSLog("PostData: %@",post);
+                        
+                        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(username)/edit/")!
+                        
+                        var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+                        
+                        var postLength:NSString = String( postData.length )
+                        
+                        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+                        request.HTTPMethod = "POST"
+                        request.HTTPBody = postData
+                        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+                        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                        request.setValue("application/json", forHTTPHeaderField: "Accept")
+                        
+                        
+                        var reponseError: NSError?
+                        var response: NSURLResponse?
+                        
+                        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+                        
+                        if ( urlData != nil ) {
+                            let res = response as NSHTTPURLResponse!;
+                            
+                            NSLog("Response code: %ld", res.statusCode);
+                            
+                            if (res.statusCode >= 200 && res.statusCode < 300)
+                            {
+                                var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                                
+                                NSLog("Response ==> %@", responseData);
+                                
+                                var error: NSError?
+                                
+                                let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                                
+                                
+                                let success:NSString = jsonData.valueForKey("status") as NSString
+                                
+                                //[jsonData[@"success"] integerValue];
+                                
+                                println("Status: \(success)")
+                                
+                                if(success == "success")
+                                {
+                                    NSLog("Edit SUCCESS");
+                                    
+
+                                    sender.backgroundColor = UIColor (red: 0, green: 0.501961, blue: 0, alpha: 1.0)
+                                    passwordChangedAlert()
+                                    
+                                    self.navigationController?.popViewControllerAnimated(true)
+                                    
+                                    
+                                } else {
+                                    var error_msg:NSString
+                                    
+                                    if jsonData["message"] as? NSString != nil {
+                                        error_msg = jsonData["message"] as NSString
+                                    } else {
+                                        error_msg = "Unknown Error"
                                     }
+                                    var alertView:UIAlertView = UIAlertView()
+                                    alertView.title = "Changing Failed!"
+                                    alertView.message = error_msg
+                                    alertView.delegate = self
+                                    alertView.addButtonWithTitle("OK")
+                                    alertView.show()
+                                    
                                 }
+                                
+                            } else {
+                                var alertView:UIAlertView = UIAlertView()
+                                alertView.title = "Changing Failed!"
+                                alertView.message = "Connection Failed"
+                                alertView.delegate = self
+                                alertView.addButtonWithTitle("OK")
+                                alertView.show()
                             }
+                        }  else {
+                            var alertView:UIAlertView = UIAlertView()
+                            alertView.title = "Changing Failed!"
+                            alertView.message = "Connection Failure"
+                            if let error = reponseError {
+                                alertView.message = (error.localizedDescription)
+                            }
+                            alertView.delegate = self
+                            alertView.addButtonWithTitle("OK")
+                            alertView.show()
                         }
-                        self.navigationController?.popViewControllerAnimated(true)
+
                     }else{
                         var passwordConfirmTxt: NSString = passwordConfirmField.text
                         var passwordTxt: NSString = passwordField.text
@@ -92,8 +170,6 @@ class ChangePasswordVC: UIViewController {
                             unValidPasswordError()
                         }
                     }
-                }
-            }
         
     }
 
@@ -121,7 +197,7 @@ class ChangePasswordVC: UIViewController {
     func confirmError(){
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Change Password Failed!"
-        alertView.message = "Passwords does not match!"
+        alertView.message = "Passwords do not match!"
         alertView.delegate = self
         alertView.addButtonWithTitle("OK")
         alertView.show()

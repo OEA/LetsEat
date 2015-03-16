@@ -84,7 +84,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 
                 //[jsonData[@"success"] integerValue];
                 
-                NSLog("Success: %ld", success);
+                println("Status: \(success)")
                 
                 if(success == "success")
                 {
@@ -176,21 +176,5 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         emailField.text = user["email"]
     }
     
-    func isEmailValid(email:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        if let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx) {
-            return emailTest.evaluateWithObject(email)
-        }
-        return false
-    }
-    
-    func unValidEmailError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign Up Failed!"
-        alertView.message = "E-mail is not valid! \nPlease check your e-mail."
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
 }
 
