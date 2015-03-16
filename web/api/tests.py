@@ -24,21 +24,26 @@ class modelTest(TestCase):
         return response
 
 
-    def test_super_login(self):
+    def test_user_login(self):
         data = {"username": "kalaomer",
                 "password": "123456"
                 }
-        response = self.send_post(data, "/api/login/")
+        response = self.send_post({}, "/api/login/")
 
-        self.assertEqual(response, "success")
+        self.assertEqual(response["status"], "success")
 
 
-    def test_registeration(self):
-        data = {"name": "Ömer",
-                "surname": "Kala",
-                "email": "kalaomer@hotmail.com",
+    def test_user_logout(self):
+        response = self.send_post({}, "/api/logout/")
+
+        self.assertEqual(response["status"], "success")
+
+    def test_user_registeration(self):
+        data = {"name": "Burak",
+                "surname": "Atalay",
+                "email": "burak.atalay@ozu.edu.tr",
                 "password": "123456",
-                "username": "kalaomer"
+                "username": "burakatalay"
                 }
         response = self.client.post("/api/registration/", json.dumps(data), "application/x-www-form-urlencoded",
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest').content.decode("utf-8")
