@@ -29,8 +29,8 @@ class modelTest(TestCase):
     def test_user_login(self):
 
         params = urllib.parse.urlencode(
-                { "password": '123456',
-                  "username": 'tdgunes'
+                { "password": '1',
+                  "username": 'hakanuyumaz'
                 })
 
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
@@ -51,11 +51,11 @@ class modelTest(TestCase):
     def test_user_registeration(self):
 
         params = urllib.parse.urlencode(
-                { "name": "Burak",
-                  "surname": "Atalay",
-                  "email": "burak.atalay@ozu.edu.tr",
-                  "password": "123456",
-                  "username": "burakatlay"
+                { "name": "Hakan",
+                  "surname": "Uyumaz",
+                  "email": "hakan.uyumaz@ozu.edu.tr",
+                  "password": "1",
+                  "username": "hakanuyumaz"
                 })
 
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
