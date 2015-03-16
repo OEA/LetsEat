@@ -2,61 +2,97 @@ __author__ = 'ynsy'
 
 from django.test import TestCase
 from .models.user import User
-from .models.user import UserManager
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib import auth
-from django.http import HttpResponse
+import json
+
 
 
 class modelTest(TestCase):
     def setUp(self):
-        #UserManager.create_superuser("ynsy", "yunus","yilmaz", "yunus.yilmaz@ozu.edu.tr","LetsEat")
-        User.name = "yunus"
-        User.surname = "yilmaz"
-        User.username = "ynsy"
-        User.email = "yunus.yilmaz@ozu.edu.tr"
-        User.password = "123456"
 
-    def test_usernameEquality(self):
-        self.assertEqual(User.username, 'ynsy')
 
-    def test_nameEquality(self):
-        self.assertEqual(User.name, 'yunus')
+        omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
+        taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
 
-    def test_surnameEquality(self):
-        self.assertEqual(User.surname, 'yilmaz')
+        omer.save()
+        taha.save()
 
-    def test_emailEquality(self):
-        self.assertEqual(User.email, 'yunus.yilmaz@ozu.edu.tr')
 
-    def test_passwordEquality(self):
-        self.assertEqual(User.password, '123456')
+    def send_post(self, data, url):
+        response = self.client.post(url, json.dumps(data), "application/x-www-form-urlencoded",
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest').content.decode("utf-8")
+        response = json.loads(response)
+        return response
 
-    def test_usernameNotEqual(self):
-        self.assertNotEqual(User.username, 'ynsy2')
 
-    def test_nameNotEqual(self):
-        self.assertNotEqual(User.name, 'yunuss')
+    def test_super_login(self):
+        data = {"username": "kalaomer",
+                "password": "123456"
+                }
+        response = self.send_post(data, "/api/login/")
 
-    def test_surnameNotEqual(self):
-        self.assertNotEqual(User.surname, 'yilmz')
+        self.assertEqual(response, "success")
 
-    def test_emailNotEqual(self):
-        self.assertNotEqual(User.email, 'yns@as.com')
 
-    def test_passwordNotEqual(self):
-        self.assertNotEqual(User.password, '123344')
+    def test_registeration(self):
+        data = {"name": "Ömer",
+                "surname": "Kala",
+                "email": "kalaomer@hotmail.com",
+                "password": "123456",
+                "username": "kalaomer"
+                }
+        response = self.client.post("/api/registration/", json.dumps(data), "application/x-www-form-urlencoded",
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest').content.decode("utf-8")
+        print(response)
+        response = json.loads(response)
 
-    def test_generateToken(self):
-        firstToken = UserManager.generate_token(self)
-        secondToken = UserManager.generate_token(self)
-        self.assertNotEqual(firstToken, secondToken)
+        self.assertEqual(response["status"], "success")
 
-    #def registrationJSONTest(request,self):
-    #    username = request.POST['username']
-    #    password = request.POST['password']
-    #    user = authenticate(username="ynsy", password="123456")
-    #
-    #    responseJSON = {}
-    #    user.is_authenticated()
+
+
+
+    #Test Super User Credentials
+    def test_superuser_is_active(self):
+        superuser = User.objects.get(username="kalaomer")
+        self.assertEqual(superuser.is_active, True)
+
+    def test_superuser_has_surname(self):
+        superuser = User.objects.get(username="kalaomer")
+        self.assertEqual(superuser.surname, "Kala")
+
+    def test_superuser_has_email(self):
+        superuser = User.objects.get(username="kalaomer")
+        self.assertEqual(superuser.email, "kalaomer@hotmail.com")
+
+    def test_superuser_has_name(self):
+        superuser = User.objects.get(username="kalaomer")
+        self.assertEqual(superuser.name, "Ömer")
+
+    def test_superuser_has_username(self):
+        superuser = User.objects.get(email="kalaomer@hotmail.com")
+        self.assertEqual(superuser.username, "kalaomer")
+
+
+
+
+    #Test User Credentials
+    def test_user_is_active(self):
+        user = User.objects.get(username="tdgunes")
+        self.assertEqual(user.is_active, False)
+
+    def test_user_has_name(self):
+        user = User.objects.get(username="tdgunes")
+        self.assertEqual(user.name, "Taha Doğan")
+
+    def test_user_has_surname(self):
+        user = User.objects.get(username="tdgunes")
+        self.assertEqual(user.surname, "Güneş")
+
+    def test_user_has_email(self):
+        user = User.objects.get(username="tdgunes")
+        self.assertEqual(user.email, "tdgunes@gmail.com")
+
+    def test_user_has_username(self):
+        user = User.objects.get(email="tdgunes@gmail.com")
+        self.assertEqual(user.username, "tdgunes")
+
+
