@@ -27,6 +27,7 @@ class SignupVC: UIViewController {
     @IBOutlet weak var passwordConfirmCheck: UIButton!
     
     let apiMethod = ApiMethods()
+    let alert = Alerts()
     
     override func viewWillAppear(animated: Bool) {
         let bgSetter = BackgroundSetter(viewControler: self)
@@ -73,15 +74,15 @@ class SignupVC: UIViewController {
         
         if ( name.isEqualToString("") || surname.isEqualToString("") || username.isEqualToString("")  || password.isEqualToString("") || confirm_password.isEqualToString("") || email.isEqualToString("")) {
             
-            emptyFieldError()
+            alert.emptyFieldError("Sign Up Failed!", vc: self)
             
         }else if !isEmailValid(email){
-            unValidEmailError()
+            alert.unValidEmailError("Sign Up Failed!", vc: self)
         }else if password != confirm_password {
-            confirmError()
+            alert.confirmError("Sign Up Failed!", vc: self)
         }else if !isPasswordValid() {
             
-            unValidPasswordError()
+            alert.unValidPasswordError("Sign Up Failed!", vc: self)
             
         }else {
             
@@ -105,13 +106,7 @@ class SignupVC: UIViewController {
                 
                 if (res.statusCode >= 200 && res.statusCode < 300)
                 {
-                    var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
-                    
-                    NSLog("Response ==> %@", responseData);
-                    
-                    var error: NSError?
-                    
-                    let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                    let jsonData = apiMethod.getJsonData(urlData!)
                     
                     
                     let success:NSString = jsonData.valueForKey("status") as NSString
@@ -130,40 +125,14 @@ class SignupVC: UIViewController {
                         
                         
                     } else {
-                        var error_msg:NSString
-                        
-                        if jsonData["message"] as? NSString != nil {
-                            error_msg = jsonData["message"] as NSString
-                        } else {
-                            error_msg = "Unknown Error"
-                        }
-                        var alertView:UIAlertView = UIAlertView()
-                        alertView.title = "Sign Up Failed!"
-                        alertView.message = error_msg
-                        alertView.delegate = self
-                        alertView.addButtonWithTitle("OK")
-                        alertView.show()
-                        
+                        alert.getSuccesError(jsonData, str: "Sign up Failed!", vc: self)
                     }
                     
                 } else {
-                    var alertView:UIAlertView = UIAlertView()
-                    alertView.title = "Sign Up Failed!"
-                    alertView.message = "Connection Failed"
-                    alertView.delegate = self
-                    alertView.addButtonWithTitle("OK")
-                    alertView.show()
+                    alert.getStatusCodeError("Sign up Failed!", vc: self)
                 }
             }  else {
-                var alertView:UIAlertView = UIAlertView()
-                alertView.title = "Sign in Failed!"
-                alertView.message = "Connection Failure"
-                if let error = reponseError {
-                    alertView.message = (error.localizedDescription)
-                }
-                alertView.delegate = self
-                alertView.addButtonWithTitle("OK")
-                alertView.show()
+                alert.getUrlDataError(reponseError, str: "Sign up Failed!", vc: self)
             }
         }
     }
@@ -208,42 +177,8 @@ class SignupVC: UIViewController {
         return false
     }
     
-    func emptyFieldError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign Up Failed!"
-        alertView.message = "Please fill empty fields"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
-    
-    func confirmError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign Up Failed!"
-        alertView.message = "Passwords doesn't Match!"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
-    
-    func unValidEmailError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign Up Failed!"
-        alertView.message = "E-mail is not valid! \nPlease check your e-mail."
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
-    
-    func unValidPasswordError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign Up Failed!"
-        alertView.message = "Your password needs minimum 6 characters and at least one upper case character, one lower case character and one numeric character"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
-    
+        
+    /*
     func userError(){
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Sign Up Failed!"
@@ -251,7 +186,7 @@ class SignupVC: UIViewController {
         alertView.delegate = self
         alertView.addButtonWithTitle("OK")
         alertView.show()
-    }
+    }*/
    
     
     /*

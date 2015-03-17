@@ -16,7 +16,7 @@ class LoginVC: UIViewController {
     @IBOutlet weak var checkImage: UIButton!
     var bgSetter: BackgroundSetter!
     
-    let aleart = Alearts()
+    let alert = Alerts()
     let apiMethod = ApiMethods()
     
     override func viewWillAppear(animated: Bool) {
@@ -61,12 +61,7 @@ class LoginVC: UIViewController {
         var password:NSString = textPassword.text
         self.view.endEditing(true)
         if ( username.isEqualToString("") || password.isEqualToString("") ) {
-            var alertView:UIAlertView = UIAlertView()
-            alertView.title = "Sign in Failed!"
-            alertView.message = "Please enter Username and Password"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            alert.emptyFieldError("Sign in Failed!", vc: self)
         } else {
     
             var post:NSString = "username=\(username)&password=\(password)"
@@ -115,13 +110,13 @@ class LoginVC: UIViewController {
                         }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
-                        aleart.getSuccesError(jsonData, vc: self)
+                        alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
                     }
                 } else {
-                    aleart.getStatusCodeError(self)
+                    alert.getStatusCodeError("Sign in Failed!", vc:self)
                 }
             } else {
-                aleart.getUrlDataError(reponseError, vc: self)
+                alert.getUrlDataError(reponseError, str:"Sign in Failed!", vc: self)
             }
         }
         

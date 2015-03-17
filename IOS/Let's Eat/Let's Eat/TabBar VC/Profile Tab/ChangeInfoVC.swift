@@ -19,6 +19,9 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
   
     var user: [String: NSString]!
     
+    let alert = Alerts()
+    let apiMethod = ApiMethods()
+    
     override func viewDidAppear(animated: Bool) {
         
         nameField.text = user["name"]
@@ -47,16 +50,8 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(usernameField.text)/edit/")!
         
-        var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+        var request = apiMethod.getRequest(url, post: post)
         
-        var postLength:NSString = String( postData.length )
-        
-        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.HTTPBody = postData
-        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         
         var reponseError: NSError?
@@ -71,14 +66,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             
             if (res.statusCode >= 200 && res.statusCode < 300)
             {
-                var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
-                
-                NSLog("Response ==> %@", responseData);
-                
-                var error: NSError?
-                
-                let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-                
+                let jsonData = apiMethod.getJsonData(urlData!)
                 
                 let success:NSString = jsonData.valueForKey("status") as NSString
                 
@@ -97,40 +85,14 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
                     
                     
                 } else {
-                    var error_msg:NSString
-                    
-                    if jsonData["message"] as? NSString != nil {
-                        error_msg = jsonData["message"] as NSString
-                    } else {
-                        error_msg = "Unknown Error"
-                    }
-                    var alertView:UIAlertView = UIAlertView()
-                    alertView.title = "Changing Failed!"
-                    alertView.message = error_msg
-                    alertView.delegate = self
-                    alertView.addButtonWithTitle("OK")
-                    alertView.show()
-                    
+                    alert.getSuccesError(jsonData, str: "Changing Failed!", vc: self)
                 }
                 
             } else {
-                var alertView:UIAlertView = UIAlertView()
-                alertView.title = "Changing Failed!"
-                alertView.message = "Connection Failed"
-                alertView.delegate = self
-                alertView.addButtonWithTitle("OK")
-                alertView.show()
+                alert.getStatusCodeError("Changing Failed!", vc: self)
             }
         }  else {
-            var alertView:UIAlertView = UIAlertView()
-            alertView.title = "Changing Failed!"
-            alertView.message = "Connection Failure"
-            if let error = reponseError {
-                alertView.message = (error.localizedDescription)
-            }
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            alert.getUrlDataError(reponseError, str: "Changing Failed!", vc: self)
         }
     }
     

@@ -18,7 +18,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
     
-    let aleart = Alearts()
+    let alert = Alerts()
     
     override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -54,7 +54,7 @@ class ProfileVC: UIViewController {
             checkResponse(urlData!, res: res)
             
         } else {
-            aleart.getUrlDataError(reponseError, vc: self)
+            alert.getUrlDataError(reponseError, vc: self)
         }
 
     }
@@ -79,7 +79,7 @@ class ProfileVC: UIViewController {
             
             
         } else {
-            aleart.getStatusCodeError(self)
+            alert.getStatusCodeError(self)
         }
 
     }
@@ -91,7 +91,7 @@ class ProfileVC: UIViewController {
             logoutProcess(jsonData)
             
         } else {
-            aleart.getSuccesError(jsonData, vc: self)
+            alert.getSuccesError(jsonData, vc: self)
         }
 
     }
@@ -102,7 +102,7 @@ class ProfileVC: UIViewController {
         userDefaults.removeObjectForKey("userInfo")
         userDefaults.removeObjectForKey("USERNAME")
         
-        aleart.getSuccesLogoutAleart(jsonData, vc: self)
+        alert.getSuccesLogoutAleart(jsonData, vc: self)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
     }

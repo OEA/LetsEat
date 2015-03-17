@@ -19,6 +19,8 @@ class ChangePasswordVC: UIViewController {
     @IBOutlet weak var changePasswordButton: UIButton!
     
     var user: [String: NSString]!
+    let alert = Alerts()
+    let apiMethod = ApiMethods()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,18 +71,8 @@ class ChangePasswordVC: UIViewController {
                         
             var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/profile/\(username)/edit/")!
                         
-            var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
-                        
-            var postLength:NSString = String( postData.length )
-                        
-            var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            request.HTTPBody = postData
-            request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            var request = apiMethod.getRequest(url, post: post)
             
-                        
             var reponseError: NSError?
             var response: NSURLResponse?
                         
@@ -93,15 +85,8 @@ class ChangePasswordVC: UIViewController {
                             
                 if (res.statusCode >= 200 && res.statusCode < 300)
                 {
-                    var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
-                                
-                    NSLog("Response ==> %@", responseData);
-                                
-                    var error: NSError?
-                                
-                    let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-                                
-                                
+                    let jsonData = apiMethod.getJsonData(urlData!)
+                    
                     let success:NSString = jsonData.valueForKey("status") as NSString
                                 
                                 //[jsonData[@"success"] integerValue];
@@ -120,51 +105,24 @@ class ChangePasswordVC: UIViewController {
                                     
                                     
                     } else {
-                        var error_msg:NSString
-                        
-                        if jsonData["message"] as? NSString != nil {
-                            error_msg = jsonData["message"] as NSString
-                        } else {
-                            error_msg = "Unknown Error"
-                        }
-                        var alertView:UIAlertView = UIAlertView()
-                        alertView.title = "Changing Failed!"
-                        alertView.message = error_msg
-                        alertView.delegate = self
-                        alertView.addButtonWithTitle("OK")
-                        alertView.show()
-                                    
-                        }
-                    
+                        alert.getSuccesError(jsonData, str: "Changing Failed!", vc: self)
+                    }
                     
                 } else {
-                    var alertView:UIAlertView = UIAlertView()
-                    alertView.title = "Changing Failed!"
-                    alertView.message = "Connection Failed"
-                    alertView.delegate = self
-                    alertView.addButtonWithTitle("OK")
-                    alertView.show()
+                    alert.getStatusCodeError("Changing Failed!", vc: self)
                 }
             }  else {
-                var alertView:UIAlertView = UIAlertView()
-                alertView.title = "Changing Failed!"
-                alertView.message = "Connection Failure"
-                if let error = reponseError {
-                    alertView.message = (error.localizedDescription)
-                }
-                alertView.delegate = self
-                alertView.addButtonWithTitle("OK")
-                alertView.show()
+                alert.getUrlDataError(reponseError, str: "Changing Failed!", vc: self)
             }
         }else{
             var passwordConfirmTxt: NSString = passwordConfirmField.text
             var passwordTxt: NSString = passwordField.text
             if passwordTxt == "" || passwordConfirmTxt == "" || oldPasswordField.text == ""{
-                emptyFieldError()
+                alert.emptyFieldError("Change Password Failed!", vc: self)
             }else if passwordTxt != passwordConfirmTxt {
-                confirmError()
+                alert.confirmError("Change Password Failed!", vc: self)
             }else{
-                unValidPasswordError()
+                alert.unValidPasswordError("Change Password Failed!", vc: self)
             }
         }
         
@@ -181,33 +139,6 @@ class ChangePasswordVC: UIViewController {
             }
         }
         return false
-    }
-    
-    func emptyFieldError(){
-      var alertView:UIAlertView = UIAlertView()
-      alertView.title = "Change Password Failed!"
-      alertView.message = "Please fill in all fields!"
-      alertView.delegate = self
-      alertView.addButtonWithTitle("OK")
-      alertView.show()
-    }
-  
-    func confirmError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Change Password Failed!"
-        alertView.message = "Passwords do not match!"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-    }
-    
-    func unValidPasswordError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Change Password Failed!"
-        alertView.message = "Your password needs minimum 6 characters and at least one upper case character, one lower case character and one numeric character"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
     }
     
     func passwordChangedAlert(){
