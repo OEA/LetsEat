@@ -38,6 +38,7 @@ class SideBarTableViewController: UITableViewController {
             // Configure the cell...
             
             cell!.backgroundColor = UIColor.clearColor()
+            cell!.textLabel?.textAlignment = NSTextAlignment.Center
             cell!.textLabel?.textColor = UIColor.darkTextColor()
             
             let selectedView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: cell!.frame.size.width, height: cell!.frame.size.height))

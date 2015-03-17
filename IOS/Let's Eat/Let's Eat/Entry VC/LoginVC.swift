@@ -16,6 +16,9 @@ class LoginVC: UIViewController {
     @IBOutlet weak var checkImage: UIButton!
     var bgSetter: BackgroundSetter!
     
+    let aleart = Alearts()
+    let apiMethod = ApiMethods()
+    
     override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let switchBool: Bool = userDefaults.objectForKey("saveSwitch") as? Bool{
@@ -65,24 +68,14 @@ class LoginVC: UIViewController {
             alertView.addButtonWithTitle("OK")
             alertView.show()
         } else {
-            
+    
             var post:NSString = "username=\(username)&password=\(password)"
             
             NSLog("PostData: %@",post);
             
             var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/login/")!
             
-            var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
-            
-            var postLength:NSString = String( postData.length )
-            
-            var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            request.HTTPBody = postData
-            request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            
+            var request = apiMethod.getRequest(url, post: post)
             
             var reponseError: NSError?
             var response: NSURLResponse?
@@ -95,13 +88,8 @@ class LoginVC: UIViewController {
                 
                 if (res.statusCode >= 200 && res.statusCode < 300)
                 {
-                    var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
                     
-                    println("Response ==>  \(responseData)");
-                    
-                    var error: NSError?
-                    let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-                    
+                    let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
                     
                     let status:NSString = jsonData.valueForKey("status") as NSString
                     
@@ -127,44 +115,18 @@ class LoginVC: UIViewController {
                         }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {
-                        var error_msg:NSString
-                        
-                        if jsonData["message"] as? NSString != nil {
-                            error_msg = jsonData["message"] as NSString
-                        } else {
-                            error_msg = "Unknown Error"
-                        }
-                        var alertView:UIAlertView = UIAlertView()
-                        alertView.title = "Sign in Failed!"
-                        alertView.message = error_msg
-                        alertView.delegate = self
-                        alertView.addButtonWithTitle("OK")
-                        alertView.show()
-                        
+                        aleart.getSuccesError(jsonData, vc: self)
                     }
-                    
                 } else {
-                    var alertView:UIAlertView = UIAlertView()
-                    alertView.title = "Sign in Failed!"
-                    alertView.message = "Connection Failed"
-                    alertView.delegate = self
-                    alertView.addButtonWithTitle("OK")
-                    alertView.show()
+                    aleart.getStatusCodeError(self)
                 }
             } else {
-                var alertView:UIAlertView = UIAlertView()
-                alertView.title = "Sign in Failed!"
-                alertView.message = "Connection Failure"
-                if let error = reponseError {
-                    alertView.message = (error.localizedDescription)
-                }
-                alertView.delegate = self
-                alertView.addButtonWithTitle("OK")
-                alertView.show()
+                aleart.getUrlDataError(reponseError, vc: self)
             }
         }
         
     }
+
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "signUpSegue"{
@@ -184,16 +146,7 @@ class LoginVC: UIViewController {
         userDefaults.setObject(saveSwitch.on, forKey: "saveSwitch")
     }
     
-    func loginError(){
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Sign in Failed!"
-        alertView.message = "Your username or password is incorrect"
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-
-    }
-
+    
     /*
     // MARK: - Navigation
 

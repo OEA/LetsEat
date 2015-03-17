@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A15521AB78535009DA34E /* FriendsViewController.swift */; };
+		462F58821AB864560053DD37 /* Alearts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58811AB864560053DD37 /* Alearts.swift */; };
+		462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58831AB86E660053DD37 /* ApiMethods.swift */; };
 		464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */; };
 		464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D681A92594000396EE8 /* AppDelegate.swift */; };
 		464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */; };
@@ -39,6 +41,8 @@
 
 /* Begin PBXFileReference section */
 		461A15521AB78535009DA34E /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		462F58811AB864560053DD37 /* Alearts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alearts.swift; sourceTree = "<group>"; };
+		462F58831AB86E660053DD37 /* ApiMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiMethods.swift; sourceTree = "<group>"; };
 		464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		464E9D631A92594000396EE8 /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		464E9D671A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -52,8 +56,8 @@
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		464E9D911A925A9000396EE8 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
-		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBar.swift; sourceTree = "<group>"; };
-		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarTableViewController.swift; sourceTree = "<group>"; };
+		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
+		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBarTableViewController.swift; path = SideBar/SideBarTableViewController.swift; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
 		46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundSetter.swift; sourceTree = "<group>"; };
 		46FE77631A9911B8003BDD80 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -98,6 +102,24 @@
 			name = "Friends Tab";
 			sourceTree = "<group>";
 		};
+		462F587F1AB863C00053DD37 /* SideBar */ = {
+			isa = PBXGroup;
+			children = (
+				46C3B7B01AB787C700333E5F /* SideBar.swift */,
+				46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */,
+			);
+			name = SideBar;
+			sourceTree = "<group>";
+		};
+		462F58801AB8643A0053DD37 /* Swift Files */ = {
+			isa = PBXGroup;
+			children = (
+				462F58811AB864560053DD37 /* Alearts.swift */,
+				462F58831AB86E660053DD37 /* ApiMethods.swift */,
+			);
+			name = "Swift Files";
+			sourceTree = "<group>";
+		};
 		464E9D5A1A92594000396EE8 = {
 			isa = PBXGroup;
 			children = (
@@ -119,8 +141,8 @@
 		464E9D651A92594000396EE8 /* Let's Eat */ = {
 			isa = PBXGroup;
 			children = (
-				46C3B7B01AB787C700333E5F /* SideBar.swift */,
-				46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */,
+				462F58801AB8643A0053DD37 /* Swift Files */,
+				462F587F1AB863C00053DD37 /* SideBar */,
 				465F3EFB1A964703006A6AA6 /* TabBar VC */,
 				46146BB41A93389300C35A02 /* Entry VC */,
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
@@ -288,7 +310,9 @@
 				46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */,
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
+				462F58821AB864560053DD37 /* Alearts.swift in Sources */,
 				46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */,
+				462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,

@@ -18,19 +18,15 @@ class SignupVC: UIViewController {
     
     @IBOutlet weak var textEmail: UITextField!
     
-   // @IBOutlet weak var textConfirmEmail: UITextField!
-    
     @IBOutlet weak var textPassword: UITextField!
     
     @IBOutlet weak var textConfirmPassword: UITextField!
-    
-    
-    // @IBOutlet weak var emailConfirmCheck: UIButton!
     
     @IBOutlet weak var passwordCheck: UIButton!
     
     @IBOutlet weak var passwordConfirmCheck: UIButton!
     
+    let apiMethod = ApiMethods()
     
     override func viewWillAppear(animated: Bool) {
         let bgSetter = BackgroundSetter(viewControler: self)
@@ -95,17 +91,7 @@ class SignupVC: UIViewController {
             
             var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/register/")!
             
-            var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
-            
-            var postLength:NSString = String( postData.length )
-            
-            var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            request.HTTPBody = postData
-            request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-            
+            var request = apiMethod.getRequest(url, post: post)
             
             var reponseError: NSError?
             var response: NSURLResponse?

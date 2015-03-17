@@ -182,6 +182,7 @@ class ChangePasswordVC: UIViewController {
         }
         return false
     }
+    
     func emptyFieldError(){
       var alertView:UIAlertView = UIAlertView()
       alertView.title = "Change Password Failed!"

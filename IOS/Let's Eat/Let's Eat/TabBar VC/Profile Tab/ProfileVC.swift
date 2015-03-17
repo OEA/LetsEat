@@ -18,9 +18,9 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
     
-   
+    let aleart = Alearts()
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{
             user = userInfo
@@ -54,15 +54,7 @@ class ProfileVC: UIViewController {
             checkResponse(urlData!, res: res)
             
         } else {
-            var alertView:UIAlertView = UIAlertView()
-            alertView.title = "Logout Failed!"
-            alertView.message = "Connection Failure"
-            if let error = reponseError {
-                alertView.message = (error.localizedDescription)
-            }
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            aleart.getUrlDataError(reponseError, vc: self)
         }
 
     }
@@ -87,12 +79,7 @@ class ProfileVC: UIViewController {
             
             
         } else {
-            var alertView:UIAlertView = UIAlertView()
-            alertView.title = "Logout Failed!"
-            alertView.message = "Connection Failed"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            aleart.getStatusCodeError(self)
         }
 
     }
@@ -104,20 +91,7 @@ class ProfileVC: UIViewController {
             logoutProcess(jsonData)
             
         } else {
-            var error_msg:NSString
-            
-            if jsonData["message"] as? NSString != nil {
-                error_msg = jsonData["message"] as NSString
-            } else {
-                error_msg = "Unknown Error"
-            }
-            var alertView:UIAlertView = UIAlertView()
-            alertView.title = "Logout Failed!"
-            alertView.message = error_msg
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
-            
+            aleart.getSuccesError(jsonData, vc: self)
         }
 
     }
@@ -128,27 +102,13 @@ class ProfileVC: UIViewController {
         userDefaults.removeObjectForKey("userInfo")
         userDefaults.removeObjectForKey("USERNAME")
         
-        getSuccesLogoutAleart(jsonData)
+        aleart.getSuccesLogoutAleart(jsonData, vc: self)
         
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
-    func getSuccesLogoutAleart(jsonData: NSDictionary){
-        var message:NSString
-        if jsonData["message"] as? NSString != nil {
-            message = jsonData["message"] as NSString
-        } else {
-            message = "You logout successfuly"
-        }
-        var alertView:UIAlertView = UIAlertView()
-        alertView.title = "Perfect!"
-        alertView.message = message
-        alertView.delegate = self
-        alertView.addButtonWithTitle("OK")
-        alertView.show()
-
-    }
     
+        
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if sender is UIButton{
         if sender as UIButton == infoButton{

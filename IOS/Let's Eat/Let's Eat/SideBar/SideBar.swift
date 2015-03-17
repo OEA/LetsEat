@@ -76,12 +76,11 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         
         sideBarTableViewController.delegate = self
         
-        addProfileImage()
-        
-        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
         blurView.frame = sideBarContainerView.bounds
         sideBarContainerView.addSubview(blurView)
         
+        addProfileImage()
         addTableView()
     }
     
