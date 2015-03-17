@@ -39,9 +39,6 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         
         animator = UIDynamicAnimator(referenceView: originView)
         
-        let showGestureRecognizer:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "handleSwipe:")
-        showGestureRecognizer.direction = UISwipeGestureRecognizerDirection.Right
-        originView.addGestureRecognizer(showGestureRecognizer)
         
         let hideGestureRecognizer:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "handleSwipe:")
         hideGestureRecognizer.direction = UISwipeGestureRecognizerDirection.Left
@@ -49,22 +46,15 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         
     }
     
+    func addProfileImage(){
+        let imageView = UIImageView()
+        imageView.frame = CGRectMake(5, 70, barWidth - 10, barWidth - 10)
+        imageView.backgroundColor = UIColor.grayColor()
+        sideBarContainerView.addSubview(imageView)
+    }
     
-    func setupSideBar(){
-        
-        sideBarContainerView.frame = CGRectMake(-barWidth - 1, originView.frame.origin.y, barWidth, originView.frame.size.height)
-        sideBarContainerView.backgroundColor = UIColor.clearColor()
-        sideBarContainerView.clipsToBounds = false
-        
-        originView.addSubview(sideBarContainerView)
-        
-        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
-        blurView.frame = sideBarContainerView.bounds
-        sideBarContainerView.addSubview(blurView)
-        
-        
-        sideBarTableViewController.delegate = self
-        sideBarTableViewController.tableView.frame = sideBarContainerView.bounds
+    func addTableView(){
+        sideBarTableViewController.tableView.frame = CGRectMake(0, barWidth, barWidth, sideBarContainerView.frame.size.height-barWidth) //sideBarContainerView.bounds
         sideBarTableViewController.tableView.clipsToBounds = false
         sideBarTableViewController.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         sideBarTableViewController.tableView.backgroundColor = UIColor.clearColor()
@@ -74,7 +64,25 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         sideBarTableViewController.tableView.reloadData()
         
         sideBarContainerView.addSubview(sideBarTableViewController.tableView)
+    }
     
+    
+    func setupSideBar(){
+        sideBarContainerView.frame = CGRectMake(-barWidth - 1, originView.frame.origin.y, barWidth, originView.frame.size.height)
+        sideBarContainerView.backgroundColor = UIColor.clearColor()
+        sideBarContainerView.clipsToBounds = false
+        
+        originView.addSubview(sideBarContainerView)
+        
+        sideBarTableViewController.delegate = self
+        
+        addProfileImage()
+        
+        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+        blurView.frame = sideBarContainerView.bounds
+        sideBarContainerView.addSubview(blurView)
+        
+        addTableView()
     }
     
     
@@ -82,7 +90,6 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         if recognizer.direction == UISwipeGestureRecognizerDirection.Left{
             showSideBar(false)
             delegate?.sideBarWillClose?()
-            
         }else{
             showSideBar(true)
             delegate?.sideBarWillOpen?()
@@ -95,7 +102,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
         animator.removeAllBehaviors()
         isSideBarOpen = shouldOpen
         
-        let gravityX:CGFloat = (shouldOpen) ? 0.5 : -0.5
+        let gravityX:CGFloat = (shouldOpen) ? 1.5 : -1.5
         let magnitude:CGFloat = (shouldOpen) ? 20 : -20
         let boundaryX:CGFloat = (shouldOpen) ? barWidth : -barWidth - 1
         

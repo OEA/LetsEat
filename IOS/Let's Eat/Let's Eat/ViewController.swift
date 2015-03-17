@@ -21,8 +21,13 @@ class ViewController: UIViewController, SideBarDelegate {
             performSegueWithIdentifier("goto_Profile", sender: UITableViewCell())
         }
     }
+    
     @IBAction func menuTapped(sender: UIBarButtonItem) {
-        sideBar.showSideBar(true)
+        if sideBar.isSideBarOpen{
+            sideBar.showSideBar(false)
+        }else{
+            sideBar.showSideBar(true)
+        }
     }
     
     override func viewDidLoad() {
@@ -32,7 +37,7 @@ class ViewController: UIViewController, SideBarDelegate {
         sideBar.delegate = self
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         sideBar.showSideBar(false)
     }
     
@@ -42,7 +47,6 @@ class ViewController: UIViewController, SideBarDelegate {
         let isLoggedIn = prefs.integerForKey("ISLOGGEDIN")
         if (isLoggedIn != 1) {
             self.performSegueWithIdentifier("goto_login", sender: self)
-            
         } else {
             
         }
