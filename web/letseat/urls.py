@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from api.views import user_views
+from api.views import user_views, friendship_views
 from frontend.views import user_views_
 
 
@@ -9,9 +9,9 @@ urlpatterns = patterns('',
 
     #Just for testing urls
     url(r'^test/$', user_views.test, name='test'),
-
     url(r'^$', user_views_.login_view, name='login'),
     url(r'^api/register/$', user_views.registration_view, name='api_register'),
+    url(r'^api/search/(?P<search_field>\w+)/$', friendship_views.search_user, name='api_search'),
     url(r'^api/profile/$', user_views.user_profile, name='api_user_profile'),
     url(r'^api/profile/(?P<username>\w+)/$', user_views.profile, name='api_profile'),
     url(r'^api/profile/(?P<username>\w+)/edit/$', user_views.edit, name='api_edit'),

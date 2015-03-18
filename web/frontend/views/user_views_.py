@@ -8,9 +8,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
-from ...api.models import user
-from django.utils.functional import cached_property
 
+from api.models import user
 from api.views import user_views as functions
 
 
