@@ -54,10 +54,6 @@
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l5s-CR-cVZ">
                                         <rect key="frame" x="-5" y="-5" width="600" height="492"/>
-                                        <imageView key="tableFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="background" id="unn-3I-02Q">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="90" id="EjP-P1-qWp">
                                                 <rect key="frame" x="-5" y="186" width="600" height="110"/>
@@ -65,7 +61,7 @@
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EjP-P1-qWp" id="5WQ-sn-Hsx">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HME-EG-WXa">
+                                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HME-EG-WXa">
                                                             <rect key="frame" x="5" y="5" width="80" height="80"/>
                                                             <color key="backgroundColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
@@ -91,7 +87,7 @@
                                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="Friend" translatesAutoresizingMaskIntoConstraints="NO" id="SZ6-q5-sB7">
                                                             <rect key="frame" x="110" y="61" width="32" height="21"/>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev5-rP-Wx3">
+                                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ev5-rP-Wx3">
                                                             <rect key="frame" x="90" y="5" width="497" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="highlightedColor"/>
@@ -191,6 +187,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tabelView" destination="l5s-CR-cVZ" id="jFQ-dc-gSS"/>
                         <segue destination="EAu-hp-aEu" kind="presentation" identifier="goto_login" animates="NO" id="EcJ-eq-4o3"/>
                     </connections>
                 </viewController>
@@ -1404,7 +1401,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EFK-jB-hrS">
                                                     <rect key="frame" x="110" y="8" width="477" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DMK-P2-B66">
@@ -1475,7 +1472,6 @@
         <image name="Friend" width="32" height="21"/>
         <image name="MenuItem" width="20" height="14"/>
         <image name="Profile" width="26" height="24"/>
-        <image name="background" width="800" height="1200"/>
         <image name="check.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>

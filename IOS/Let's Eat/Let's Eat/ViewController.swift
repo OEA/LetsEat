@@ -11,12 +11,92 @@ import UIKit
 class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
 
+
+    @IBOutlet weak var tabelView: UITableView!
     @IBOutlet weak var imageView: UIImageView!
     var sideBar:SideBar = SideBar()
     let apiMethod = ApiMethods()
+    let alert = Alerts()
+    var searchedList = []
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        var searched = false
+        var jsonData: NSDictionary!
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            if (searchBar.text != nil && searchBar.text != "") {
+                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)")!
+                
+                var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+                
+                var reponseError: NSError?
+                var response: NSURLResponse?
+                
+                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+                
+                if ( urlData != nil ) {
+                    let res = response as NSHTTPURLResponse!;
+                    
+                    NSLog("Response code: %ld", res.statusCode);
+                    
+                    if (res.statusCode >= 200 && res.statusCode < 300){
+                        
+                        var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                        
+                        NSLog("Response ==> %@", responseData);
+                        
+                        var error: NSError?
+                        jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                        
+                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        
+                        //[jsonData[@"success"] integerValue];
+                        
+                        println("Status: " + status)
+                        
+                        if(status == "success")
+                        {
+                            NSLog("Search SUCCESS");
+                            searched = true
+                            println(jsonData)
+                            //self.dismissViewControllerAnimated(true, completion: nil)
+
+                        }
+                    }
+                }
+
+            }
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if searched == true {
+                    self.searchedList = jsonData["users"] as NSArray
+                    self.tabelView.reloadData()
+                }else{
+                    self.searchedList = []
+                    self.tabelView.reloadData()
+                }
+            })
+        })
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String){
+        /*if json != nil && searchBar.text != ""{
+            // name filter
+            self.entries = self.baseEntries.filter{ (($0["from"]["name"].asString) as String!).rangeOfString(searchBar.text) != nil }
+            //body filter
+            let bodyFilter = self.baseEntries.filter{ (($0["body"].asString) as String!).rangeOfString(searchBar.text) != nil }
+            entries = entries + bodyFilter
+            self.deneme.reloadData()
+        }else if searchBar.text == "" {
+            self.entries = self.baseEntries
+            self.deneme.reloadData()
+        }*/
+    }
+
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-        return 1
+        if searchedList.count > 0 {
+            return searchedList.count
+        }
+        return 3
     }
     
     // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
@@ -24,6 +104,11 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as UITableViewCell
+        let userNameLabel = cell.viewWithTag(1) as UILabel
+        if searchedList.count > 0 {
+            userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
+        }
+        
         return cell
     }
     
