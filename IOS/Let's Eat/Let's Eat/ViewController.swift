@@ -8,17 +8,41 @@
 
 import UIKit
 
-class ViewController: UIViewController, SideBarDelegate {
+class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
 
     @IBOutlet weak var imageView: UIImageView!
     var sideBar:SideBar = SideBar()
+    let apiMethod = ApiMethods()
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+        return 1
+    }
+    
+    // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
+    // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as UITableViewCell
+        return cell
+    }
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        let label = cell?.viewWithTag(10) as UILabel
+        label.text = "1"
+        tableView.reloadData()
+    }
+    
     
     func sideBarDidSelectButtonAtIndex(index: Int) {
         if index == 0{
             performSegueWithIdentifier("goto_Main", sender: UITableViewCell())
-        } else if index == 1{
+        } else if index == 1 {
             performSegueWithIdentifier("goto_Profile", sender: UITableViewCell())
+        }else if index == 2 {
+            apiMethod.requestLogout(self)
         }
     }
     
@@ -33,7 +57,7 @@ class ViewController: UIViewController, SideBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        sideBar = SideBar(sourceView: self.view, menuItems: ["Friend List", "Profile"])
+        sideBar = SideBar(sourceView: self.view, menuItems: ["Friend List", "Profile", "Logout"])
         sideBar.delegate = self
     }
 
@@ -70,13 +94,7 @@ class ViewController: UIViewController, SideBarDelegate {
       }*/
     }
   
-    @IBAction func logoutTapped(sender: UIBarButtonItem) {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
-        userDefaults.removeObjectForKey("USERNAME")
-
-        self.performSegueWithIdentifier("goto_login", sender: self)
-    }
+    
 
 }
 

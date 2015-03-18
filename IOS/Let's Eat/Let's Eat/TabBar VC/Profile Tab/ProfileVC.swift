@@ -19,6 +19,7 @@ class ProfileVC: UIViewController {
     var user: [String: NSString]!
     
     let alert = Alerts()
+    let apiMethod = ApiMethods()
     
     override func viewWillAppear(animated: Bool) {
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -33,80 +34,8 @@ class ProfileVC: UIViewController {
     }
   
     @IBAction func logoutTapped() {
-        requestLogout()
+        apiMethod.requestLogout(self)
     }
-    
-    func requestLogout(){
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/logout/")!
-        
-        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-        
-        var reponseError: NSError?
-        var response: NSURLResponse?
-        
-        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
-        
-        if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
-            
-            NSLog("Response code: %ld", res.statusCode);
-            
-            checkResponse(urlData!, res: res)
-            
-        } else {
-            alert.getUrlDataError(reponseError, vc: self)
-        }
-
-    }
-    
-    func checkResponse(urlData: NSData, res: NSHTTPURLResponse){
-        if (res.statusCode >= 200 && res.statusCode < 300){
-            
-            var responseData:NSString  = NSString(data:urlData, encoding:NSUTF8StringEncoding)!
-            
-            NSLog("Response ==> %@", responseData);
-            
-            var error: NSError?
-            let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-            
-            let status:NSString = jsonData.valueForKey("status") as NSString
-            
-            //[jsonData[@"success"] integerValue];
-            
-            println("Status: " + status)
-            
-            checkStatus(status, jsonData: jsonData)
-            
-            
-        } else {
-            alert.getStatusCodeError(self)
-        }
-
-    }
-    
-    func checkStatus(status: NSString, jsonData: NSDictionary){
-        if(status == "success"){
-            
-            NSLog("Logout SUCCESS");
-            logoutProcess(jsonData)
-            
-        } else {
-            alert.getSuccesError(jsonData, vc: self)
-        }
-
-    }
-    
-    func logoutProcess(jsonData: NSDictionary){
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
-        userDefaults.removeObjectForKey("userInfo")
-        userDefaults.removeObjectForKey("USERNAME")
-        
-        alert.getSuccesLogoutAleart(jsonData, vc: self)
-        
-        self.navigationController?.popToRootViewControllerAnimated(true)
-    }
-    
     
         
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

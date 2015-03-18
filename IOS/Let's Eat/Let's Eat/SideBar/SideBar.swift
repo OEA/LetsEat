@@ -21,6 +21,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
     let sideBarContainerView:UIView = UIView()
     let sideBarTableViewController:SideBarTableViewController = SideBarTableViewController()
     let originView:UIView!
+    let searchBarH = CGFloat(44)
    
     var animator:UIDynamicAnimator!
     var delegate:SideBarDelegate?
@@ -48,13 +49,13 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
     
     func addProfileImage(){
         let imageView = UIImageView()
-        imageView.frame = CGRectMake(5, 70, barWidth - 10, barWidth - 10)
+        imageView.frame = CGRectMake(5, 5, barWidth - 10, barWidth - 10)
         imageView.backgroundColor = UIColor.grayColor()
         sideBarContainerView.addSubview(imageView)
     }
     
     func addTableView(){
-        sideBarTableViewController.tableView.frame = CGRectMake(0, barWidth, barWidth, sideBarContainerView.frame.size.height-barWidth) //sideBarContainerView.bounds
+        sideBarTableViewController.tableView.frame = CGRectMake(0, barWidth - 64 , barWidth, sideBarContainerView.frame.size.height - barWidth + 64 ) //sideBarContainerView.bounds
         sideBarTableViewController.tableView.clipsToBounds = false
         sideBarTableViewController.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         sideBarTableViewController.tableView.backgroundColor = UIColor.clearColor()
@@ -68,7 +69,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
     
     
     func setupSideBar(){
-        sideBarContainerView.frame = CGRectMake(-barWidth - 1, originView.frame.origin.y, barWidth, originView.frame.size.height)
+        sideBarContainerView.frame = CGRectMake(-barWidth - 1, (originView.frame.origin.y + searchBarH), barWidth, (originView.frame.size.height - searchBarH))
         sideBarContainerView.backgroundColor = UIColor.clearColor()
         sideBarContainerView.clipsToBounds = false
         
