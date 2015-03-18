@@ -5,7 +5,7 @@ from django.db import models
 from .user import User
 
 
-class Journey(models.Model):
+class FriendshipRequest(models.Model):
     STATUS_LABELS = ('Pending', 'Declined', 'Accepted')
     status = models.CharField('Status', max_length=50, choices=STATUS_LABELS)
     date = models.DateField('Date', null=False, blank=False)
