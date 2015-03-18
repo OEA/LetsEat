@@ -35,3 +35,14 @@ def search_user(request, search_field):
         responseJSON["message"] = "No search field found."
     return HttpResponse(json.dumps(responseJSON))
 
+
+def send_friend_request(request):
+    return HttpResponse("To be implemented")
+
+
+def accept_friend_request(request):
+    return HttpResponse("To be implemented")
+
+
+def reject_friend_request(request):
+    return HttpResponse("To be implemented")
