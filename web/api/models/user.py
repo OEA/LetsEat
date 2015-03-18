@@ -1,9 +1,7 @@
 __author__ = 'Hakan Uyumaz'
 
 import random
-import datetime
 
-import pytz
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -52,6 +50,7 @@ class User(AbstractBaseUser):
     username = models.CharField('Username', max_length=50, unique=True)
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
+    friends = models.ManyToManyField('self', related_name='friends', symmetrical=True, blank=True)
 
     email = models.EmailField(
         verbose_name='Email',
