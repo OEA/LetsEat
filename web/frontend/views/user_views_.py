@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
+from ...api.models import user
+from django.utils.functional import cached_property
 
 from api.views import user_views as functions
 
@@ -105,6 +107,35 @@ def edit(request, username):
     else:
         return redirect("login")
 
+
+def search_user(request, username):
+    all_users = user.objects.all()
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            for u in all_users:
+                if username == u:
+                    return u
+            print("Böyle bir kullanıcı yok!")
+        else:
+            print("POST methodu kullanınız!")
+            return None
+    else:
+        print("Sisteme giriş yapın.")
+        return render(request, "./login.html")
+
+
+def add_friend(request, username):
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            if search_user(request, username):
+                user.friend_list.append(search_user(request, username))
+            else:
+                print("Böyle bir kullanıcı yok!")
+                return None
+        else:
+            print("POST methodu kullanınız!")
+    else:
+        return render(request, "./login.html")
 
 def test(request):
     return HttpResponse("Successful")
