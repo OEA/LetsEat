@@ -58,8 +58,6 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
                             NSLog("Search SUCCESS");
                             searched = true
                             println(jsonData)
-                            //self.dismissViewControllerAnimated(true, completion: nil)
-
                         }
                     }
                 }
@@ -99,8 +97,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         return 3
     }
     
-    // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-    // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
+    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as UITableViewCell

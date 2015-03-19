@@ -72,10 +72,10 @@ class LoginVC: UIViewController {
             
             var request = apiMethod.getRequest(url, post: post)
             
-            var reponseError: NSError?
+            var responseError: NSError?
             var response: NSURLResponse?
             
-            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
                 let res = response as NSHTTPURLResponse!;
                 
@@ -116,7 +116,7 @@ class LoginVC: UIViewController {
                     alert.getStatusCodeError("Sign in Failed!", vc:self)
                 }
             } else {
-                alert.getUrlDataError(reponseError, str:"Sign in Failed!", vc: self)
+                alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
             }
         }
         

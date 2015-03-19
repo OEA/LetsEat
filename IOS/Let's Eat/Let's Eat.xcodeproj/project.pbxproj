@@ -27,6 +27,7 @@
 		46FE77661A9911B8003BDD80 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77641A9911B8003BDD80 /* SignupVC.swift */; };
 		46FE776A1A9911DA003BDD80 /* ChangeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */; };
 		46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77691A9911DA003BDD80 /* ProfileVC.swift */; };
+		B92762AB1ABAC29700B78C96 /* FriendInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		46FE77641A9911B8003BDD80 /* SignupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
 		46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInfoVC.swift; sourceTree = "<group>"; };
 		46FE77691A9911DA003BDD80 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendInfoViewController.swift; path = "Friends Tab/FriendInfoViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				461A15521AB78535009DA34E /* FriendsViewController.swift */,
+				B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */,
 			);
 			name = "Friends Tab";
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				46DBF7781AAF0A12009E72F2 /* BackgroundSetter.swift in Sources */,
 				46FE77661A9911B8003BDD80 /* SignupVC.swift in Sources */,
 				46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */,
+				B92762AB1ABAC29700B78C96 /* FriendInfoViewController.swift in Sources */,
 				46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */,
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
