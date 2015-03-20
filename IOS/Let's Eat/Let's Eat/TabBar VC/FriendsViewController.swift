@@ -15,7 +15,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tabelView: UITableView!
     
     var searchedList = []
-    var findFriendChosen = true
+    var findFriendChosen = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         var searched = false
         var jsonData: NSDictionary!
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-            if (searchBar.text != nil && searchBar.text != "") {
+            if (searchBar.text != nil && searchBar.text != "" && self.findFriendChosen) {
                 var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)")!
                 
                 var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
@@ -111,10 +111,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             sender.titleLabel?.textColor = UIColor.whiteColor()
             findFriend.backgroundColor = UIColor.whiteColor()
             findFriend.titleLabel?.textColor = UIColor.blackColor()
+            findFriendChosen = false
         }else {
             sender.backgroundColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1)
             friendList.backgroundColor = UIColor.whiteColor()
             friendList.titleLabel?.textColor = UIColor.blackColor()
+            findFriendChosen = true
         }
     }
     

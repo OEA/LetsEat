@@ -1700,10 +1700,10 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="fcH-aD-iAX"/>
-                                <exclude reference="yb5-Zb-hHl"/>
                                 <exclude reference="CRV-mm-Czp"/>
                                 <exclude reference="ZYL-Gl-G5a"/>
+                                <exclude reference="fcH-aD-iAX"/>
+                                <exclude reference="yb5-Zb-hHl"/>
                                 <exclude reference="iQO-79-FTh"/>
                                 <exclude reference="8M9-8J-hvj"/>
                                 <exclude reference="kBK-9b-wiD"/>
