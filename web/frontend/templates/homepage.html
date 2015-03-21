@@ -3,7 +3,7 @@
     <div class="col-md-3">
         <div class="row">
             <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/p100x100/1965053_10204530388036659_5768328140960577450_n.jpg?oh=5dd35cb86361a355f0d4bebe1458ff53&oe=5571BC26&__gda__=1433591971_239e76b077b983ed79a6d24a5474ce48" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
-            <small>{{user.name}} {{ user.surname  }}</small>
+            <small><a href="{% url 'profile' user.username %}">{{user.name}} {{ user.surname  }}</a></small>
             <br>
             <small><strong><a href="{% url 'edit' user.username %}">Edit Profile</a></strong></small>
         </div>
