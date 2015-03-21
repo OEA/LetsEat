@@ -2,10 +2,74 @@
 
 <div class="container">
     {% if user %}
-        Name: {{ user.name }} {{ user.surname }} <br>
-        Username: {{ user.username }} <br>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                          <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/p320x320/1965053_10204530388036659_5768328140960577450_n.jpg?oh=874ee48aa08479f7d60560058b4ba480&oe=55BE42AE&__gda__=1438433067_a9a53cebc7f8171c434bd2da15160e8a" width="160px" height="160px" class="img-rounded" style="border: 1px dashed #ccc;" />
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading"><a href="{% url 'profile' user.username %}">{{user.name}} {{ user.surname  }}</a></h4>
+                        @{{ user.username }}
 
-        <img src="{{ user.photo }}" />
+                    </div>
+                </div>
+                <br>
+
+            <div class="list-group">
+
+              <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
+              <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
+              <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
+            </div>
+
+            </div>
+            <div class="col-md-6">
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/p100x100/10565100_10152610424855489_4375194980958824472_n.jpg?oh=15511e0e23b0e853fc42aeda82080270&oe=55BE0C01&__gda__=1437524857_622ab2200208075d83d87cbc2855a045" alt="..." width="64" height="64">
+            </a>
+          </div>
+          <div class="media-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay</a> @ Aras-Et Izgara - Yine yeniden..
+                </div>
+                <div class="panel-footer">
+                    <a>Unlike</a> . <a disabled>Join</a> . <a>Comment</a> . <a>Share</a>
+                    <div class="pull-right">
+                        <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small> You and <a>5k likes</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+ <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/p100x100/1965053_10204530388036659_5768328140960577450_n.jpg?oh=5dd35cb86361a355f0d4bebe1458ff53&oe=5571BC26&__gda__=1433591971_239e76b077b983ed79a6d24a5474ce48" alt="..." width="64" height="64">
+            </a>
+          </div>
+          <div class="media-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> @ Nusr-Et
+                </div>
+                <div class="panel-footer">
+                    <a>Like</a> . <a disabled>Joined</a> . <a>Comment</a> . <a>Share</a>
+                    <div class="pull-right">
+                        <small><i class="fa fa-thumbs-o-up"></i></small> <a>5m likes</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+        </div>
     {% endif %}
 </div>
 {% include 'footer.html' %}
