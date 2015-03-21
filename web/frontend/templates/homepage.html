@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% include 'header.html' with user=user %}
+<div class="container">
+    <div class="col-md-3">
+        <div class="row">
+            <img src="{{user.photo}}" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
+            <small>{{user.name}} {{ user.surname  }}</small>
+            <br>
+            <small><strong><a href="{% url 'edit' user.username %}">Edit Profile</a></strong></small>
+        </div>
+        <br>
+        <div class="row">
+            <div class="list-group">
 
-</body>
-</html>
+              <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
+              <a href="#" class="list-group-item">Update Settings</a>
+              <a href="#" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4 col-md-offset-1">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Hakan Uyumaz</a> @ Nusr-Et
+            </div>
+            <div class="panel-footer">
+                <a>Like</a> <a disabled>Join</a> <a>Comment</a> <a>Share</a>
+                <div class="pull-right">
+                    <small><i class="fa fa-thumbs-up"></i></small> 5m likes
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% include 'footer.html' %}
