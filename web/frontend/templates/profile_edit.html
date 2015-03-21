@@ -1,7 +1,4 @@
-{% include 'header.html' with user=user %}
-<title>Lets Eat Profile Edit</title>
-<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div>
-
+{% include 'header.html' with user=user title='Profile Edit' %}
 <div class="container">
     {% if user %}
     <div class="col-md-4">
@@ -53,6 +50,6 @@
 
         </form>
     </div>
-
+    {% endif %}
 </div>
 {% include 'footer.html' %}
