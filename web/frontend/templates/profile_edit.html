@@ -1,5 +1,7 @@
 {% include 'header.html' with user=user %}
 <title>Lets Eat Profile Edit</title>
+<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div>
+
 <div class="container">
     {% if user %}
     <div class="col-md-4">
@@ -42,6 +44,7 @@
                 <input type="password" class="form-control" name="currentPassword" id="user_pass" autocomplete="off"/>
             </div>
             <small>Fill in the current password blank, if you want to save changes to your account.</small>
+
             <hr>
 
             <div style="margin-bottom:10px;">
@@ -50,6 +53,6 @@
 
         </form>
     </div>
-    {% endif %}
+
 </div>
 {% include 'footer.html' %}
