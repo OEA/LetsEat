@@ -126,3 +126,7 @@ def get_friend_list(request):
         responseJSON["status"] = "failed"
         responseJSON["message"] = "No request found."
     return HttpResponse(json.dumps(responseJSON))
+
+
+def get_friend_requests(request):
+    return HttpResponse("To be implemented.")
