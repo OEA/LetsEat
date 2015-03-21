@@ -10,13 +10,18 @@ from ..models import User, FriendshipRequest
 
 def search_user(request, search_field):
     responseJSON = {}
+    user = None
+    if request.user.is_authenticated():
+        user = request.user
+    else:
+        user = get_object_or_404(User, request.POST["username"])
     if len(search_field) > 1:
         users_list = set()
-        for user in User.objects.filter(name__contains=search_field):
+        for user in User.objects.filter(name__contains=search_field).exclude(username__exact=user.username):
             users_list.add(user)
-        for user in User.objects.filter(surname__contains=search_field):
+        for user in User.objects.filter(surname__contains=search_field).exclude(username__exact=user.username):
             users_list.add(user)
-        for user in User.objects.filter(username__contains=search_field):
+        for user in User.objects.filter(username__contains=search_field).exclude(username__exact=user.username):
             users_list.add(user)
         responseJSON["status"] = "success"
         if len(users_list) > 0:
