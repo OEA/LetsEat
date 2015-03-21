@@ -1,4 +1,5 @@
 {% include 'header.html' with user=None %}
+<title>Lets Eat Login</title>
 <div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div>
             <div class="container">
 
@@ -9,14 +10,7 @@
                       <div class="panel panel-default">
                             <div class="panel-heading">Welcome to Let's Eat.</div>
                             <div class="panel-body">
-                                {% if error %}
-                                <div class="alert alert-danger" role="alert">{{ error_message }}</div>
-                                {% endif %}
-                                {% if registration %}
-                                <div class="alert alert-success" role="alert">
-                                    Your registration is successful.
-                                </div>
-                                {% endif %}
+
                               Contact your friends via Let's Eat to organize meetings. Organize eating arrangements in places that you like. Instantly know about your friends' past and future meetings.
                             </div>
                       </div>
@@ -83,6 +77,15 @@
                               </div>
 
                           </form>
+
+                           {% if error %}
+                                <div class="alert alert-danger" role="alert">{{ error_message }}</div>
+                                {% endif %}
+                                {% if registration %}
+                                <div class="alert alert-success" role="alert">
+                                    Your registration is successful.
+                                </div>
+                                {% endif %}
                             
                       </div>
                   </div>

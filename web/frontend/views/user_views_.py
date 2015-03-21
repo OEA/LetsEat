@@ -42,7 +42,7 @@ def registration_view(request):
             if dict["status"] == "success":
                 return render(request, "login.html", {"registration": True})
             else:
-                return render(request, "login.html", {"error": True, "error_message": dict["message"]})
+                return render(request, "register.html", {"error": True, "error_message": dict["message"]})
         else:
             return render(request, "register.html")
 
