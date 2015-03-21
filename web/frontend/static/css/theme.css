@@ -1,0 +1,28 @@
+.front-bg {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    top:0;
+    background: black;
+}
+.front-bg img {
+    display: block;
+    margin: auto;
+    min-width: 50%;
+    min-height: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+h3 {
+    color: #333;
+    font-size: 27pt;
+}
+.message {
+    color: #333;
+    font-size: 21px;
+    line-height: 31px;
+    text-shadow: none;
+}
