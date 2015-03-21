@@ -19,7 +19,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-        <a href="{% url 'home_view' %}" class="navbar-brand">LetsEat</a>
+        <a href="{% url 'home_view' %}" class="navbar-brand"> <i class="fa fa-spoon"></i> LetsEat</a>
         {% if user %}
             <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
             <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-envelope"></i> Messages</a>
@@ -36,8 +36,8 @@
             {% if user %}
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ user.username }}<b class="caret"></b></a>
                 <ul class="dropdown-menu" style="min-width:250px;">
-                    <li><a href="{% url 'edit' user.username %}">Edit Profile</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    <li><a href="{% url 'edit' user.username %}"><i class="fa fa-pencil-square-o"></i> Edit Profile</a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
                 </ul>
             {% else %}
                <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<b class="caret"></b></a>
