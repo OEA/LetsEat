@@ -104,3 +104,25 @@ def reject_friend_request(request):
         responseJSON["status"] = "failed"
         responseJSON["message"] = "No request found."
     return HttpResponse(json.dumps(responseJSON))
+
+
+def get_friend_list(request):
+    responseJSON = {}
+    if request.method == "POST":
+        username = request.POST["username"]
+        user = get_object_or_404(User, username=username)
+        friend_list = user.friends
+        responseJSON["status"] = "success"
+        responseJSON["message"] = "Friends found."
+        responseJSON["users"] = []
+        for friend in friend_list:
+            userJSON = {}
+            userJSON["name"] = friend.name
+            userJSON["surname"] = friend.surname
+            userJSON["username"] = friend.username
+            userJSON["email"] = friend.email
+            responseJSON["users"].append(userJSON)
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
