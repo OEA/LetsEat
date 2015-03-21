@@ -119,14 +119,14 @@ def get_friend_list(request):
         friend_list = user.friends
         responseJSON["status"] = "success"
         responseJSON["message"] = "Friends found."
-        responseJSON["users"] = []
+        responseJSON["friends"] = []
         for friend in friend_list:
-            userJSON = {}
-            userJSON["name"] = friend.name
-            userJSON["surname"] = friend.surname
-            userJSON["username"] = friend.username
-            userJSON["email"] = friend.email
-            responseJSON["users"].append(userJSON)
+            friendJSON = {}
+            friendJSON["name"] = friend.name
+            friendJSON["surname"] = friend.surname
+            friendJSON["username"] = friend.username
+            friendJSON["email"] = friend.email
+            responseJSON["friends"].append(friendJSON)
     else:
         responseJSON["status"] = "failed"
         responseJSON["message"] = "No request found."
@@ -134,4 +134,25 @@ def get_friend_list(request):
 
 
 def get_friend_requests(request):
-    return HttpResponse("To be implemented.")
+    responseJSON = {}
+    if request.method == "POST":
+        username = request.POST["username"]
+        user = get_object_or_404(User, username=username)
+        friend_request_list = FriendshipRequest.objects.filter(receiver=user, status='P')
+        responseJSON["status"] = "success"
+        responseJSON["message"] = "Requests found."
+        responseJSON["senders"] = []
+        sender_list = []
+        for friend_request in friend_request_list:
+            sender_list.append(friend_request.sender)
+        for sender in sender_list:
+            senderJSON = {}
+            senderJSON["name"] = sender.name
+            senderJSON["surname"] = sender.surname
+            senderJSON["username"] = sender.username
+            senderJSON["email"] = sender.email
+            responseJSON["senders"].append(senderJSON)
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
