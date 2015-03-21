@@ -38,6 +38,7 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
+
         if user is not None:
                 login(request, user)
                 responseJSON["status"] = "success"

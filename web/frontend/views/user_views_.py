@@ -114,12 +114,12 @@ def search_user(request, username):
             for u in all_users:
                 if username == u:
                     return u
-            print("Böyle bir kullanıcı yok!")
+            print("There is no user like that!")
         else:
-            print("POST methodu kullanınız!")
+            print("Use post method!")
             return None
     else:
-        print("Sisteme giriş yapın.")
+        print("Please login to system")
         return render(request, "./login.html")
 
 
@@ -129,10 +129,10 @@ def add_friend(request, username):
             if search_user(request, username):
                 user.friend_list.append(search_user(request, username))
             else:
-                print("Böyle bir kullanıcı yok!")
+                print("There is no user like that")
                 return None
         else:
-            print("POST methodu kullanınız!")
+            print("please use POST method!")
     else:
         return render(request, "./login.html")
 
