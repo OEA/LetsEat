@@ -2,7 +2,7 @@
 <div class="container">
     <div class="col-md-3">
         <div class="row">
-            <img src="{{user.photo}}" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
+            <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/p100x100/1965053_10204530388036659_5768328140960577450_n.jpg?oh=5dd35cb86361a355f0d4bebe1458ff53&oe=5571BC26&__gda__=1433591971_239e76b077b983ed79a6d24a5474ce48" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
             <small>{{user.name}} {{ user.surname  }}</small>
             <br>
             <small><strong><a href="{% url 'edit' user.username %}">Edit Profile</a></strong></small>
@@ -18,19 +18,54 @@
 
         </div>
     </div>
-    <div class="col-md-4 col-md-offset-1">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Hakan Uyumaz</a> @ Nusr-Et
-            </div>
-            <div class="panel-footer">
-                <a>Like</a> <a disabled>Join</a> <a>Comment</a> <a>Share</a>
-                <div class="pull-right">
-                    <small><i class="fa fa-thumbs-up"></i></small> 5m likes
+    <div class="col-md-6">
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpf1/v/t1.0-1/p100x100/10565100_10152610424855489_4375194980958824472_n.jpg?oh=15511e0e23b0e853fc42aeda82080270&oe=55BE0C01&__gda__=1437524857_622ab2200208075d83d87cbc2855a045" alt="..." width="64" height="64">
+            </a>
+          </div>
+          <div class="media-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay</a> @ Aras-Et Izgara - Yine yeniden..
+                </div>
+                <div class="panel-footer">
+                    <a>Unlike</a> . <a disabled>Join</a> . <a>Comment</a> . <a>Share</a>
+                    <div class="pull-right">
+                        <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small> You and <a>5k likes</a>
+                    </div>
                 </div>
             </div>
+          </div>
+        </div>
+ <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xft1/v/t1.0-1/p100x100/1965053_10204530388036659_5768328140960577450_n.jpg?oh=5dd35cb86361a355f0d4bebe1458ff53&oe=5571BC26&__gda__=1433591971_239e76b077b983ed79a6d24a5474ce48" alt="..." width="64" height="64">
+            </a>
+          </div>
+          <div class="media-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> @ Nusr-Et
+                </div>
+                <div class="panel-footer">
+                    <a>Like</a> . <a disabled>Joined</a> . <a>Comment</a> . <a>Share</a>
+                    <div class="pull-right">
+                        <small><i class="fa fa-thumbs-o-up"></i></small> <a>5m likes</a>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
 
+    </div>
+    <div class="col-md-3 well">
+        <h5>Notification Center</h5>
+        <small><i class="fa fa-thumbs-up"></i> <a>Hakan</a> liked <a>your activity</a>. <span style="font-weight: bold; font-size:8px;">1h ago</span></small>
+        <br>
+        <small><i class="fa fa-user-plus"></i> <a>Simge Sağın</a> added you as a lover. <span style="font-weight: bold; font-size:8px;">1d ago</span></small>
     </div>
 </div>
 {% include 'footer.html' %}
