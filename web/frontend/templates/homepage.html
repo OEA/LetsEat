@@ -12,8 +12,8 @@
             <div class="list-group">
 
               <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
-              <a href="#" class="list-group-item">Update Settings</a>
-              <a href="#" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
+              <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
+              <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
             </div>
 
         </div>
