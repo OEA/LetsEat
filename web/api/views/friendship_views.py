@@ -2,9 +2,10 @@ __author__ = 'Hakan Uyumaz'
 
 import json
 
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
-from ..models import User
+from ..models import User, FriendshipRequest
 
 
 def search_user(request, search_field):
@@ -37,12 +38,69 @@ def search_user(request, search_field):
 
 
 def send_friend_request(request):
-    return HttpResponse("To be implemented")
-
+    responseJSON = {}
+    if request.method == "POST":
+        sender_username = request.POST["sender"]
+        receiver_username = request.POST["receiver"]
+        sender = get_object_or_404(User, username=sender_username)
+        receiver = get_object_or_404(User, username=receiver_username)
+        if FriendshipRequest.objects.filter(sender=sender, receiver=receiver).count() > 0:
+            friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
+            friend_request.status = 'P'
+            friend_request.save()
+            responseJSON["status"] = "succes"
+            responseJSON["message"] = "Existing friend request updated."
+        else:
+            friend_request = FriendshipRequest(sender=sender, receiver=receiver, status='P')
+            friend_request.save()
+            responseJSON["status"] = "succes"
+            responseJSON["message"] = "Friend request created."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
 
 def accept_friend_request(request):
-    return HttpResponse("To be implemented")
+    responseJSON = {}
+    if request.method == "POST":
+        sender_username = request.POST["sender"]
+        receiver_username = request.POST["receiver"]
+        sender = get_object_or_404(User, username=sender_username)
+        receiver = get_object_or_404(User, username=receiver_username)
+        if FriendshipRequest.objects.filter(sender=sender, receiver=receiver, status='P').count() > 0:
+            friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
+            friend_request.status = 'A'
+            friend_request.save()
+            sender.friends.add(receiver)
+            responseJSON["status"] = "succes"
+            responseJSON["message"] = "Existing friend request updated."
+        else:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Pending friend request cannot be found."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
 
 
 def reject_friend_request(request):
-    return HttpResponse("To be implemented")
+    responseJSON = {}
+    if request.method == "POST":
+        sender_username = request.POST["sender"]
+        receiver_username = request.POST["receiver"]
+        sender = get_object_or_404(User, username=sender_username)
+        receiver = get_object_or_404(User, username=receiver_username)
+        if FriendshipRequest.objects.filter(sender=sender, receiver=receiver, status='P').count() > 0:
+            friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
+            friend_request.status = 'R'
+            friend_request.save()
+            sender.friends.add(receiver)
+            responseJSON["status"] = "succes"
+            responseJSON["message"] = "Existing friend request updated."
+        else:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Pending friend request cannot be found."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
