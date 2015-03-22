@@ -17,13 +17,26 @@ class modelTest(TestCase):
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
         bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
         didem = User.objects.create_user("didi", "Didem", "Kayıkçı", "didemk@gmail.com", "123456")
+        zeynep = User.objects.create_user("zeyno", "Zeynep", "Özfıçı", "zeynepozfici@gmail.com", "123456")
+        simge = User.objects.create_user("simge", "Simge", "Sayın", "simgesayin@yahoo.com", "123456")
 
         omer.save()
         taha.save()
         bilal.save()
         didem.save()
+        zeynep.save()
+        simge.save()
 
-        friend_request = FriendshipRequest(sender=taha, receiver=bilal, status='P')
+        friend_request_taha_bilal = FriendshipRequest(sender=taha, receiver=bilal, status='P')
+        friend_request_taha_bilal.save()
+
+        friend_request_bilal_didem = FriendshipRequest(sender=bilal, receiver=didem, status='A')
+        friend_request_bilal_didem.save()
+
+        friend_request_zeynep_omer = FriendshipRequest(sender=zeynep, receiver=omer, status='R')
+        friend_request_zeynep_omer.save()
+
+
 
 
 
@@ -43,6 +56,8 @@ class modelTest(TestCase):
         return response
 
 
+
+
     def test_user_login(self):
 
         params = urllib.parse.urlencode(
@@ -53,10 +68,12 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
 
+
     def test_user_logout(self):
         response = self.send_post({}, "/api/logout/")
 
         self.assertEqual(response["status"], "success")
+
 
 
     def test_user_registeration(self):
@@ -86,6 +103,8 @@ class modelTest(TestCase):
 
 
     def test_accept_friend_request(self):
+
+        #Pending
         params = urllib.parse.urlencode(
                 {
                   "sender": "tdgunes",
@@ -93,16 +112,56 @@ class modelTest(TestCase):
                 })
         response = self.make_request(params, "/api/accept_friend/", "POST")
         self.assertEqual(response["status"], "success")
+
+
+        #Accepted
+        params = urllib.parse.urlencode(
+                {
+                  "sender": "aby",
+                  "receiver": "didi"
+                })
+        response = self.make_request(params, "/api/accept_friend/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Rejected
+        params = urllib.parse.urlencode(
+                {
+                  "sender": "zeyno",
+                  "receiver": "kalaomer"
+                })
+        response = self.make_request(params, "/api/accept_friend/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
 
 
     def test_reject_friend_request(self):
         params = urllib.parse.urlencode(
                 {
-                  "sender": "tdgunes",
-                  "receiver": "aby"
+                  "sender": "zeyno",
+                  "receiver": "kalaomer"
                 })
         response = self.make_request(params, "/api/accept_friend/", "POST")
         self.assertEqual(response["status"], "success")
+        
+        #Rejected
+        params = urllib.parse.urlencode(
+                {
+                  "sender": "aby",
+                  "receiver": "didi"
+                })
+        response = self.make_request(params, "/api/accept_friend/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Accepted
+        params = urllib.parse.urlencode(
+                {
+                  "sender": "aby",
+                  "receiver": "didi"
+                })
+        response = self.make_request(params, "/api/accept_friend/", "POST")
+        self.assertEqual(response["status"], "failed")
 
 
     #Test Super User Credentials
