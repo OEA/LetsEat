@@ -1,7 +1,8 @@
-__author__ = 'ynsy'
+__author__ = 'bahadirkirdan'
 
 from django.test import TestCase
 from .models.user import User
+from .models.friendship_request import FriendshipRequest
 import urllib.parse
 import http.client
 import json
@@ -15,9 +16,15 @@ class modelTest(TestCase):
         omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
         bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
+        didem = User.objects.create_user("didi", "Didem", "Kayıkçı", "didemk@gmail.com", "123456")
 
         omer.save()
         taha.save()
+        bilal.save()
+        didem.save()
+
+        friend_request = FriendshipRequest(sender=taha, receiver=bilal, status='P')
+
 
 
     def send_post(self, data, url):
@@ -68,6 +75,7 @@ class modelTest(TestCase):
 
 
     def test_search_user(self):
+
         params = urllib.parse.urlencode(
                 {
                   "username": "hakanuyumaz",
@@ -80,7 +88,7 @@ class modelTest(TestCase):
     def test_accept_friend_request(self):
         params = urllib.parse.urlencode(
                 {
-                  "sender": "hakanuyumaz",
+                  "sender": "tdgunes",
                   "receiver": "aby"
                 })
         response = self.make_request(params, "/api/accept_friend/", "POST")
