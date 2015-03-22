@@ -265,7 +265,7 @@ class modelTest(TestCase):
         #Pending
         params = urllib.parse.urlencode(
                 {
-                  "username": "hakanuyumaz",
+                  "username": "tdgunes",
                 })
         response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "failed")
@@ -281,11 +281,26 @@ class modelTest(TestCase):
         #Accepted
         params = urllib.parse.urlencode(
                 {
-                  "username": "bilal",
+                  "username": "aby",
                 })
         response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "success")
 
+
+    def test_get_friend_requests(self):
+        params = urllib.parse.urlencode(
+                {
+                  "username": "aby",
+                })
+        response = self.make_request(params, "/api/get_friend_requests/", "POST")
+        self.assertEqual(response["status"], "success")
+
+        params = urllib.parse.urlencode(
+                {
+                  "username": "didi",
+                })
+        response = self.make_request(params, "/api/get_friend_requests/", "POST")
+        self.assertEqual(response["status"], "failed")
 
 
     #Test Super User Credentials
