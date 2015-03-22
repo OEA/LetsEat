@@ -31,15 +31,19 @@
         </form>
 
 
-
     </div>
 
     <nav class="collapse navbar-collapse bs-navbar-collapse">
 
       <ul class="nav navbar-nav navbar-right">
         {% if user %}
+<<<<<<< HEAD
         <li><a href="{% url 'home_view' %}" class="navbar-link"><i class="fa fa-bell"></i> Notifications</a></li>
         <li><a href="{% url 'home_view' %}" class="navbar-link"><i class="fa fa-envelope"></i> Messages</a></li>
+=======
+            <a href="{% url 'notifications' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
+            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-envelope"></i> Messages</a>
+>>>>>>> origin/master
         {% endif %}
         <li class="dropdown">
             {% if user %}

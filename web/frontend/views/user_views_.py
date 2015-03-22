@@ -136,6 +136,7 @@ def add_friend(request, username):
     else:
         return render(request, "./login.html")
 
+
 def test(request):
     return HttpResponse("Successful")
 
@@ -143,7 +144,6 @@ def test(request):
 def logout(request):
     auth.logout(request)
     return redirect("../login")
-
 
 
 def home_view(request):
@@ -157,3 +157,14 @@ def home_view(request):
     #     return HttpResponse(data)
     else:
         return redirect("../login")
+
+
+def notifications_view(request):
+    user = None
+    if request.user.is_authenticated():
+        #It will be replaced by web service when it runs
+        user = request.user
+        context = {'user': user}
+        return render(request, 'notifications.html', context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")

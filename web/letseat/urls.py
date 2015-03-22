@@ -29,5 +29,6 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<username>\w+)/$', user_views_.profile, name='profile'),
     url(r'^profile/(?P<username>\w+)/edit/$', user_views_.edit, name='edit'),
     url(r'^homepage/$', home_view.homepage, name='home_view'),
+    url(r'^notifications/$', user_views_.notifications_view, name='notifications'),
     url(r'^admin/', include(admin.site.urls)),
 )
