@@ -59,13 +59,28 @@ class modelTest(TestCase):
 
 
     def test_user_login(self):
-
         params = urllib.parse.urlencode(
                 { "password": '1',
                   "username": 'hakanuyumaz'
                 })
         response = self.make_request(params, "/api/login/", "POST")
         self.assertEqual(response["status"], "success")
+
+        #Missing password
+        params = urllib.parse.urlencode(
+                { "password": '',
+                  "username": 'hakanuyumaz'
+                })
+        response = self.make_request(params, "/api/login/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "password": '1',
+                  "username": ''
+                })
+        response = self.make_request(params, "/api/login/", "POST")
+        self.assertEqual(response["status"], "failed")
 
 
 
@@ -78,12 +93,82 @@ class modelTest(TestCase):
 
     def test_user_registeration(self):
 
+        #Missing name
         params = urllib.parse.urlencode(
-                { "name": "Hakan",
-                  "surname": "Uyumaz",
-                  "email": "hakan.uyumaz@ozu.edu.tr",
+                { "name": "",
+                  "surname": "Atasoy",
+                  "email": "gizem.atasoy@ozu.edu.tr",
                   "password": "1",
-                  "username": "hakanuyumaz"
+                  "username": "gizematasoy"
+                })
+
+        response = self.make_request(params, "/api/register/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing surname
+        params = urllib.parse.urlencode(
+                { "name": "Gizem",
+                  "surname": "",
+                  "email": "gizem.atasoy@ozu.edu.tr",
+                  "password": "1",
+                  "username": "gizematasoy"
+                })
+
+        response = self.make_request(params, "/api/register/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing email
+        params = urllib.parse.urlencode(
+                { "name": "Gizem",
+                  "surname": "Atasoy",
+                  "email": "",
+                  "password": "1",
+                  "username": "gizematasoy"
+                })
+
+        response = self.make_request(params, "/api/register/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing password
+        params = urllib.parse.urlencode(
+                { "name": "Gizem",
+                  "surname": "Atasoy",
+                  "email": "gizem.atasoy@ozu.edu.tr",
+                  "password": "",
+                  "username": "gizematasoy"
+                })
+
+        response = self.make_request(params, "/api/register/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "name": "Gizem",
+                  "surname": "Atasoy",
+                  "email": "gizem.atasoy@ozu.edu.tr",
+                  "password": "1",
+                  "username": ""
+                })
+
+        response = self.make_request(params, "/api/register/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        gizem_atasoy = User.objects.filter(username="gizematasoy")
+
+        if gizem_atasoy:
+            gizem_atasoy.delete()
+
+
+        params = urllib.parse.urlencode(
+                { "name": "Gizem",
+                  "surname": "Atasoy",
+                  "email": "gizem.atasoy@ozu.edu.tr",
+                  "password": "1",
+                  "username": "gizematasoy"
                 })
 
         response = self.make_request(params, "/api/register/", "POST")
@@ -92,6 +177,14 @@ class modelTest(TestCase):
 
 
     def test_search_user(self):
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                {
+                  "username": "",
+                })
+        response = self.make_request(params, "/api/search/", "POST")
+        self.assertEqual(response["status"], "failed")
 
         params = urllib.parse.urlencode(
                 {
@@ -144,7 +237,8 @@ class modelTest(TestCase):
                 })
         response = self.make_request(params, "/api/accept_friend/", "POST")
         self.assertEqual(response["status"], "success")
-        
+
+
         #Rejected
         params = urllib.parse.urlencode(
                 {
@@ -154,6 +248,7 @@ class modelTest(TestCase):
         response = self.make_request(params, "/api/accept_friend/", "POST")
         self.assertEqual(response["status"], "failed")
 
+
         #Accepted
         params = urllib.parse.urlencode(
                 {
@@ -162,6 +257,34 @@ class modelTest(TestCase):
                 })
         response = self.make_request(params, "/api/accept_friend/", "POST")
         self.assertEqual(response["status"], "failed")
+
+
+    def test_get_friend_list(self):
+
+        #Pending
+        params = urllib.parse.urlencode(
+                {
+                  "username": "hakanuyumaz",
+                })
+        response = self.make_request(params, "/api/search/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Pending
+        params = urllib.parse.urlencode(
+                {
+                  "username": "kalaomer",
+                })
+        response = self.make_request(params, "/api/search/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Accepted
+        params = urllib.parse.urlencode(
+                {
+                  "username": "bilal",
+                })
+        response = self.make_request(params, "/api/search/", "POST")
+        self.assertEqual(response["status"], "success")
+
 
 
     #Test Super User Credentials
