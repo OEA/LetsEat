@@ -16,7 +16,8 @@ class FriendInfoViewController: UIViewController {
     @IBOutlet weak var emailField: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     var friend: [String: NSString]!
-    var findFriendChosen = true
+    var findFriendChosen = false
+    var isRequestView = false
     @IBOutlet weak var addFriendButton: UIButton!
     
     
@@ -34,6 +35,9 @@ class FriendInfoViewController: UIViewController {
             addFriendButton.hidden = false
         }else{
             addFriendButton.hidden = true
+        }
+        if isRequestView == true {
+            
         }
     }
 

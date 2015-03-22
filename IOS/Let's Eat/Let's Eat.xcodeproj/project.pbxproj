@@ -28,6 +28,7 @@
 		46FE776A1A9911DA003BDD80 /* ChangeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */; };
 		46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77691A9911DA003BDD80 /* ProfileVC.swift */; };
 		B92762AB1ABAC29700B78C96 /* FriendInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */; };
+		B9A4E9D31ABF359C00B1967C /* FriendRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInfoVC.swift; sourceTree = "<group>"; };
 		46FE77691A9911DA003BDD80 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendInfoViewController.swift; path = "Friends Tab/FriendInfoViewController.swift"; sourceTree = "<group>"; };
+		B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestsTableViewController.swift; path = "Friends Tab/FriendRequestsTableViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			children = (
 				461A15521AB78535009DA34E /* FriendsViewController.swift */,
 				B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */,
+				B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */,
 			);
 			name = "Friends Tab";
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
+				B9A4E9D31ABF359C00B1967C /* FriendRequestsTableViewController.swift in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,
 				464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */,
 			);

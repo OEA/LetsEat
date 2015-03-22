@@ -27,7 +27,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         // Do any additional setup after loading the view.
         
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username: NSString = prefs.valueForKey("USERNAME") as NSString
         
         var post:NSString = "username=\(username)"
@@ -77,10 +77,11 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else {
             alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
-        }
-
+        }*/
         
     }
+    
+   
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         var searched = false
