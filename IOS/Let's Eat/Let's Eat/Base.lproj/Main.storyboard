@@ -1496,19 +1496,6 @@
                                     <constraint firstAttribute="width" secondItem="0Ws-B6-xzq" secondAttribute="height" multiplier="50:50" id="0ih-sS-uo6"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cCU-bJ-x6w">
-                                <rect key="frame" x="341.5" y="5" width="40" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="5mg-BL-dkr"/>
-                                    <constraint firstAttribute="height" constant="30" id="Uhz-eR-DfS"/>
-                                </constraints>
-                                <state key="normal" title="Edit">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="editTapped" destination="kx1-Fh-SwY" eventType="touchUpInside" id="KXN-kn-FvU"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nis-eS-cTs">
                                 <rect key="frame" x="230" y="334" width="140" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1527,7 +1514,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="changeInfoTapped" destination="kx1-Fh-SwY" eventType="touchDown" id="Bqw-3e-Wfc"/>
+                                    <action selector="addFriendTapped" destination="kx1-Fh-SwY" eventType="touchUpInside" id="mvX-Nd-96C"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Surname: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plc-MY-Zu0">
@@ -1666,7 +1653,6 @@
                             <constraint firstItem="OpP-wx-Vs9" firstAttribute="top" secondItem="obp-Fz-veB" secondAttribute="bottom" id="BSx-AC-0hF"/>
                             <constraint firstItem="MB2-Ht-nLQ" firstAttribute="leading" secondItem="TXQ-En-7CI" secondAttribute="leadingMargin" constant="10" id="C7c-DB-nWb"/>
                             <constraint firstItem="F8C-h5-8dE" firstAttribute="top" secondItem="spC-na-I3L" secondAttribute="bottom" constant="25" id="CRV-mm-Czp"/>
-                            <constraint firstItem="cCU-bJ-x6w" firstAttribute="leading" secondItem="0Ws-B6-xzq" secondAttribute="trailing" constant="-46" id="DWr-Gf-GHc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="obp-Fz-veB" secondAttribute="trailing" constant="8" id="JVy-v8-Kc9"/>
                             <constraint firstItem="MB2-Ht-nLQ" firstAttribute="top" secondItem="hjI-rv-SUz" secondAttribute="bottom" id="L1i-Jl-aNz"/>
                             <constraint firstItem="kxu-Fz-2bF" firstAttribute="top" secondItem="OpP-wx-Vs9" secondAttribute="bottom" id="Ljl-W1-kbK"/>
@@ -1686,7 +1672,6 @@
                             <constraint firstAttribute="centerX" secondItem="0Ws-B6-xzq" secondAttribute="centerX" id="fcH-aD-iAX"/>
                             <constraint firstItem="F8C-h5-8dE" firstAttribute="leading" secondItem="TXQ-En-7CI" secondAttribute="leadingMargin" constant="10" id="hJ4-QQ-FNo"/>
                             <constraint firstItem="plc-MY-Zu0" firstAttribute="height" secondItem="hjI-rv-SUz" secondAttribute="height" id="hxg-eb-0HN"/>
-                            <constraint firstItem="0Ws-B6-xzq" firstAttribute="top" secondItem="cCU-bJ-x6w" secondAttribute="bottom" constant="-30" id="iHz-jA-Lcd"/>
                             <constraint firstAttribute="centerY" secondItem="OpP-wx-Vs9" secondAttribute="centerY" constant="30" id="iQO-79-FTh"/>
                             <constraint firstItem="plc-MY-Zu0" firstAttribute="leading" secondItem="TXQ-En-7CI" secondAttribute="leadingMargin" constant="10" id="iza-fS-NE5"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MWS-Lr-aNG" secondAttribute="trailing" constant="8" id="jF1-Xs-ceG"/>
@@ -1719,6 +1704,7 @@
                     <navigationItem key="navigationItem" title="Friend Info" id="bba-H1-zSt"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="addFriendButton" destination="nis-eS-cTs" id="eKS-dm-ttR"/>
                         <outlet property="emailField" destination="MWS-Lr-aNG" id="YSv-30-Vge"/>
                         <outlet property="nameField" destination="obp-Fz-veB" id="iNL-hQ-ioa"/>
                         <outlet property="profileImageView" destination="0Ws-B6-xzq" id="725-6m-BVo"/>
