@@ -20,10 +20,14 @@
         <span class="icon-bar"></span>
       </button>
         <a href="{% url 'home_view' %}" class="navbar-brand"> <i class="fa fa-spoon"></i> LetsEat</a>
-        {% if user %}
-            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
-            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-envelope"></i> Messages</a>
-        {% endif %}
+       <form class="navbar-form navbar-right" role="search">
+                <div class="form-group" id="multiple-datasets">
+                  <input class="form-control typeahead" type="text" placeholder="Search letsEat">
+                </div>
+
+                <button type="submit" class="btn btn-default"> <i class="fa fa-search"></i> Search</button>
+
+        </form>
 
 
 
@@ -32,6 +36,12 @@
     <nav class="collapse navbar-collapse bs-navbar-collapse">
 
       <ul class="nav navbar-nav navbar-right">
+
+
+        {% if user %}
+            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
+            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-envelope"></i> Messages</a>
+        {% endif %}
         <li class="dropdown">
             {% if user %}
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ user.username }}<b class="caret"></b></a>
@@ -72,14 +82,7 @@
         </li>
       </ul>
 
-        <form class="navbar-form navbar-right" role="search">
 
-                <div class="form-group">
-                  <input type="text" class="form-control" autocomplete="off" placeholder="Search LetsEat">
-                </div>
-                <button type="submit" class="btn btn-default"> <i class="fa fa-search"></i> Search</button>
-
-        </form>
     </nav>
   </div>
 </header>
