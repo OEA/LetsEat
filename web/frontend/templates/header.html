@@ -30,7 +30,6 @@
         </form>
 
 
-
     </div>
 
     <nav class="collapse navbar-collapse bs-navbar-collapse">
@@ -39,7 +38,7 @@
 
 
         {% if user %}
-            <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
+            <a href="{% url 'notifications' %}" class="navbar-brand"><i class="fa fa-bell"></i> Notifications</a>
             <a href="{% url 'home_view' %}" class="navbar-brand"><i class="fa fa-envelope"></i> Messages</a>
         {% endif %}
         <li class="dropdown">
