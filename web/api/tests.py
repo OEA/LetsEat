@@ -14,6 +14,7 @@ class modelTest(TestCase):
 
         omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
+        bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
 
         omer.save()
         taha.save()
@@ -50,6 +51,7 @@ class modelTest(TestCase):
 
         self.assertEqual(response["status"], "success")
 
+
     def test_user_registeration(self):
 
         params = urllib.parse.urlencode(
@@ -61,10 +63,17 @@ class modelTest(TestCase):
                 })
 
         response = self.make_request(params, "/api/register/", "POST")
-
         self.assertEqual(response["status"], "success")
 
 
+
+    def test_search_user(self):
+        params = urllib.parse.urlencode(
+                {
+                  "username": "hakanuyumaz",
+                })
+        response = self.make_request(params, "/api/search/", "POST")
+        self.assertEqual(response["status"], "success")
 
 
     #Test Super User Credentials
