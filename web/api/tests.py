@@ -31,8 +31,8 @@ class modelTest(TestCase):
         conn.request(request_method, url, params, headers)
         r1 = conn.getresponse()
         data = r1.read()
-        dict = json.loads(data.decode("utf-8"))
-        return dict
+        response = json.loads(data.decode("utf-8"))
+        return response
 
 
     def test_user_login(self):
@@ -41,14 +41,8 @@ class modelTest(TestCase):
                 { "password": '1',
                   "username": 'hakanuyumaz'
                 })
-
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-        conn = http.client.HTTPConnection('127.0.0.1', 8000)
-        conn.request("POST", "/api/login/", params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
-        dict = json.loads(data.decode("utf-8"))
-        self.assertEqual(dict["status"], "success")
+        response = self.make_request(params, "/api/login/", "POST")
+        self.assertEqual(response["status"], "success")
 
 
     def test_user_logout(self):
@@ -66,14 +60,9 @@ class modelTest(TestCase):
                   "username": "hakanuyumaz"
                 })
 
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-        conn = http.client.HTTPConnection('127.0.0.1', 8000)
-        conn.request("POST", "/api/register/", params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
-        dict = json.loads(data.decode("utf-8"))
+        response = self.make_request(params, "/api/register/", "POST")
 
-        self.assertEqual(dict["status"], "success")
+        self.assertEqual(response["status"], "success")
 
 
 
