@@ -116,7 +116,7 @@ def get_friend_list(request):
     if request.method == "POST":
         username = request.POST["username"]
         user = get_object_or_404(User, username=username)
-        friend_list = user.friends
+        friend_list = user.friends.all()
         responseJSON["status"] = "success"
         responseJSON["message"] = "Friends found."
         responseJSON["friends"] = []
