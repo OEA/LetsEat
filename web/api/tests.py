@@ -25,6 +25,15 @@ class modelTest(TestCase):
         response = json.loads(response)
         return response
 
+    def make_request(self, params, url, request_method):
+        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+        conn = http.client.HTTPConnection('127.0.0.1', 8000)
+        conn.request(request_method, url, params, headers)
+        r1 = conn.getresponse()
+        data = r1.read()
+        dict = json.loads(data.decode("utf-8"))
+        return dict
+
 
     def test_user_login(self):
 
@@ -39,7 +48,6 @@ class modelTest(TestCase):
         r1 = conn.getresponse()
         data = r1.read()
         dict = json.loads(data.decode("utf-8"))
-        print(dict)
         self.assertEqual(dict["status"], "success")
 
 
