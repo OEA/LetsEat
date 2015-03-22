@@ -71,8 +71,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if searched == true {
-                    self.searchedList = jsonData["users"] as NSArray
-                    self.tabelView.reloadData()
+                    if jsonData["users"] != nil {
+                        self.searchedList = jsonData["users"] as NSArray
+                        self.tabelView.reloadData()
+                    }
                 }else{
                     self.searchedList = []
                     self.tabelView.reloadData()
