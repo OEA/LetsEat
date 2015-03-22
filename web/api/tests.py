@@ -92,7 +92,6 @@ class modelTest(TestCase):
 
 
     def test_user_registeration(self):
-
         #Missing name
         params = urllib.parse.urlencode(
                 { "name": "",
@@ -235,7 +234,7 @@ class modelTest(TestCase):
                   "sender": "zeyno",
                   "receiver": "kalaomer"
                 })
-        response = self.make_request(params, "/api/accept_friend/", "POST")
+        response = self.make_request(params, "/api/reject_friend/", "POST")
         self.assertEqual(response["status"], "success")
 
 
@@ -245,7 +244,7 @@ class modelTest(TestCase):
                   "sender": "aby",
                   "receiver": "didi"
                 })
-        response = self.make_request(params, "/api/accept_friend/", "POST")
+        response = self.make_request(params, "/api/reject_friend/", "POST")
         self.assertEqual(response["status"], "failed")
 
 
@@ -255,8 +254,10 @@ class modelTest(TestCase):
                   "sender": "aby",
                   "receiver": "didi"
                 })
-        response = self.make_request(params, "/api/accept_friend/", "POST")
+        response = self.make_request(params, "/api/reject_friend/", "POST")
         self.assertEqual(response["status"], "failed")
+
+
 
 
     def test_get_friend_list(self):
@@ -266,7 +267,7 @@ class modelTest(TestCase):
                 {
                   "username": "hakanuyumaz",
                 })
-        response = self.make_request(params, "/api/search/", "POST")
+        response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "failed")
 
         #Pending
@@ -274,7 +275,7 @@ class modelTest(TestCase):
                 {
                   "username": "kalaomer",
                 })
-        response = self.make_request(params, "/api/search/", "POST")
+        response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "failed")
 
         #Accepted
@@ -282,7 +283,7 @@ class modelTest(TestCase):
                 {
                   "username": "bilal",
                 })
-        response = self.make_request(params, "/api/search/", "POST")
+        response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "success")
 
 
