@@ -36,7 +36,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friends/")!
         
-//        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+//      var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
         
         var request = apiMethod.getRequest(url, post: post)
         
@@ -170,8 +170,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             sender.titleLabel?.textColor = UIColor.whiteColor()
             findFriend.backgroundColor = UIColor.whiteColor()
             findFriend.titleLabel?.textColor = UIColor.blackColor()
-            self.searchedList = []
-            self.tabelView.reloadData()
             findFriendChosen = false
         }else {
             sender.backgroundColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1)
@@ -179,6 +177,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             friendList.titleLabel?.textColor = UIColor.blackColor()
             findFriendChosen = true
         }
+            self.searchedList = []
+            self.tabelView.reloadData()
     }
     
 
@@ -190,6 +190,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             if findFriendChosen {
                 let friendNum = tabelView.indexPathForSelectedRow()?.item
                 friendInfoVC.friend = searchedList[friendNum!] as [String: NSString]
+                friendInfoVC.findFriendChosen = findFriendChosen
             }
         }
     }

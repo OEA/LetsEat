@@ -16,6 +16,13 @@ class FriendInfoViewController: UIViewController {
     @IBOutlet weak var emailField: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
     var friend: [String: NSString]!
+    var findFriendChosen = true
+    @IBOutlet weak var addFriendButton: UIButton!
+    
+    
+    let alert = Alerts()
+    let apiMethod = ApiMethods()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,14 +30,67 @@ class FriendInfoViewController: UIViewController {
         surnameField.text = friend["surname"]
         userNameField.text = friend["username"]
         emailField.text = friend["email"]
-        
+        if findFriendChosen == true{
+            addFriendButton.hidden = false
+        }else{
+            addFriendButton.hidden = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    @IBAction func addFriendTapped() {
+        
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+
+        var post:NSString = "sender=\(username)&receiver=\(userNameField.text!)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/add_friend/")!
+        
+        var request = apiMethod.getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Success: " + status)
+                
+                if(status == "succes")
+                {
+                    NSLog("ADD SUCCESS");
+                    
+                    
+                } else {
+                    alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
+                }
+            } else {
+                alert.getStatusCodeError("Sign in Failed!", vc:self)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
+        }
+
+    }
+
 
     /*
     // MARK: - Navigation
