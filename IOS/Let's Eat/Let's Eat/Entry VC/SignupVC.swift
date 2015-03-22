@@ -119,8 +119,6 @@ class SignupVC: UIViewController {
                     {
                         NSLog("Sign Up SUCCESS");
                         
-                        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-                        
                         self.dismissViewControllerAnimated(true, completion: nil)
                         
                         

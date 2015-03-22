@@ -17,12 +17,69 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     var searchedList = []
     var findFriendChosen = false
     
+    let alert = Alerts()
+    let apiMethod = ApiMethods()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         findFriend.titleLabel?.textColor = UIColor.blackColor()
         friendList.layer.borderColor = UIColor(red: 0, green: 122.0/255, blue: 1, alpha: 1).CGColor
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         // Do any additional setup after loading the view.
+        
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        
+        var post:NSString = "username=\(username)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friends/")!
+        
+//        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        
+        var request = apiMethod.getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Success: " + status)
+                
+                if(status == "success")
+                {
+                    NSLog("Login SUCCESS");
+                    
+                    println(jsonData)
+                    
+                   
+                    
+                    
+                } else {
+                    alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
+                }
+            } else {
+                alert.getStatusCodeError("Sign in Failed!", vc:self)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
+        }
+
+        
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -113,6 +170,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             sender.titleLabel?.textColor = UIColor.whiteColor()
             findFriend.backgroundColor = UIColor.whiteColor()
             findFriend.titleLabel?.textColor = UIColor.blackColor()
+            self.searchedList = []
+            self.tabelView.reloadData()
             findFriendChosen = false
         }else {
             sender.backgroundColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1)
