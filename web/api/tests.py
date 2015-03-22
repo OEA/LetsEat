@@ -95,6 +95,16 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
 
+    def test_reject_friend_request(self):
+        params = urllib.parse.urlencode(
+                {
+                  "sender": "tdgunes",
+                  "receiver": "aby"
+                })
+        response = self.make_request(params, "/api/accept_friend/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
     #Test Super User Credentials
     def test_superuser_is_active(self):
         superuser = User.objects.get(username="kalaomer")
