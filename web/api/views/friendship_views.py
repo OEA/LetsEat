@@ -14,15 +14,15 @@ def search_user(request, search_field):
     if request.user.is_authenticated():
         user = request.user
     else:
-        user = get_object_or_404(User, request.POST["username"])
-    if len(search_field) > 1:
+        user = get_object_or_404(User, username=request.POST["username"])
+    if len(search_field) > 0:
         users_list = set()
-        for user in User.objects.filter(name__contains=search_field).exclude(username__exact=user.username):
-            users_list.add(user)
-        for user in User.objects.filter(surname__contains=search_field).exclude(username__exact=user.username):
-            users_list.add(user)
-        for user in User.objects.filter(username__contains=search_field).exclude(username__exact=user.username):
-            users_list.add(user)
+        for result_user in User.objects.filter(name__contains=search_field).exclude(username__exact=user.username):
+            users_list.add(result_user)
+        for result_user in (User.objects.filter(surname__contains=search_field)).exclude(username__exact=user.username):
+            users_list.add(result_user)
+        for result_user in User.objects.filter(username__contains=search_field).exclude(username__exact=user.username):
+            users_list.add(result_user)
         responseJSON["status"] = "success"
         if len(users_list) > 0:
             responseJSON["message"] = "Users found."
