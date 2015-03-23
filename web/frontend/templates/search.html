@@ -39,9 +39,9 @@
                         </a>
                       </div>
                       <div class="media-body">
-                          <a href="#">{{ user.name }} {{ user.surname }}</a><br>
+                          <a href="{% url 'profile' user.username %}">{{ user.name }} {{ user.surname }}</a><br>
 
-                          <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                          <a href="#" class="btn btn-primary btn-xs submit" data-sender="{{ username }}" data-receiver="{{ user.username }}"><i class="fa fa-user-plus"></i>  Add Friend</a>
                         </div>
                 </div>
                 {% endfor %}
