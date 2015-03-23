@@ -73,16 +73,16 @@ $('#multiple-datasets .typeahead').typeahead({
             $(".submit").click(function(){
                 var sender = $(this).attr('data-sender');
 	            var receiver = $(this).attr('data-receiver');
-                console.log(sender+" "+receiver);
+                $(this).removeClass("btn-primary");
+                        $(this).addClass("btn-default");
+                        $(this).text("Sent");
                 $.ajax({
                     url: "{% url 'api_add_friend' %}",
                     type: "POST",
                     data: 'sender='+sender+"&receiver="+receiver,
                     dataType: "JSON",
                     success: function (data) {
-                        $(this).removeClass("btn-primary");
-                        $(this).addClass("btn-default");
-                        $(this).text("Sent");
+
                     },
                     error: function(data){
                         console.log(data);
