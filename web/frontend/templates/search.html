@@ -1,0 +1,105 @@
+{% include 'header.html' with user=user title='Search Result' %}
+<!--<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div> -->
+
+<div class="container">
+    <div class="col-md-3">
+        <div class="row">
+            <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
+            <small><a href="{% url 'profile' user.username %}">{{user.name}} {{ user.surname  }}</a></small>
+            <br>
+            <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit Profile</a></strong></small>
+        </div>
+        <br>
+        <div class="row">
+            <div class="list-group">
+
+              <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
+              <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
+              <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-6 ">
+            <h5>Search Result <small> for totoshakan </small> - <small>12 results</small></h5>
+        <div class="media-body">
+            <div class="panel-body ">
+                <div class="media well" style="padding: 10px;">
+                    <div class="media-left">
+                    <a href="#">
+                          <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="32" height="32">
+                        </a>
+                      </div>
+                      <div class="media-body">
+                                <a href="#">Ömer Aslan</a><br>
+
+                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                        </div>
+                </div>
+                <div class="media well" style="padding: 10px;">
+                    <div class="media-left">
+                    <a href="#">
+                          <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="32" height="32">
+                        </a>
+                      </div>
+                      <div class="media-body">
+                                <a href="#">Ömer Aslan</a><br>
+
+                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 well">
+        <h5>Who to Add Friend</h5>
+        <div class="content">
+            <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a>
+                        <br><small>@huyumaz</small><br>
+
+                        <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                <a href="#">
+                      <img class="media-object" src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png" alt="..." width="64" height="64">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                            <a href="#">Yunus Yılmaz</a>
+                            <br><small>@ynsy</small><br>
+
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                    </div>
+
+
+
+            </div>
+            <div class="media">
+                <div class="media-left">
+                <a href="#">
+                      <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
+                    </a>
+                  </div>
+                  <div class="media-body">
+                            <a href="#">Ömer Aslan</a>
+                            <br><small>@oeaslan</small><br>
+
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                    </div>
+            </div>
+        </div>
+</div>
+
+</div>
+{% include 'footer.html' %}
