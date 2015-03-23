@@ -27,7 +27,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         // Do any additional setup after loading the view.
         
-        /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username: NSString = prefs.valueForKey("USERNAME") as NSString
         
         var post:NSString = "username=\(username)"
@@ -35,8 +35,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         NSLog("PostData: %@",post);
         
         var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friends/")!
-        
-//      var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
         
         var request = apiMethod.getRequest(url, post: post)
         
@@ -74,7 +72,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else {
             alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
-        }*/
+        }
         
     }
     

@@ -53,64 +53,22 @@ class FriendInfoViewController: UIViewController {
     }
     
     @IBAction func addFriendTapped() {
-        
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: userNameField.text!, vc: self, errorText: "Add Friend Failed!")
+    }
 
-        var post:NSString = "sender=\(username)&receiver=\(userNameField.text!)"
-        
-        NSLog("PostData: %@",post);
-        
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/add_friend/")!
-        
-        var request = apiMethod.getRequest(url, post: post)
-        
-        var responseError: NSError?
-        var response: NSURLResponse?
-        
-        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
-        if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
-            
-            NSLog("Response code: %ld", res.statusCode);
-            
-            if (res.statusCode >= 200 && res.statusCode < 300)
-            {
-                
-                let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
-                
-                let status:NSString = jsonData.valueForKey("status") as NSString
-                
-                //[jsonData[@"success"] integerValue];
-                
-                println("Success: " + status)
-                
-                if(status == "succes")
-                {
-                    NSLog("ADD SUCCESS");
-                    
-                    
-                } else {
-                    alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
-                }
-            } else {
-                alert.getStatusCodeError("Sign in Failed!", vc:self)
-            }
-        } else {
-            alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
+    @IBAction func requestChoice(sender: UIButton) {
+        if sender.titleLabel?.text == "Accept Friend" {
+            acceptFriend()
+        }else{
+            rejectFriend()
         }
-
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func acceptFriend(){
+       apiMethod.acceptFriend(userNameField.text!, vc: self)
     }
-    */
-
+    
+    func rejectFriend(){
+        apiMethod.rejectFriend(userNameField.text!, vc: self)
+    }
 }
