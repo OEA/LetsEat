@@ -19,6 +19,8 @@ class FriendInfoViewController: UIViewController {
     var findFriendChosen = false
     var isRequestView = false
     @IBOutlet weak var addFriendButton: UIButton!
+    @IBOutlet weak var acceptFriendButton: UIButton!
+    @IBOutlet weak var rejectFriendButton: UIButton!
     
     
     let alert = Alerts()
@@ -37,14 +39,19 @@ class FriendInfoViewController: UIViewController {
             addFriendButton.hidden = true
         }
         if isRequestView == true {
-            
+            acceptFriendButton.hidden = false
+            rejectFriendButton.hidden = false
+        }else{
+            acceptFriendButton.hidden = true
+            rejectFriendButton.hidden = true
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidDisappear(animated: Bool) {
+        findFriendChosen = false
+        isRequestView = false
     }
+    
     @IBAction func addFriendTapped() {
         
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()

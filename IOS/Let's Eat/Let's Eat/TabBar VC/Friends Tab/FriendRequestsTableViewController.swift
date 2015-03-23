@@ -119,6 +119,7 @@ class FriendRequestsTableViewController: UITableViewController {
             let friendInfoVC = segue.destinationViewController as FriendInfoViewController
             let friendNum = friendReqtTV.indexPathForSelectedRow()?.item
             friendInfoVC.friend = requestList[friendNum!] as [String: NSString]
+            friendInfoVC.isRequestView = true
         }
     }
 

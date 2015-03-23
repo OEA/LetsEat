@@ -65,10 +65,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     NSLog("Login SUCCESS");
                     
                     println(jsonData)
-                    
-                   
-                    
-                    
+            
                 } else {
                     alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
                 }
