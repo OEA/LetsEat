@@ -124,13 +124,21 @@ def edit(request, username):
         return redirect("login")
 
 
-def search_user(request, username):
-    all_users = user.objects.all()
+def search_user(request):
     if request.user.is_authenticated():
         if request.method == "POST":
-            for u in all_users:
-                if username == u:
-                    return u
+            username = request.POST['username']
+            params = urllib.parse.urlencode({"username" : request.user.username})
+            headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+            conn = http.client.HTTPConnection('127.0.0.1',8000)
+            conn.request("POST", "/api/search/"+username+"/", params, headers)
+            r1 = conn.getresponse()
+            data = r1.read()
+            dict = json.loads(data.decode("utf-8"))
+            user = None
+            if dict['status'] == "success":
+                print(dict)
+                return render(request, "search.html")
             print("There is no user like that!")
         else:
             print("Use post method!")
