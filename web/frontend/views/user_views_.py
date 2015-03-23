@@ -4,12 +4,14 @@ import http.client
 import urllib.parse
 import json
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
-from api.models import user
+from api.models import User
+
+
 
 
 def registration_view(request):
@@ -81,10 +83,11 @@ def forgot_password_view(request):
 
 def profile(request, username):
     user = None
+
     if request.user.is_authenticated():
-        #It will be replaced by web service when it runs
-        user = request.user
-        context = {'user' : user}
+    #It will be replaced by web service when it runs
+        user = get_object_or_404(User, username=username)
+        context = {'user' : user, 'username': request.user.username}
         return render(request, 'profile.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
@@ -112,9 +115,9 @@ def edit(request, username):
             dict = json.loads(data.decode("utf-8"))
             print(data.decode("utf-8"))
             if dict["status"] == "success":
-                context = {'user': user, 'error': False, 'success': True}
+                context = {'user': user, 'username':user.username, 'error': False, 'success': True}
             else:
-                context = {'user': user, 'error': True, 'success': False}
+                context = {'user': user, 'username':user.username,'error': True, 'success': False}
             return render(request, 'profile_edit.html', context)
         else:
             user = request.user
@@ -152,7 +155,7 @@ def add_friend(request, username):
     if request.user.is_authenticated():
         if request.method == "POST":
             if search_user(request, username):
-                user.friend_list.append(search_user(request, username))
+                User.friend_list.append(search_user(request, username))
             else:
                 print("There is no user like that")
                 return None
@@ -189,7 +192,7 @@ def notifications_view(request):
     if request.user.is_authenticated():
         #It will be replaced by web service when it runs
         user = request.user
-        context = {'user': user}
+        context = {'user': user, 'username': user.username}
         return render(request, 'notifications.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
