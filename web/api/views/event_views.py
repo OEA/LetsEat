@@ -60,30 +60,53 @@ def get_owned_events(request):
     if request.method == "POST":
         user = get_object_or_404(User, username=request.POST["username"])
         events = Event.objects.filter(owner=user)
-        responseJSON["events"] = []
-        for event in events:
-            eventJSON = {}
-            eventJSON["name"] = event.name
-            restaurantJSON = {}
-            restaurantJSON["name"] = event.restaurant.name
-            restaurantJSON["latitude"] = event.restaurant.latitude
-            restaurantJSON["longitude"] = event.restaurant.longitude
-            eventJSON["restaurant"] = restaurantJSON
-            eventJSON["time"] = event.time
-            eventJSON["type"] = event.get_type_symbol(event.type)
-            eventJSON["participants"] = []
-            for participant in event.participants.all():
-                participantJSON = {}
-                participantJSON["name"] = participant.name
-                participantJSON["surname"] = participant.surname
-                participantJSON["username"] = participant.username
-                participantJSON["email"] = participant.email
-                eventJSON["participants"].append(participantJSON)
-            eventJSON["joinable"] = event.joinable
-            responseJSON["events"].append(eventJSON)
+        responseJSON["events"] = create_events_json(events)
         responseJSON["status"] = "success"
         responseJSON["message"] = "Events found."
     else:
         responseJSON["status"] = "failed"
         responseJSON["message"] = "No request found."
     return HttpResponse(json.dumps(responseJSON))
+
+
+def get_event(request):
+    responseJSON = {}
+    if request.method == "POST":
+        event = get_object_or_404(Event, pk=request.POST["event"])
+        responseJSON["event"] = create_event_json(event)
+        responseJSON["status"] = "success"
+        responseJSON["message"] = "Event found."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON))
+
+
+def create_event_json(event):
+    eventJSON = {}
+    eventJSON["name"] = event.name
+    restaurantJSON = {}
+    restaurantJSON["name"] = event.restaurant.name
+    restaurantJSON["latitude"] = event.restaurant.latitude
+    restaurantJSON["longitude"] = event.restaurant.longitude
+    eventJSON["restaurant"] = restaurantJSON
+    eventJSON["time"] = event.time
+    eventJSON["type"] = event.get_type_symbol(event.type)
+    eventJSON["participants"] = []
+    for participant in event.participants.all():
+        participantJSON = {}
+        participantJSON["name"] = participant.name
+        participantJSON["surname"] = participant.surname
+        participantJSON["username"] = participant.username
+        participantJSON["email"] = participant.email
+        eventJSON["participants"].append(participantJSON)
+    eventJSON["joinable"] = event.joinable
+    return eventJSON
+
+
+def create_events_json(events):
+    events = []
+    for event in events:
+        eventJSON = create_event_json(event)
+        events.append(eventJSON)
+    return events
