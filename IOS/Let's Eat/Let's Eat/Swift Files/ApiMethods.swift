@@ -109,7 +109,10 @@ class ApiMethods {
         }
     }
     
+    
+    
     func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString, sender: NSString){
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
        
         
@@ -119,7 +122,7 @@ class ApiMethods {
         
         var url:NSURL = NSURL(string: url)!
         
-        var request = getRequest(url, post: post)
+        var request = self.getRequest(url, post: post)
         
         var responseError: NSError?
         var response: NSURLResponse?
@@ -133,7 +136,7 @@ class ApiMethods {
             if (res.statusCode >= 200 && res.statusCode < 300)
             {
                 
-                let jsonData:NSDictionary = getJsonData(urlData!)
+                let jsonData:NSDictionary = self.getJsonData(urlData!)
                 
                 let status:NSString = jsonData.valueForKey("status") as NSString
                 
@@ -144,28 +147,32 @@ class ApiMethods {
                 if(status == "succes")
                 {
                     NSLog("ADD SUCCESS");
-                    
+                    vc.navigationController?.dismissViewControllerAnimated(true, completion: nil)
                 } else {
-                    alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
+                        self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                    })
                 }
             } else {
-                alert.getStatusCodeError(errorText, vc: vc)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.alert.getStatusCodeError(errorText, vc: vc)
+                })
             }
         } else {
-            alert.getUrlDataError(responseError, str: errorText, vc: vc)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+            })
         }
+        })
 
     }
     
     func acceptFriend(sender: NSString, vc: UIViewController){
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             let userDefaults = NSUserDefaults.standardUserDefaults()
             let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
             
             self.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: username, vc: vc, errorText: "Accept Friend Failed!", sender: sender)
-
-        })
-
     }
     
     func rejectFriend(sender: NSString, vc: UIViewController){
