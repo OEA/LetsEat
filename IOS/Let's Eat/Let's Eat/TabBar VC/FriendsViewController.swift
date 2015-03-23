@@ -17,6 +17,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     var friends = []
     var searchedList = []
     var findFriendChosen = false
+    let userDefaults = NSUserDefaults.standardUserDefaults()
     
     let alert = Alerts()
     let apiMethod = ApiMethods()
@@ -68,6 +69,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     NSLog("Login SUCCESS");
                     friends = jsonData["friends"] as NSArray
                     searchedList = friends
+                    userDefaults.setObject(friends, forKey: "friends")
                     println(jsonData)
                     
                 } else {
@@ -87,8 +89,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         var jsonData: NSDictionary!
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             if (searchBar.text != nil && searchBar.text != "" && self.findFriendChosen) {
-                let userDefaults = NSUserDefaults.standardUserDefaults()
-                let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+                
+                let username: NSString = self.userDefaults.valueForKey("USERNAME") as NSString
                 
                 var post:NSString = "username=\(username)"
                 NSLog(post)

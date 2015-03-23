@@ -33,6 +33,16 @@ class FriendInfoViewController: UIViewController {
         surnameField.text = friend["surname"]
         userNameField.text = friend["username"]
         emailField.text = friend["email"]
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let friendList = userDefaults.arrayForKey("friends"){
+            let existList = friendList.filter{(($0["username"]) as String) == self.friend["username"]!}
+            if existList.count > 0 {
+                findFriendChosen = false
+                isRequestView = false
+            }
+        }
+        
         if findFriendChosen == true{
             addFriendButton.hidden = false
         }else{
@@ -45,6 +55,7 @@ class FriendInfoViewController: UIViewController {
             acceptFriendButton.hidden = true
             rejectFriendButton.hidden = true
         }
+        
     }
 
     override func viewDidDisappear(animated: Bool) {

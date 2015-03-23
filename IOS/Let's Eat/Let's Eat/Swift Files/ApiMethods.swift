@@ -100,6 +100,7 @@ class ApiMethods {
         userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
         userDefaults.removeObjectForKey("userInfo")
         userDefaults.removeObjectForKey("USERNAME")
+        userDefaults.removeObjectForKey("friends")
         
         alert.getSuccesLogoutAleart(jsonData, vc: vc)
         if vc is ViewController {
