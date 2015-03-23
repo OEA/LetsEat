@@ -140,11 +140,14 @@ def get_friend_requests(request):
         user = get_object_or_404(User, username=username)
         friend_request_list = FriendshipRequest.objects.filter(receiver=user, status='P')
         responseJSON["status"] = "success"
-        responseJSON["message"] = "Requests found."
         responseJSON["senders"] = []
         sender_list = []
         for friend_request in friend_request_list:
             sender_list.append(friend_request.sender)
+        if len(sender_list) > 0:
+            responseJSON["message"] = "Requests found."
+        else:
+            responseJSON["message"] = "Requests not found."
         for sender in sender_list:
             senderJSON = {}
             senderJSON["name"] = sender.name
