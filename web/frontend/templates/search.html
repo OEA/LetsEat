@@ -22,9 +22,15 @@
     </div>
 
     <div class="col-md-6 ">
-            <h5>Search Result <small> for totoshakan </small> - <small>12 results</small></h5>
+        <h5>Search Result
+            <small> for {{ search_field }}</small>
+            -
+            <small>{{ count }} results</small>
+        </h5>
         <div class="media-body">
             <div class="panel-body ">
+                {% if users %}
+                {% for user in users %}
                 <div class="media well" style="padding: 10px;">
                     <div class="media-left">
                     <a href="#">
@@ -32,23 +38,13 @@
                         </a>
                       </div>
                       <div class="media-body">
-                                <a href="#">Ömer Aslan</a><br>
+                          <a href="#">{{ user.name }} {{ user.surname }}</a><br>
 
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                          <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
                         </div>
                 </div>
-                <div class="media well" style="padding: 10px;">
-                    <div class="media-left">
-                    <a href="#">
-                          <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="32" height="32">
-                        </a>
-                      </div>
-                      <div class="media-body">
-                                <a href="#">Ömer Aslan</a><br>
-
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
-                        </div>
-                </div>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

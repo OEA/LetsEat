@@ -4,12 +4,12 @@ import http.client
 import urllib.parse
 import json
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
-from api.models import user
+from api.models import User
 
 
 def registration_view(request):
@@ -135,14 +135,21 @@ def search_user(request):
             r1 = conn.getresponse()
             data = r1.read()
             dict = json.loads(data.decode("utf-8"))
+            if 'users' in dict:
+                user_list = []
+                for user in dict['users']:
+                    user_list.append(get_object_or_404(User, username=user['username']))
+                context = {'search_field': username, 'users': user_list, 'count': user_list.count(0)}
+            else:
+                context = {'search_field': username, 'count': 0}
             user = None
             if dict['status'] == "success":
                 print(dict)
-                return render(request, "search.html")
+                return render(request, "search.html", context)
             print("There is no user like that!")
         else:
             print("Use post method!")
-            return None
+            return redirect("login")
     else:
         print("Please login to system")
         return render(request, "./login.html")
