@@ -10,7 +10,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
 from api.models import user
-from api.views import user_views as functions
 
 
 def registration_view(request):
@@ -95,13 +94,31 @@ def edit(request, username):
     if request.user.is_authenticated():
         #It will be replaced by web service when it runs
         if request.method == "POST":
-            functions.edit(request, username)
             user = request.user
-            context = {'user': user}
+            name = request.POST["name"]
+            surname = request.POST["surname"]
+            newPassword = request.POST["newPassword"]
+            newPassword2 = request.POST["newPassword2"]
+            currentPassword = request.POST["currentPassword"]
+            params = urllib.parse.urlencode(
+                {'name': name, 'surname': surname, 'username': username, 'newPassword': newPassword,
+                 'newPassword2': newPassword2, 'currentPassword': currentPassword})
+            headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+            conn = http.client.HTTPConnection('127.0.0.1', 8000)
+            url = "/api/profile/%s/edit/" % username
+            conn.request("POST", url, params, headers)
+            r1 = conn.getresponse()
+            data = r1.read()
+            dict = json.loads(data.decode("utf-8"))
+            print(data.decode("utf-8"))
+            if dict["status"] == "success":
+                context = {'user': user, 'error': False, 'success': True}
+            else:
+                context = {'user': user, 'error': True, 'success': False}
             return render(request, 'profile_edit.html', context)
         else:
             user = request.user
-            context = {'user': user}
+            context = {'user': user, 'error': False, 'success': False}
             return render(request, 'profile_edit.html', context)
     else:
         return redirect("login")
