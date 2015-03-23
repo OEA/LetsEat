@@ -53,12 +53,12 @@ def send_friend_request(request):
             friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
             friend_request.status = 'P'
             friend_request.save()
-            responseJSON["status"] = "succes"
+            responseJSON["status"] = "success"
             responseJSON["message"] = "Existing friend request updated."
         else:
             friend_request = FriendshipRequest(sender=sender, receiver=receiver, status='P')
             friend_request.save()
-            responseJSON["status"] = "succes"
+            responseJSON["status"] = "success"
             responseJSON["message"] = "Friend request created."
     else:
         responseJSON["status"] = "failed"

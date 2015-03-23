@@ -2,15 +2,33 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/typeahead.js' %}"></script>
+<script src="{% static 'js/jqBootstrapValidation-1.3.7.min.js' %}"></script>
 <script>
 
 // multiple datasets
 // -----------------
 
+var queryInput = $('.typeahead');
 var nbaTeams = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('team'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: "{% static 'js/nba.json' %}"
+    remote: {
+        url: "/api/search/",
+
+        replace: function(url, query) {
+            return url + query + "/";
+        },
+        ajax : {
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+                    $.each(data.users, function(){
+
+                    });
+                }
+
+        }
+    }
 });
 
 var nhlTeams = new Bloodhound({
@@ -27,7 +45,7 @@ $('#multiple-datasets .typeahead').typeahead({
 },
 {
   name: 'nba-teams',
-  displayKey: 'team',
+  displayKey: 'name',
   source: nbaTeams.ttAdapter(),
   templates: {
     header: '<h4 class="league-name">NBA Teams</h4>'
@@ -51,5 +69,29 @@ $('#multiple-datasets .typeahead').typeahead({
   });
 })
 </script>
+<script type="text/javascript">
+            $(".submit").click(function(){
+                var sender = $(this).attr('data-sender');
+	            var receiver = $(this).attr('data-receiver');
+                console.log(sender+" "+receiver);
+                $.ajax({
+                    url: "{% url 'api_add_friend' %}",
+                    type: "POST",
+                    data: 'sender='+sender+"&receiver="+receiver,
+                    dataType: "JSON",
+                    success: function (data) {
+                        $(this).removeClass("btn-primary");
+                        $(this).addClass("btn-default");
+                        $(this).text("Sent");
+                    },
+                    error: function(data){
+                        console.log(data);
+                    }
+
+                });
+
+    });
+
+    </script>
 </body>
 </html>

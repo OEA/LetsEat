@@ -47,11 +47,11 @@
                       <div class="panel panel-default">
                             <div class="panel-heading">New to LetsEat ? <strong>Register</strong></div>
                             <div class="panel-body">
-                                <form id="signUpForm" method="POST" action="/register/" novalidate="novalidate">
+                                <form id="signUpForm" method="POST" action="/register/">
                               {% csrf_token %}
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="name" value="" required="" title="Please enter you name" placeholder="Name" autocomplete="off">
-                                  <span class="help-block"></span>
+                                  <input type="text" class="form-control" name="name" value="" title="Please enter you name" placeholder="Name" autocomplete="off" data-validation-required-message="You must agree to the terms and conditions">
+                                  <p class="help-block"></p>
                               </div>
                               <div class="form-group">
                                   <input type="text" class="form-control" name="surname" value="" required="" title="Please enter you name" placeholder="Surname" autocomplete="off">
@@ -62,7 +62,9 @@
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="email" value="" required="" title="Please enter you e-mail" placeholder="Email" autocomplete="off">
+                                  <input type="email" class="form-control" name="email" value="" id="email" title="Please enter you e-mail" placeholder="Email" autocomplete="off" required
+  data-validation-required-message=
+    "You must agree to the terms and conditions">
                                   <span class="help-block"></span>
                               </div>
                               <div class="form-group">
@@ -71,7 +73,7 @@
                               </div>
                               </div>
                               <div class="panel-footer">
-                                <button type="submit" class="btn btn-warning btn-block">Register</button>
+                                <input type="submit" class="btn btn-warning btn-block" />
                               </div>
 
                           </form>
