@@ -2,53 +2,55 @@
 <div class="container">
     {% if user %}
     <div class="col-md-4">
-        <form id="loginForm" method="POST" action="" novalidate="novalidate">
-            {% csrf_token %}
-            <label for="name" class="dropdown-header">First Name</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="text" class="form-control" name="name" id="name" value="{{ user.name }}"/>
-            </div>
-            <label for="surname" class="dropdown-header">Surname</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="text" class="form-control" name="surname" id="surname" value="{{ user.surname }}"/>
-            </div>
-            <label for="user_name" class="dropdown-header">Username</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="text" class="form-control" name="username" id="user_name" value="{{ user.username }}" disabled/>
-            </div>
-            <label for="user_name" class="dropdown-header">Email</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="text" class="form-control" name="email" id="user_name" value="{{ user.email }}" disabled/>
-            </div>
-            <label for="user_pass" class="dropdown-header">New Password</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="password" class="form-control" name="newPassword" id="user_pass" autocomplete="off"/>
-            </div>
-            <label for="user_pass" class="dropdown-header">Verify Password</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="password" class="form-control" name="newPassword2" id="user_pass" autocomplete="off"/>
-            </div>
+        <div class="well" style="padding:10px;">
+            <form id="loginForm" method="POST" action="" novalidate="novalidate">
+                {% csrf_token %}
+                <label for="name" class="dropdown-header">First Name</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="text" class="form-control" name="name" id="name" value="{{ user.name }}"/>
+                </div>
+                <label for="surname" class="dropdown-header">Surname</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="text" class="form-control" name="surname" id="surname" value="{{ user.surname }}"/>
+                </div>
+                <label for="user_name" class="dropdown-header">Username</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="text" class="form-control" name="username" id="user_name" value="{{ user.username }}" disabled/>
+                </div>
+                <label for="user_name" class="dropdown-header">Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="text" class="form-control" name="email" id="user_name" value="{{ user.email }}" disabled/>
+                </div>
+                <label for="user_pass" class="dropdown-header">New Password</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="password" class="form-control" name="newPassword" id="user_pass" autocomplete="off"/>
+                </div>
+                <label for="user_pass" class="dropdown-header">Verify Password</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="password" class="form-control" name="newPassword2" id="user_pass" autocomplete="off"/>
+                </div>
 
-            <label for="user_pass" class="dropdown-header">Current Password</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa"></i></span>
-                <input type="password" class="form-control" name="currentPassword" id="user_pass" autocomplete="off"/>
-            </div>
-            <small>Fill in the current password blank, if you want to save changes to your account.</small>
+                <label for="user_pass" class="dropdown-header">Current Password</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa"></i></span>
+                    <input type="password" class="form-control" name="currentPassword" id="user_pass" autocomplete="off"/>
+                </div>
+                <small>Fill in the current password blank, if you want to save changes to your account.</small>
 
-            <hr>
+                <hr>
 
-            <div style="margin-bottom:10px;">
-                <input type="submit" class="btn btn-default" value="Save">
-            </div>
+                <div style="margin-bottom:10px;">
+                    <input type="submit" class="btn btn-default" value="Save">
+                </div>
 
-        </form>
+            </form>
+        </div>
     </div>
     {% endif %}
 </div>
