@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..forms import EventCreationForm
-from ..models import User, Restaurant, Event
+from ..models import User, Restaurant, Event, EventRequest
 
 
 def create_event(request):
@@ -45,10 +45,59 @@ def invite_event(request):
     if request.method == "POST":
         event = get_object_or_404(Event, pk=request.POST["event"])
         participant = get_object_or_404(User, username=request.POST["participant"])
-        event.participants.add(participant)
-        event.save()
-        responseJSON["status"] = "success"
-        responseJSON["message"] = "Participant added."
+        if EventRequest.objects.filter(event=event, guest=participant).count() > 0:
+            event_request = get_object_or_404(EventRequest, event=event, guest=participant)
+            event_request.status = 'P'
+            event_request.save()
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Existing event request updated."
+        else:
+            event_request = EventRequest(event=event, guest=participant, status='P')
+            event_request.save()
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Friend request created."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def accept_event(request):
+    responseJSON = {}
+    if request.method == "POST":
+        event = get_object_or_404(Event, pk=request.POST["event"])
+        participant = get_object_or_404(User, username=request.POST["participant"])
+        if EventRequest.objects.filter(event=event, guest=participant).count() > 0:
+            event_request = get_object_or_404(EventRequest, event=event, guest=participant)
+            event_request.status = 'A'
+            event.participants.add(participant)
+            event.save()
+            event_request.save()
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Existing event request updated."
+        else:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Pending event request cannot be found."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def reject_event(request):
+    responseJSON = {}
+    if request.method == "POST":
+        event = get_object_or_404(Event, pk=request.POST["event"])
+        participant = get_object_or_404(User, username=request.POST["participant"])
+        if EventRequest.objects.filter(event=event, guest=participant).count() > 0:
+            event_request = get_object_or_404(EventRequest, event=event, guest=participant)
+            event_request.status = 'R'
+            event_request.save()
+            responseJSON["status"] = "success"
+            responseJSON["message"] = "Existing event request updated."
+        else:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Pending event request cannot be found."
     else:
         responseJSON["status"] = "failed"
         responseJSON["message"] = "No request found."
