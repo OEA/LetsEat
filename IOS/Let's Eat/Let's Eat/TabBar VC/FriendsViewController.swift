@@ -14,6 +14,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var friendList: UIButton!
     @IBOutlet weak var tabelView: UITableView!
     
+    var friends = []
     var searchedList = []
     var findFriendChosen = false
     
@@ -27,7 +28,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         // Do any additional setup after loading the view.
         
-        /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username: NSString = prefs.valueForKey("USERNAME") as NSString
         
         var post:NSString = "username=\(username)"
@@ -35,8 +36,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         NSLog("PostData: %@",post);
         
         var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friends/")!
-        
-//      var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
         
         var request = apiMethod.getRequest(url, post: post)
         
@@ -63,7 +62,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if(status == "success")
                 {
                     NSLog("Login SUCCESS");
-                    
+                    friends = jsonData["friends"] as NSArray
+                    searchedList = friends
                     println(jsonData)
             
                 } else {
@@ -74,7 +74,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             }
         } else {
             alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
-        }*/
+        }
         
     }
     
@@ -150,24 +150,27 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell") as UITableViewCell
         if searchedList.count > 0 {
-            if findFriendChosen {
+            
                 let nameLabel = cell.viewWithTag(1) as UILabel
                 let name = searchedList[indexPath.item]["name"] as NSString
                 let surname = searchedList[indexPath.item]["surname"] as NSString
                 let userNameLabel = cell.viewWithTag(2) as UILabel
                 userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
                 nameLabel.text = name + " " + surname
-            }
+            
         }
         
         return cell
     }
     @IBAction func listChoice(sender: UIButton) {
+        self.searchedList = []
+
         if sender.titleLabel?.text == "Friend List"{
             sender.backgroundColor = UIColor(red: 0, green: 122.0/255, blue: 1, alpha: 1)
             sender.titleLabel?.textColor = UIColor.whiteColor()
             findFriend.backgroundColor = UIColor.whiteColor()
             findFriend.titleLabel?.textColor = UIColor.blackColor()
+            searchedList = friends
             findFriendChosen = false
         }else {
             sender.backgroundColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1)
@@ -175,8 +178,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             friendList.titleLabel?.textColor = UIColor.blackColor()
             findFriendChosen = true
         }
-            self.searchedList = []
-            self.tabelView.reloadData()
+        self.tabelView.reloadData()
     }
     
 
@@ -185,9 +187,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if sender is UITableViewCell{
         
         let friendInfoVC = segue.destinationViewController as FriendInfoViewController
+            let friendNum = tabelView.indexPathForSelectedRow()?.item
+            friendInfoVC.friend = searchedList[friendNum!] as [String: NSString]
             if findFriendChosen {
-                let friendNum = tabelView.indexPathForSelectedRow()?.item
-                friendInfoVC.friend = searchedList[friendNum!] as [String: NSString]
                 friendInfoVC.findFriendChosen = findFriendChosen
             }
         }

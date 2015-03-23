@@ -108,6 +108,72 @@ class ApiMethods {
             vc.navigationController?.popToRootViewControllerAnimated(true)
         }
     }
+    
+    func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString, sender: NSString){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+       
+        
+        var post:NSString = "sender=\(sender)&receiver=\(receiver)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: url)!
+        
+        var request = getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Success: " + status)
+                
+                if(status == "succes")
+                {
+                    NSLog("ADD SUCCESS");
+                    
+                } else {
+                    alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                }
+            } else {
+                alert.getStatusCodeError(errorText, vc: vc)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str: errorText, vc: vc)
+        }
+
+    }
+    
+    func acceptFriend(sender: NSString, vc: UIViewController){
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+            
+            self.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: username, vc: vc, errorText: "Accept Friend Failed!", sender: sender)
+
+        })
+
+    }
+    
+    func rejectFriend(sender: NSString, vc: UIViewController){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        
+        addFriend("http://127.0.0.1:8000/api/reject_friend/", receiver: username, vc: vc, errorText: "Reject Friend Failed!", sender: sender)
+    }
 
     
     

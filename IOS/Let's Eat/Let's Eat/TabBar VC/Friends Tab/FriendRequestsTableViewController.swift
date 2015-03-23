@@ -17,15 +17,10 @@ class FriendRequestsTableViewController: UITableViewController {
 
 
     @IBOutlet var friendReqtTV: UITableView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    override func viewWillAppear(animated: Bool) {
+        requestList = []
         getFriendRequests()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
