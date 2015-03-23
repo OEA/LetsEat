@@ -128,6 +128,8 @@ def search_user(request):
     if request.user.is_authenticated():
         if request.method == "POST":
             username = request.POST['username']
+            if username == "":
+                 return redirect("../homepage")
             params = urllib.parse.urlencode({"username" : request.user.username})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
             conn = http.client.HTTPConnection('127.0.0.1',8000)
