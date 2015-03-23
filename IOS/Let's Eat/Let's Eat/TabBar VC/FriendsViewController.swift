@@ -28,6 +28,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         // Do any additional setup after loading the view.
         
+        getFriendList()
+    }
+    
+    func getFriendList(){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username: NSString = prefs.valueForKey("USERNAME") as NSString
         
@@ -65,7 +69,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     friends = jsonData["friends"] as NSArray
                     searchedList = friends
                     println(jsonData)
-            
+                    
                 } else {
                     alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
                 }
@@ -75,19 +79,23 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
         }
-        
+
     }
-    
-   
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         var searched = false
         var jsonData: NSDictionary!
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             if (searchBar.text != nil && searchBar.text != "" && self.findFriendChosen) {
-                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)")!
+                let userDefaults = NSUserDefaults.standardUserDefaults()
+                let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
                 
-                var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+                var post:NSString = "username=\(username)"
+                NSLog(post)
+                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)/")!
+                
+                var request = self.apiMethod.getRequest(url, post: post)
+
                 
                 var reponseError: NSError?
                 var response: NSURLResponse?
