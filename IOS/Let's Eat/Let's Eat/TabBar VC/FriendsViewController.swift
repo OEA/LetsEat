@@ -61,7 +61,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if(status == "success")
                 {
                     NSLog("Login SUCCESS");
-                    
+                    searchedList = jsonData["friends"] as NSArray
                     println(jsonData)
             
                 } else {
@@ -148,14 +148,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell") as UITableViewCell
         if searchedList.count > 0 {
-            if findFriendChosen {
+            
                 let nameLabel = cell.viewWithTag(1) as UILabel
                 let name = searchedList[indexPath.item]["name"] as NSString
                 let surname = searchedList[indexPath.item]["surname"] as NSString
                 let userNameLabel = cell.viewWithTag(2) as UILabel
                 userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
                 nameLabel.text = name + " " + surname
-            }
+            
         }
         
         return cell

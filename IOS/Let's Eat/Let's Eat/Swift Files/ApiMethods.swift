@@ -109,11 +109,11 @@ class ApiMethods {
         }
     }
     
-    func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString){
+    func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString, sender: NSString){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+       
         
-        var post:NSString = "sender=\(username)&receiver=\(receiver)"
+        var post:NSString = "sender=\(sender)&receiver=\(receiver)"
         
         NSLog("PostData: %@",post);
         
@@ -157,17 +157,22 @@ class ApiMethods {
 
     }
     
-    func acceptFriend(receiver: NSString, vc: UIViewController){
+    func acceptFriend(sender: NSString, vc: UIViewController){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
             
-            self.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: receiver, vc: vc, errorText: "Accept Friend Failed!")
+            self.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: username, vc: vc, errorText: "Accept Friend Failed!", sender: sender)
 
         })
 
     }
     
-    func rejectFriend(receiver: NSString, vc: UIViewController){
-        addFriend("http://127.0.0.1:8000/api/reject_friend/", receiver: receiver, vc: vc, errorText: "Reject Friend Failed!")
+    func rejectFriend(sender: NSString, vc: UIViewController){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        
+        addFriend("http://127.0.0.1:8000/api/reject_friend/", receiver: username, vc: vc, errorText: "Reject Friend Failed!", sender: sender)
     }
 
     

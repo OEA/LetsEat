@@ -53,7 +53,10 @@ class FriendInfoViewController: UIViewController {
     }
     
     @IBAction func addFriendTapped() {
-        apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: userNameField.text!, vc: self, errorText: "Add Friend Failed!")
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        
+        apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: userNameField.text!, vc: self, errorText: "Add Friend Failed!", sender: username)
     }
 
     @IBAction func requestChoice(sender: UIButton) {
