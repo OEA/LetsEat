@@ -23,7 +23,7 @@ class FriendInfoViewController: UIViewController {
     @IBOutlet weak var rejectFriendButton: UIButton!
     
     
-    let alert = Alerts()
+
     let apiMethod = ApiMethods()
 
     
@@ -61,17 +61,10 @@ class FriendInfoViewController: UIViewController {
 
     @IBAction func requestChoice(sender: UIButton) {
         if sender.titleLabel?.text == "Accept Friend" {
-            acceptFriend()
+            apiMethod.acceptFriend(userNameField.text!, vc: self)
         }else{
-            rejectFriend()
+            apiMethod.rejectFriend(userNameField.text!, vc: self)
         }
     }
     
-    func acceptFriend(){
-       apiMethod.acceptFriend(userNameField.text!, vc: self)
-    }
-    
-    func rejectFriend(){
-        apiMethod.rejectFriend(userNameField.text!, vc: self)
-    }
 }

@@ -1327,7 +1327,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="c8j-cJ-uqM">
                                             <rect key="frame" x="5" y="5" width="80" height="80"/>
-                                            <color key="backgroundColor" patternImage="26CE333E-56E5-461F-8FA8-BD4C05A837DB" colorSpace="pattern"/>
+                                            <color key="backgroundColor" patternImage="E9A14828-6F5E-47D1-B230-D5C0BF21AA82" colorSpace="pattern"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="80" id="fTN-T8-3u4"/>
                                                 <constraint firstAttribute="width" constant="80" id="uo6-xY-bkV"/>
@@ -1855,7 +1855,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="26CE333E-56E5-461F-8FA8-BD4C05A837DB" width="512" height="512">
+        <image name="E9A14828-6F5E-47D1-B230-D5C0BF21AA82" width="512" height="512">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGTk9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEQcI
 ExQZHh8nKzIzNDw/QkhLVSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NW
@@ -19396,8 +19396,8 @@ tc42zrbPN8+40DnQutE80b7SP9LB00TTxtRJ1MvVTtXR1lXW2Ndc1+DYZNjo2WzZ8dp22vvbgNwF3Ird
 EN2W3hzeot8p36/gNuC94UThzOJT4tvjY+Pr5HPk/OWE5g3mlucf56noMui86Ubp0Opb6uXrcOv77Ibt
 Ee2c7ijutO9A78zwWPDl8XLx//KM8xnzp/Q09ML1UPXe9m32+/eK+Bn4qPk4+cf6V/rn+3f8B/yY/Sn9
 uv5L/tz/bf//gAjSLC0uL1okY2xhc3NuYW1lWCRjbGFzc2VzXU5TTXV0YWJsZURhdGGjLjAxVk5TRGF0
-YVhOU09iamVjdF8QGHt7MCwgMH0sIHsxNjM4NCwgMTYzODR9fV8QGHt7MCwgMH0sIHsxNjM4NCwgMTYz
-ODR9fdMsLTU2NzpbJGNsYXNzaGludHNfEBROU0NHSW1hZ2VTbmFwc2hvdFJlcKM4OTFfEBROU0NHSW1h
+YVhOU09iamVjdF8QGHt7MCwgMH0sIHszMjc2OCwgMzI3Njh9fV8QGHt7MCwgMH0sIHszMjc2OCwgMzI3
+Njh9fdMsLTU2NzpbJGNsYXNzaGludHNfEBROU0NHSW1hZ2VTbmFwc2hvdFJlcKM4OTFfEBROU0NHSW1h
 Z2VTbmFwc2hvdFJlcFpOU0ltYWdlUmVwoTtfEBBOU0NhY2hlZEltYWdlUmVw0iwtPT5XTlNBcnJheaI9
 MdIsLUBBXk5TTXV0YWJsZUFycmF5o0A9MdNDRApFRkdXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
 gA/SLC1JSldOU0NvbG9yokkx0iwtTE1XTlNJbWFnZaJMMV8QD05TS2V5ZWRBcmNoaXZlctFQUVRyb290
