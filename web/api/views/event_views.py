@@ -24,12 +24,14 @@ def create_event(request):
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
         event = form.save(commit=False)
         event.owner = owner
+        event.participants.add(owner)
         event.restaurant = restaurant
         if request.POST["joinable"] == 1:
             event.joinable = True
         else:
             event.joinable = False
         event.type = type
+        event.save()
         responseJSON["status"] = "success"
         responseJSON["message"] = "Successfully registered."
     else:
@@ -38,4 +40,16 @@ def create_event(request):
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
-
+def invite_event(request):
+    responseJSON = {}
+    if request.method == "POST":
+        event = get_object_or_404(Event, pk=request.POST["event"])
+        participant = get_object_or_404(User, username=request.POST["participant"])
+        event.participants.add(participant)
+        event.save()
+        responseJSON["status"] = "success"
+        responseJSON["message"] = "Participant added."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found."
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
