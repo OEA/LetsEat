@@ -22,7 +22,6 @@ def registration_view(request):
             email = request.POST['email']
             password = request.POST['password']
             username = request.POST['username']
-
             params = urllib.parse.urlencode(
                 {'name': name,
                  'surname': surname,
@@ -30,18 +29,17 @@ def registration_view(request):
                  'password': password,
                  'username': username,
                  })
-
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-            conn = http.client.HTTPConnection('127.0.0.1', 8000)
-            conn.request("POST", "/api/register/", params, headers)
-            r1 = conn.getresponse()
-            data = r1.read()
-            dict = json.loads(data.decode("utf-8"))
-            print(dict)
-            if dict["status"] == "success":
+            connection = http.client.HTTPConnection('127.0.0.1', 8000)
+            connection.request("POST", "/api/register/", params, headers)
+            registration_response = connection.getresponse()
+            registration_data_json = registration_response.read()
+            registration_data = json.loads(registration_data_json.decode("utf-8"))
+            if registration_data["status"] == "success":
                 return render(request, "login.html", {"registration": True})
             else:
-                return render(request, "register.html", {"error": True, "error_message": dict["message"]})
+                return render(request, "register.html",
+                              {"error": True, "error_message": registration_data["message"]})
         else:
             return render(request, "register.html")
 
@@ -56,14 +54,13 @@ def login_view(request):
             password = request.POST['password']
             params = urllib.parse.urlencode({'username': username, 'password': password})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-            conn = http.client.HTTPConnection('127.0.0.1',8000)
-            conn.request("POST", "/api/login/", params, headers)
-            r1 = conn.getresponse()
-            data = r1.read()
-            dict = json.loads(data.decode("utf-8"))
+            connection = http.client.HTTPConnection('127.0.0.1',8000)
+            connection.request("POST", "/api/login/", params, headers)
+            login_response = connection.getresponse()
+            login_data_json = login_response.read()
+            login_data = json.loads(login_data_json.decode("utf-8"))
             user = None
-            if dict['status'] == "success":
-                #print("successfully logged in")
+            if login_data['status'] == "success":
                 user = authenticate(username=username, password=password)
                 login(request, user)
                 return redirect("../homepage")
@@ -92,7 +89,6 @@ def profile(request, username):
 
 def edit(request, username):
     if request.user.is_authenticated():
-        #It will be replaced by web service when it runs
         if request.method == "POST":
             user = request.user
             name = request.POST["name"]
@@ -104,14 +100,13 @@ def edit(request, username):
                 {'name': name, 'surname': surname, 'username': username, 'newPassword': newPassword,
                  'newPassword2': newPassword2, 'currentPassword': currentPassword})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-            conn = http.client.HTTPConnection('127.0.0.1', 8000)
+            connection = http.client.HTTPConnection('127.0.0.1', 8000)
             url = "/api/profile/%s/edit/" % username
-            conn.request("POST", url, params, headers)
-            r1 = conn.getresponse()
-            data = r1.read()
-            dict = json.loads(data.decode("utf-8"))
-            print(data.decode("utf-8"))
-            if dict["status"] == "success":
+            connection.request("POST", url, params, headers)
+            edit_response = connection.getresponse()
+            edit_data_json = edit_response.read()
+            edit_data = json.loads(edit_data_json.decode("utf-8"))
+            if edit_data["status"] == "success":
                 context = {'user': user, 'username':user.username, 'error': False, 'success': True}
             else:
                 context = {'user': user, 'username':user.username,'error': True, 'success': False}
@@ -132,21 +127,20 @@ def search_user(request):
                  return redirect("../homepage")
             params = urllib.parse.urlencode({"username" : request.user.username})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-            conn = http.client.HTTPConnection('127.0.0.1',8000)
-            conn.request("POST", "/api/search/"+username+"/", params, headers)
-            r1 = conn.getresponse()
-            data = r1.read()
-            dict = json.loads(data.decode("utf-8"))
-            if 'users' in dict:
+            connection = http.client.HTTPConnection('127.0.0.1',8000)
+            connection.request("POST", "/api/search/"+username+"/", params, headers)
+            search_response = connection.getresponse()
+            search_data_json = search_response.read()
+            search_data = json.loads(search_data_json.decode("utf-8"))
+            if 'users' in search_data:
                 user_list = []
-                for user in dict['users']:
+                for user in search_data['users']:
                     user_list.append(get_object_or_404(User, username=user['username']))
                 context = {'search_field': username, 'users': user_list, 'count': user_list.count(0)}
             else:
                 context = {'search_field': username, 'count': 0}
             user = None
-            if dict['status'] == "success":
-                print(dict)
+            if search_data['status'] == "success":
                 return render(request, "search.html", context)
             print("There is no user like that!")
         else:
@@ -178,20 +172,6 @@ def test(request):
 def logout(request):
     auth.logout(request)
     return redirect("../login")
-
-
-def home_view(request):
-    if request.user.is_authenticated():
-        return redirect("../profile/"+request.user.username)
-    #     conn =  http.client.HTTPConnection('127.0.0.1',8000)
-    #     conn.request("POST", "/api/profile/(?P<username>\w+)/$")
-    #     r1 = conn.getresponse()
-    #     data = r1.read()
-    #
-    #     return HttpResponse(data)
-    else:
-        return redirect("../login")
-
 
 def notifications_view(request):
     user = None
