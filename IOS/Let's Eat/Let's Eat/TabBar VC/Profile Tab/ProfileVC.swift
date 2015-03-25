@@ -35,6 +35,7 @@ class ProfileVC: UIViewController {
   
     @IBAction func logoutTapped() {
         apiMethod.requestLogout(self)
+        self.tabBarController?.selectedIndex = 0
     }
     
         
