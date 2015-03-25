@@ -35,7 +35,7 @@ class FriendInfoViewController: UIViewController {
         emailField.text = friend["email"]
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let friendList = userDefaults.arrayForKey("friends"){
+        if let friendList = userDefaults.arrayForKey("Friends"){
             let existList = friendList.filter{(($0["username"]) as String) == self.friend["username"]!}
             if existList.count > 0 {
                 findFriendChosen = false
@@ -68,7 +68,6 @@ class FriendInfoViewController: UIViewController {
         let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
         
         apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: userNameField.text!, vc: self, errorText: "Add Friend Failed!", sender: username)
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func requestChoice(sender: UIButton) {
@@ -77,6 +76,7 @@ class FriendInfoViewController: UIViewController {
         }else{
             apiMethod.rejectFriend(userNameField.text!, vc: self)
         }
+        
     }
     
 }

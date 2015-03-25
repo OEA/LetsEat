@@ -77,7 +77,7 @@ def accept_friend_request(request):
             friend_request.status = 'A'
             friend_request.save()
             sender.friends.add(receiver)
-            responseJSON["status"] = "succes"
+            responseJSON["status"] = "success"
             responseJSON["message"] = "Existing friend request updated."
         else:
             responseJSON["status"] = "failed"
@@ -100,7 +100,7 @@ def reject_friend_request(request):
             friend_request.status = 'R'
             friend_request.save()
             sender.friends.add(receiver)
-            responseJSON["status"] = "succes"
+            responseJSON["status"] = "success"
             responseJSON["message"] = "Existing friend request updated."
         else:
             responseJSON["status"] = "failed"

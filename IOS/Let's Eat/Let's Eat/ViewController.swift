@@ -156,12 +156,6 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         } else {
             
         }
-
-    }
-    
-    private func update(){
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("json")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

@@ -99,8 +99,8 @@ class ApiMethods {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
         userDefaults.removeObjectForKey("userInfo")
+        userDefaults.removeObjectForKey("Friends")
         userDefaults.removeObjectForKey("USERNAME")
-        userDefaults.removeObjectForKey("friends")
         
         alert.getSuccesLogoutAleart(jsonData, vc: vc)
         if vc is ViewController {
@@ -145,10 +145,13 @@ class ApiMethods {
                 
                 println("Success: " + status)
                 
-                if(status == "succes")
+                if(status == "success")
                 {
                     NSLog("ADD SUCCESS");
-                    vc.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.goBack(vc)
+                    })
+                    
                 } else {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         
@@ -167,6 +170,10 @@ class ApiMethods {
         }
         })
 
+    }
+    
+    func goBack(vc: UIViewController){
+        vc.navigationController?.popViewControllerAnimated(true)
     }
     
     func acceptFriend(sender: NSString, vc: UIViewController){

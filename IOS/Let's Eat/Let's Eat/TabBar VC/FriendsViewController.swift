@@ -22,14 +22,24 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     let alert = Alerts()
     let apiMethod = ApiMethods()
     
+    @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
         findFriend.titleLabel?.textColor = UIColor.blackColor()
         friendList.layer.borderColor = UIColor(red: 0, green: 122.0/255, blue: 1, alpha: 1).CGColor
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
+        searchBar.returnKeyType = UIReturnKeyType.Done
+        searchBar.enablesReturnKeyAutomatically = false
         // Do any additional setup after loading the view.
-        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         getFriendList()
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+        self.view.endEditing(true)
+        
     }
     
     func getFriendList(){
@@ -60,7 +70,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let status:NSString = jsonData.valueForKey("status") as NSString
                 
-                //[jsonData[@"success"] integerValue];
                 
                 println("Success: " + status)
                 
@@ -69,17 +78,17 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     NSLog("Login SUCCESS");
                     friends = jsonData["friends"] as NSArray
                     searchedList = friends
-                    userDefaults.setObject(friends, forKey: "friends")
+                    userDefaults.setObject(friends, forKey: "Friends")
                     println(jsonData)
                     
                 } else {
-                    alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
+                    alert.getSuccesError(jsonData, str:"Friend Search Failed!", vc: self)
                 }
             } else {
-                alert.getStatusCodeError("Sign in Failed!", vc:self)
+                alert.getStatusCodeError("Friend Search Failed!", vc:self)
             }
         } else {
-            alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
+            alert.getUrlDataError(responseError, str:"Friend Search Failed!", vc: self)
         }
 
     }
@@ -87,8 +96,29 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         var searched = false
         var jsonData: NSDictionary!
+        if !findFriendChosen {
+            if (searchBar.text != nil && searchBar.text != "") {
+                var list = [AnyObject]()
+                for user in friends{
+                    let name = user["name"] as String
+                    let surname = user["surname"] as String
+                    let username = user["username"] as String
+                    var b1 = name.rangeOfString(searchBar.text) != nil
+                    var b2 = surname.rangeOfString(searchBar.text) != nil
+                    var b3 = username.rangeOfString(searchBar.text) != nil
+                    if  b1 || b2 || b3{
+                        list.append(user)
+                    }
+                }
+                searchedList = list
+                self.tabelView.reloadData()
+            }else if searchBar.text == ""{
+                searchedList = friends
+                self.tabelView.reloadData()
+            }
+        }else{
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-            if (searchBar.text != nil && searchBar.text != "" && self.findFriendChosen) {
+            if (searchBar.text != nil && searchBar.text != "") {
                 
                 let username: NSString = self.userDefaults.valueForKey("USERNAME") as NSString
                 
@@ -146,6 +176,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
             })
         })
+        
+    }
+        self.view.endEditing(true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{

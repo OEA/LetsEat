@@ -1459,13 +1459,6 @@
                                     <action selector="listChoice:" destination="uAk-3z-3VK" eventType="touchUpInside" id="J3b-Ib-Nyc"/>
                                 </connections>
                             </button>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="KKn-Fr-ij0">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="uAk-3z-3VK" id="Q2p-po-4Vj"/>
-                                </connections>
-                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="U4j-Ca-XEo">
                                 <rect key="frame" x="0.0" y="91" width="600" height="396"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1523,6 +1516,17 @@
                                     <outlet property="delegate" destination="uAk-3z-3VK" id="biy-fv-STu"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="KKn-Fr-ij0">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="uAk-3z-3VK" id="Q2p-po-4Vj"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1555,6 +1559,7 @@
                     <connections>
                         <outlet property="findFriend" destination="J65-Br-dSM" id="UCI-Fn-P7f"/>
                         <outlet property="friendList" destination="Nwd-IE-mWi" id="PGQ-lz-Evq"/>
+                        <outlet property="searchBar" destination="KKn-Fr-ij0" id="ty8-2s-wFH"/>
                         <outlet property="tabelView" destination="U4j-Ca-XEo" id="INM-Xf-v47"/>
                     </connections>
                 </viewController>
@@ -1869,9 +1874,9 @@
         <image name="check.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="td2-tB-gtM"/>
-        <segue reference="s2s-DW-zs6"/>
+        <segue reference="uVQ-L2-MZe"/>
         <segue reference="xQp-HG-CCy"/>
-        <segue reference="eAE-Xa-3jM"/>
+        <segue reference="s2s-DW-zs6"/>
+        <segue reference="td2-tB-gtM"/>
     </inferredMetricsTieBreakers>
 </document>
