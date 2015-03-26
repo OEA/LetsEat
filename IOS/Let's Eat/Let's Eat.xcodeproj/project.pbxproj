@@ -18,7 +18,6 @@
 		464E9D761A92594000396EE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D741A92594000396EE8 /* LaunchScreen.xib */; };
 		464E9D821A92594000396EE8 /* Let_s_EatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D811A92594000396EE8 /* Let_s_EatTests.swift */; };
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
-		464E9D921A925A9000396EE8 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D911A925A9000396EE8 /* check.png */; };
 		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
 		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
 		46DBF7761AAED2E6009E72F2 /* Login_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7751AAED2E6009E72F2 /* Login_Test.swift */; };
@@ -28,7 +27,7 @@
 		46FE776A1A9911DA003BDD80 /* ChangeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */; };
 		46FE776B1A9911DA003BDD80 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77691A9911DA003BDD80 /* ProfileVC.swift */; };
 		B92762AB1ABAC29700B78C96 /* FriendInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */; };
-		B9A4E9D31ABF359C00B1967C /* FriendRequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */; };
+		B9A4E9D31ABF359C00B1967C /* RequestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4E9D21ABF359C00B1967C /* RequestsTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,6 @@
 		464E9D801A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		464E9D911A925A9000396EE8 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
 		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBarTableViewController.swift; path = SideBar/SideBarTableViewController.swift; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
@@ -67,7 +65,7 @@
 		46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInfoVC.swift; sourceTree = "<group>"; };
 		46FE77691A9911DA003BDD80 /* ProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendInfoViewController.swift; path = "Friends Tab/FriendInfoViewController.swift"; sourceTree = "<group>"; };
-		B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestsTableViewController.swift; path = "Friends Tab/FriendRequestsTableViewController.swift"; sourceTree = "<group>"; };
+		B9A4E9D21ABF359C00B1967C /* RequestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RequestsTableViewController.swift; path = "Friends Tab/RequestsTableViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +100,7 @@
 			children = (
 				461A15521AB78535009DA34E /* FriendsViewController.swift */,
 				B92762AA1ABAC29700B78C96 /* FriendInfoViewController.swift */,
-				B9A4E9D21ABF359C00B1967C /* FriendRequestsTableViewController.swift */,
+				B9A4E9D21ABF359C00B1967C /* RequestsTableViewController.swift */,
 			);
 			name = "Friends Tab";
 			sourceTree = "<group>";
@@ -156,7 +154,6 @@
 				464E9D8F1A925A3300396EE8 /* ViewController.swift */,
 				464E9D721A92594000396EE8 /* Images.xcassets */,
 				464E9D741A92594000396EE8 /* LaunchScreen.xib */,
-				464E9D911A925A9000396EE8 /* check.png */,
 				464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */,
 				464E9D661A92594000396EE8 /* Supporting Files */,
 			);
@@ -290,7 +287,6 @@
 			files = (
 				464E9D711A92594000396EE8 /* Main.storyboard in Resources */,
 				464E9D761A92594000396EE8 /* LaunchScreen.xib in Resources */,
-				464E9D921A925A9000396EE8 /* check.png in Resources */,
 				464E9D731A92594000396EE8 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -322,7 +318,7 @@
 				462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
-				B9A4E9D31ABF359C00B1967C /* FriendRequestsTableViewController.swift in Sources */,
+				B9A4E9D31ABF359C00B1967C /* RequestsTableViewController.swift in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,
 				464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */,
 			);

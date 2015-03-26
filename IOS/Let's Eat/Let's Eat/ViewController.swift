@@ -19,6 +19,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     let alert = Alerts()
     var searchedList = []
     
+    @IBOutlet weak var naviItem: UINavigationItem!
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         var searched = false
         var jsonData: NSDictionary!
@@ -156,6 +157,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         } else {
             
         }
+        
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

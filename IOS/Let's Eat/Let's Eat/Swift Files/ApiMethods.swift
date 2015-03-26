@@ -110,14 +110,143 @@ class ApiMethods {
         }
     }
     
-    
+    func getOwnedEvent(vc: UIViewController){
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            let errorText = "Get Owned Events Failed"
+            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            let username = prefs.valueForKey("USERNAME") as NSString
+            var post:NSString = "username=\(username)"
+            
+            NSLog("PostData: %@",post);
+            
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_owned_events/")!
+            
+            var request = self.getRequest(url, post: post)
+            
+            var responseError: NSError?
+            var response: NSURLResponse?
+            
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+            if ( urlData != nil ) {
+                let res = response as NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
+                
+                if (res.statusCode >= 200 && res.statusCode < 300)
+                {
+                    
+                    let jsonData:NSDictionary = self.getJsonData(urlData!)
+                    
+                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    
+                    //[jsonData[@"success"] integerValue];
+                    
+                    println("Success: " + status)
+                    
+                    if(status == "success")
+                    {
+                        NSLog("ADD SUCCESS");
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            if vc is RequestsTableViewController{
+                                let viewC = vc as RequestsTableViewController
+                                //viewC.getFriendRequests()
+                                viewC.friendReqtTV.reloadData()
+                            }else{
+                                self.goBack(vc)
+                            }
+                        })
+                        
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                        })
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.alert.getStatusCodeError(errorText, vc: vc)
+                    })
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+                })
+            }
+        })
+        
+    }
     
     func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString, sender: NSString){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-       
+            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            
+            
+            var post:NSString = "sender=\(sender)&receiver=\(receiver)"
+            
+            NSLog("PostData: %@",post);
+            
+            var url:NSURL = NSURL(string: url)!
+            
+            var request = self.getRequest(url, post: post)
+            
+            var responseError: NSError?
+            var response: NSURLResponse?
+            
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+            if ( urlData != nil ) {
+                let res = response as NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
+                
+                if (res.statusCode >= 200 && res.statusCode < 300)
+                {
+                    
+                    let jsonData:NSDictionary = self.getJsonData(urlData!)
+                    
+                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    
+                    //[jsonData[@"success"] integerValue];
+                    
+                    println("Success: " + status)
+                    
+                    if(status == "success")
+                    {
+                        NSLog("ADD SUCCESS");
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            if vc is RequestsTableViewController{
+                                let viewC = vc as RequestsTableViewController
+                                viewC.getFriendRequests()
+                                viewC.friendReqtTV.reloadData()
+                            }else{
+                                self.goBack(vc)
+                            }
+                        })
+                        
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                        })
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.alert.getStatusCodeError(errorText, vc: vc)
+                    })
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+                })
+            }
+        })
         
-        var post:NSString = "sender=\(sender)&receiver=\(receiver)"
+    }
+    
+    func eventRqst(url: NSString, event: [String: AnyObject], vc: UIViewController, errorText: NSString){
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username = prefs.valueForKey("USERNAME") as NSString
+        
+        var post:NSString = "event=\(event)&participant=\(username)"
         
         NSLog("PostData: %@",post);
         
@@ -149,7 +278,13 @@ class ApiMethods {
                 {
                     NSLog("ADD SUCCESS");
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.goBack(vc)
+                        if vc is RequestsTableViewController{
+                            let viewC = vc as RequestsTableViewController
+                            self.getOwnedEvent(vc)
+                            //viewC.friendReqtTV.reloadData()
+                        }else{
+                            self.goBack(vc)
+                        }
                     })
                     
                 } else {
@@ -170,6 +305,18 @@ class ApiMethods {
         }
         })
 
+    }
+    
+    func inviteEvent(event: [String: AnyObject], vc: UIViewController){
+        eventRqst("http://127.0.0.1:8000/api/invite_event/", event: event, vc: vc, errorText: "Invite Friends Failed")
+    }
+    
+    func acceptEvent(event: [String: AnyObject], vc: UIViewController){
+        eventRqst("http://127.0.0.1:8000/api/accept_event/", event: event, vc: vc, errorText: "Accept Event Failed")
+    }
+    
+    func rejectEvent(event: [String: AnyObject], vc: UIViewController){
+        eventRqst("http://127.0.0.1:8000/api/reject_event/", event: event, vc: vc, errorText: "Reject Event Failed")
     }
     
     func goBack(vc: UIViewController){
