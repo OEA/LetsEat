@@ -134,6 +134,12 @@ def get_event(request):
 def create_event_json(event):
     eventJSON = {}
     eventJSON["name"] = event.name
+    ownerJSON = {}
+    ownerJSON["username"] = event.owner.username
+    ownerJSON["name"] = event.owner.name
+    ownerJSON["surname"] = event.owner.surname
+    ownerJSON["email"] = event.owner.email
+    eventJSON["owner"] = ownerJSON
     restaurantJSON = {}
     restaurantJSON["name"] = event.restaurant.name
     restaurantJSON["latitude"] = event.restaurant.latitude
