@@ -20,6 +20,7 @@
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
 		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
 		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
+		46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C7381D1AC5A6E500826621 /* CreateEventViewController.swift */; };
 		46DBF7761AAED2E6009E72F2 /* Login_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7751AAED2E6009E72F2 /* Login_Test.swift */; };
 		46DBF7781AAF0A12009E72F2 /* BackgroundSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */; };
 		46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77631A9911B8003BDD80 /* LoginVC.swift */; };
@@ -58,6 +59,7 @@
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
 		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBarTableViewController.swift; path = SideBar/SideBarTableViewController.swift; sourceTree = "<group>"; };
+		46C7381D1AC5A6E500826621 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateEventViewController.swift; path = "Requests Tab/CreateEventViewController.swift"; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
 		46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundSetter.swift; path = "Swift Files/BackgroundSetter.swift"; sourceTree = "<group>"; };
 		46FE77631A9911B8003BDD80 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				B9A4E9D21ABF359C00B1967C /* RequestsTableViewController.swift */,
+				46C7381D1AC5A6E500826621 /* CreateEventViewController.swift */,
 			);
 			name = "Requests Tab";
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */,
 				462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
+				46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				B9A4E9D31ABF359C00B1967C /* RequestsTableViewController.swift in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,

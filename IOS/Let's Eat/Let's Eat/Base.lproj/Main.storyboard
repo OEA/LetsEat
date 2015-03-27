@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="bwL-bO-Npd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="lyY-2F-Fan">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1848,10 +1848,10 @@
             </objects>
             <point key="canvasLocation" x="3227" y="211"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Event View Controller-->
         <scene sceneID="ioA-mY-ExB">
             <objects>
-                <viewController id="lyY-2F-Fan" sceneMemberID="viewController">
+                <viewController id="lyY-2F-Fan" customClass="CreateEventViewController" customModule="Let_s_Eat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QcW-VI-eUO"/>
                         <viewControllerLayoutGuide type="bottom" id="MRh-G6-UqC"/>
@@ -1921,6 +1921,9 @@
                                         <exclude reference="xhn-uv-EmS"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="typeTapped:" destination="lyY-2F-Fan" eventType="touchUpInside" id="PQP-SE-N4D"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Participants:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hWo-2j-bFV">
                                 <rect key="frame" x="16" y="179" width="96" height="30"/>
@@ -1932,7 +1935,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2d-rR-LB9">
-                                <rect key="frame" x="221.5" y="183" width="22" height="22"/>
+                                <rect key="frame" x="221" y="183" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="107" id="dWk-HA-xQe"/>
                                 </constraints>
@@ -1951,19 +1954,28 @@
                                     <!--2015-03-27 14:35:36 +0000-->
                                 </date>
                             </datePicker>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdc-Oh-7on">
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdc-Oh-7on">
                                 <rect key="frame" x="0.0" y="473" width="600" height="162"/>
                                 <color key="backgroundColor" red="0.90588235294117647" green="0.90588235294117647" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="lyY-2F-Fan" id="IDK-ed-fBP"/>
+                                    <outlet property="delegate" destination="lyY-2F-Fan" id="p8B-4c-qfF"/>
+                                </connections>
                             </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YN-a3-Zw3">
-                                <rect key="frame" x="16" y="440" width="568" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YN-a3-Zw3">
+                                <rect key="frame" x="0.0" y="440" width="600" height="33"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
                                 <state key="normal" title="Done">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="typeTapped:" destination="lyY-2F-Fan" eventType="touchUpInside" id="zIX-uh-Kut"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l8F-Kd-cRv">
-                                <rect key="frame" x="123" y="183.5" width="93.5" height="20.5"/>
+                                <rect key="frame" x="123" y="183" width="93.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -1971,6 +1983,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="0YN-a3-Zw3" secondAttribute="trailing" constant="-16" id="0VD-xP-bWq"/>
                             <constraint firstItem="MRh-G6-UqC" firstAttribute="top" secondItem="hdc-Oh-7on" secondAttribute="bottom" constant="-35" id="3Jq-0R-lyk"/>
                             <constraint firstItem="ye5-2q-FMU" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" id="49l-I4-8Cb"/>
                             <constraint firstItem="l8F-Kd-cRv" firstAttribute="leading" secondItem="hWo-2j-bFV" secondAttribute="trailing" constant="11" id="4XN-Ww-Flp"/>
@@ -1994,11 +2007,11 @@
                             <constraint firstAttribute="trailingMargin" secondItem="hdc-Oh-7on" secondAttribute="trailing" constant="-16" id="ZnF-ia-9y1"/>
                             <constraint firstItem="D3R-Hp-jfG" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" id="a7A-qd-lZG"/>
                             <constraint firstItem="g2d-rR-LB9" firstAttribute="leading" secondItem="hWo-2j-bFV" secondAttribute="trailing" constant="66" id="b46-aB-njc"/>
-                            <constraint firstItem="0YN-a3-Zw3" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" id="fxQ-6P-gHw"/>
+                            <constraint firstItem="0YN-a3-Zw3" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" constant="-16" id="fxQ-6P-gHw"/>
                             <constraint firstItem="g2d-rR-LB9" firstAttribute="leading" secondItem="l8F-Kd-cRv" secondAttribute="trailing" constant="5" id="gOy-Nv-8hx"/>
                             <constraint firstItem="ye5-2q-FMU" firstAttribute="top" secondItem="GwW-RF-6SU" secondAttribute="bottom" constant="5" id="gcT-Dd-6jP"/>
                             <constraint firstItem="GwW-RF-6SU" firstAttribute="top" secondItem="D3R-Hp-jfG" secondAttribute="bottom" constant="5" id="hi9-g6-TTo"/>
-                            <constraint firstItem="0YN-a3-Zw3" firstAttribute="trailing" secondItem="wGq-mD-nO0" secondAttribute="trailingMargin" id="jTO-Hj-dpF"/>
+                            <constraint firstItem="0YN-a3-Zw3" firstAttribute="trailing" secondItem="wGq-mD-nO0" secondAttribute="trailingMargin" constant="-16" id="jTO-Hj-dpF"/>
                             <constraint firstItem="f17-6S-QDP" firstAttribute="leading" secondItem="ye5-2q-FMU" secondAttribute="trailing" constant="18" id="jld-l6-wdk"/>
                             <constraint firstItem="hdc-Oh-7on" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" constant="-16" id="lTd-ZW-0wP"/>
                             <constraint firstItem="GwW-RF-6SU" firstAttribute="leading" secondItem="wGq-mD-nO0" secondAttribute="leadingMargin" id="qL1-tD-Wfd"/>
@@ -2021,10 +2034,17 @@
                                 <exclude reference="60U-pY-4yS"/>
                                 <exclude reference="RTd-n2-a9K"/>
                                 <exclude reference="b46-aB-njc"/>
+                                <exclude reference="jTO-Hj-dpF"/>
                             </mask>
                         </variation>
                     </view>
                     <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="datePV" destination="3lz-4Q-YRa" id="yWd-A2-xc7"/>
+                        <outlet property="doneButton" destination="0YN-a3-Zw3" id="V63-Az-k80"/>
+                        <outlet property="typeButton" destination="f17-6S-QDP" id="V2X-Zr-aN8"/>
+                        <outlet property="typePV" destination="hdc-Oh-7on" id="9g3-Fj-lWf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="02j-ZP-RP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2340,9 +2360,9 @@
         <image name="cross" width="322" height="313"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EcJ-eq-4o3"/>
         <segue reference="WOn-bM-aPr"/>
-        <segue reference="eAE-Xa-3jM"/>
         <segue reference="s2s-DW-zs6"/>
+        <segue reference="EcJ-eq-4o3"/>
+        <segue reference="uVQ-L2-MZe"/>
     </inferredMetricsTieBreakers>
 </document>
