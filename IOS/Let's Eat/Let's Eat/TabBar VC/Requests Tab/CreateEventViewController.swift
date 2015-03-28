@@ -14,12 +14,24 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var typePV: UIPickerView!
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var datePV: UIDatePicker!
+    @IBOutlet weak var participantLabel: UILabel!
+    var participants = [String: Bool]()
     
     var types = ["Drink", "Food"]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureDatePicker()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        if participants.count == 1{
+            participantLabel.text = "One Friend"
+        }else if participants.count > 1 {
+            participantLabel.text = "\(participants.count) Friends"
+        }else {
+            participantLabel.text = "Add Friends"
+        }
     }
     
     func configureDatePicker() {
@@ -55,6 +67,20 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         typeButton.setTitle(types[row], forState: .Normal)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if sender is UIButton{
+            let button = sender as UIButton
+            if button.buttonType == UIButtonType.ContactAdd {
+                let addPariciantVC = segue.destinationViewController as AddParticipantViewController
+               
+                addPariciantVC.addedFriends = participants
+                addPariciantVC.backUIVC = self
+            }
+            
+        }
+
     }
 
     

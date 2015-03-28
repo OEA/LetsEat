@@ -30,7 +30,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         findFriend.layer.borderColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 1).CGColor
         searchBar.returnKeyType = UIReturnKeyType.Done
         searchBar.enablesReturnKeyAutomatically = false
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(animated: Bool) {
