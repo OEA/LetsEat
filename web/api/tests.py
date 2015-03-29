@@ -3,6 +3,9 @@ __author__ = 'bahadirkirdan'
 from django.test import TestCase
 from .models.user import User
 from .models.friendship_request import FriendshipRequest
+from .models.restaurant import Restaurant
+from .models.event import Event
+from .models.event_request import EventRequest
 import urllib.parse
 import http.client
 import json
@@ -12,7 +15,7 @@ import json
 class modelTest(TestCase):
     def setUp(self):
 
-
+        #Add User
         omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
         bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
@@ -27,6 +30,10 @@ class modelTest(TestCase):
         zeynep.save()
         simge.save()
 
+
+
+
+        #Add Friend Request
         friend_request_taha_bilal = FriendshipRequest(sender=taha, receiver=bilal, status='P')
         friend_request_taha_bilal.save()
 
@@ -36,6 +43,17 @@ class modelTest(TestCase):
         friend_request_zeynep_omer = FriendshipRequest(sender=zeynep, receiver=omer, status='R')
         friend_request_zeynep_omer.save()
 
+
+
+
+        #Add Restaurant
+        subway = Restaurant('Subway', '41.086840', '29.006916')
+        capitol = Restaurant('Capitol', '41.034564', '29.098324')
+        metro_city = Restaurant('Metro City', '41.014599', '29.032563')
+
+        subway.save()
+        capitol.save()
+        metro_city.save()
 
 
 
