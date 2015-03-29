@@ -477,3 +477,37 @@ class modelTest(TestCase):
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "success")
 
+
+    def invite_event_test(self):
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                { "event": '',
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": ''
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "success")
