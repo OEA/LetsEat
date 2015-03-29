@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Lets Eat {{ title }}</title>
-    {%load staticfiles %}
+    {% load staticfiles %}
     <!-- CSS Files -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/material.min.css' %}">
@@ -11,77 +11,174 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 
-    <style>
-      html { height: 100% }
-      #map_canvas {height: 440px; padding: 20px; margin-bottom: 20px; background-color:#FFF }
-	  #map-container { height: 400px }
-	  @media all and (max-width: 991px) {
-		#map_canvas  { height: 650px;width: 400px; }
-		}
-      .pac-container {
-    background-color: #FFF;
-    z-index: 9900;
-    position: fixed;
-    display: inline-block;
-    float: left;
-}
-.modal{
-    z-index: 9900;
-}
-    </style>
-    <style type="text/css">
-  #map_canvas  {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-#map_canvas {
-
-  height:400px;
-}
-        </style>
 
 </head>
 <body>
 <header class="navbar navbar-default navbar-static-top bs-docs-nav" id="top" role="banner">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-        <a href="{% url 'home_view' %}" class="navbar-brand"> <i class="fa fa-spoon"></i> LetsEat</a>
-       <form class="navbar-form navbar-right" role="search" action="{% url 'search_user' %}" method="POST">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                    data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="{% url 'home_view' %}" class="navbar-brand"> <i class="fa fa-spoon"></i> LetsEat</a>
+
+            <form class="navbar-form navbar-right" role="search" action="{% url 'search_user' %}" method="POST">
                 <div class="form-group" id="multiple-datasets">
-                  <input class="form-control" name="username" type="text" placeholder="Search LetsEat">
+                    <input class="form-control" name="username" type="text" placeholder="Search LetsEat">
                 </div>
 
-                <button type="submit" class="btn btn-default"> <i class="fa fa-search"></i> Search</button>
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
 
-        </form>
+            </form>
 
 
-    </div>
+        </div>
 
-    <nav class="collapse navbar-collapse bs-navbar-collapse">
+        <nav class="collapse navbar-collapse bs-navbar-collapse">
 
-      <ul class="nav navbar-nav navbar-right">
-        {% if user %}
-            <li><a href="{% url 'notifications' %}" class="navbar-link"><i class="fa fa-bell"></i> Notifications</a></li>
-            <li><a href="{% url 'home_view' %}" class="navbar-link"><i class="fa fa-envelope"></i> Messages</a></li>
-        {% endif %}
-        <li class="dropdown">
-            {% if user %}
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }}<b class="caret"></b></a>
-                <ul class="dropdown-menu" style="min-width:250px;">
-                    <li><a href="{% url 'edit' username %}"><i class="fa fa-pencil-square-o"></i> Edit Profile</a></li>
-                    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
-                </ul>
-            {% else %}
-               <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<b class="caret"></b></a>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user %}
+                    <li class="dropdown">
+                        <a href="{% url 'notifications' %}" class="dropdown-toggle" data-toggle="dropdown"><i
+                                class="fa fa-bell"></i> Notifications <label class="label label-danger">2</label> </a>
+                        <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
+                            <div class="col-md-12">
+                                <h5><i class="fa fa-user-plus"></i> Friend Requests</h5>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                                <h5><i class="fa fa-user-plus"></i> Event Requests</h5>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object"
+                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                                     alt="..." width="32" height="32">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>Burak Atalay</small>
+                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'home_view' %}" class="navbar-link"><i class="fa fa-envelope"></i> Messages</a>
+                    </li>
+                {% endif %}
+                <li class="dropdown">
+                    {% if user %}
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }}<b class="caret"></b></a>
+                        <ul class="dropdown-menu" style="min-width:250px;">
+                            <li><a href="{% url 'edit' username %}"><i class="fa fa-pencil-square-o"></i> Edit
+                                Profile</a></li>
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        </ul>
+                    {% else %}
+                        <!-- <a href="#" class="dropdown-toggle" data-toggle="dropdown">Login<b class="caret"></b></a>
                 <ul class="dropdown-menu" style="min-width:250px;">
                     <div class="col-md-12">
                         <form id="loginForm" method="POST" action="/login/" novalidate="novalidate">
@@ -108,12 +205,12 @@
                     </div>
                 </ul>
 -->
-            {% endif %}
+                    {% endif %}
 
-        </li>
-      </ul>
+                </li>
+            </ul>
 
 
-    </nav>
-  </div>
+        </nav>
+    </div>
 </header>
