@@ -3,6 +3,9 @@ __author__ = 'bahadirkirdan'
 from django.test import TestCase
 from .models.user import User
 from .models.friendship_request import FriendshipRequest
+from .models.restaurant import Restaurant
+from .models.event import Event
+from .models.event_request import EventRequest
 import urllib.parse
 import http.client
 import json
@@ -12,7 +15,7 @@ import json
 class modelTest(TestCase):
     def setUp(self):
 
-
+        #Add Users
         omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
         bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
@@ -27,6 +30,10 @@ class modelTest(TestCase):
         zeynep.save()
         simge.save()
 
+
+
+
+        #Add Friend Requests
         friend_request_taha_bilal = FriendshipRequest(sender=taha, receiver=bilal, status='P')
         friend_request_taha_bilal.save()
 
@@ -39,6 +46,28 @@ class modelTest(TestCase):
 
 
 
+        #Add Restaurants
+        subway = Restaurant('Subway', '41.086840', '29.006916')
+        capitol = Restaurant('Capitol', '41.034564', '29.098324')
+        metro_city = Restaurant('Metro City', '41.014599', '29.032563')
+
+        subway.save()
+        capitol.save()
+        metro_city.save()
+
+
+
+
+        #Add Events
+        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway, taha, True)
+        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city, simge, True)
+        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol, bilal, False)
+
+        subway_meal.save()
+        metro_city_dinning.save()
+        capitol_meal.save()
+
+
 
     def send_post(self, data, url):
         response = self.client.post(url, json.dumps(data), "application/x-www-form-urlencoded",
@@ -48,10 +77,10 @@ class modelTest(TestCase):
 
     def make_request(self, params, url, request_method):
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-        conn = http.client.HTTPConnection('127.0.0.1', 8000)
-        conn.request(request_method, url, params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
+        connection = http.client.HTTPConnection('127.0.0.1', 8000)
+        connection.request(request_method, url, params, headers)
+        connection_response = connection.getresponse()
+        data = connection_response.read()
         response = json.loads(data.decode("utf-8"))
         return response
 
