@@ -525,3 +525,23 @@ class modelTest(TestCase):
 
         response = self.make_request(params, "/api/accept_event/", "POST")
         self.assertEqual(response["status"], "failed")
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": ''
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "success")
+
