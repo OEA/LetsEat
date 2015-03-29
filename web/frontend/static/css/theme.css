@@ -47,3 +47,34 @@ h5 {
     padding-right:10px;
     padding-bottom:10px;
 }
+html { height: 100% }
+      #map_canvas {height: 440px; padding: 20px; margin-bottom: 20px; background-color:#FFF }
+	  #map-container { height: 400px }
+	  @media all and (max-width: 991px) {
+		#map_canvas  { height: 650px;width: 400px; }
+		}
+      .pac-container {
+    background-color: #FFF;
+    z-index: 9900;
+    position: fixed;
+    display: inline-block;
+    float: left;
+}
+.modal{
+    z-index: 9900;
+}
+        .scrollable-menu {
+    height: auto;
+    max-height: 350px;
+    overflow-x: hidden;
+}
+      #map_canvas  {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#map_canvas {
+
+  height:400px;
+}
