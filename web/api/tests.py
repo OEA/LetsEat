@@ -15,7 +15,7 @@ import json
 class modelTest(TestCase):
     def setUp(self):
 
-        #Add User
+        #Add Users
         omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
         taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
         bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
@@ -33,7 +33,7 @@ class modelTest(TestCase):
 
 
 
-        #Add Friend Request
+        #Add Friend Requests
         friend_request_taha_bilal = FriendshipRequest(sender=taha, receiver=bilal, status='P')
         friend_request_taha_bilal.save()
 
@@ -46,7 +46,7 @@ class modelTest(TestCase):
 
 
 
-        #Add Restaurant
+        #Add Restaurants
         subway = Restaurant('Subway', '41.086840', '29.006916')
         capitol = Restaurant('Capitol', '41.034564', '29.098324')
         metro_city = Restaurant('Metro City', '41.014599', '29.032563')
@@ -55,6 +55,17 @@ class modelTest(TestCase):
         capitol.save()
         metro_city.save()
 
+
+
+
+        #Add Events
+        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway, taha, True)
+        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city, simge, True)
+        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol, bilal, False)
+
+        subway_meal.save()
+        metro_city_dinning.save()
+        capitol_meal.save()
 
 
 
