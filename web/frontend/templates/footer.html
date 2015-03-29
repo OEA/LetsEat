@@ -4,7 +4,6 @@
 <script src="{% static 'js/moment.min.js' %}"></script>
 <script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
 <script src="{% static 'js/typeahead.js' %}"></script>
-<script src="{% static 'js/jqBootstrapValidation-1.3.7.min.js' %}"></script>
     <script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
 <script>
 
@@ -176,10 +175,13 @@ $('#multiple-datasets .typeahead').typeahead({
 
 
     var input = document.getElementById("keyword");
+    var lat = document.getElementById("lat");
+    var lng = document.getElementById("lng");
     var autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo("bounds", map);
 
     var marker = new google.maps.Marker({map: map});
+
 
     google.maps.event.addListener(autocomplete, "place_changed", function()
     {
@@ -193,12 +195,17 @@ $('#multiple-datasets .typeahead').typeahead({
         }
 
         marker.setPosition(place.geometry.location);
+
+        lat.value = place.geometry.location.lat();
+        lng.value = place.geometry.location.lng();
     });
 
     google.maps.event.addListener(map, "click", function(event)
     {
         marker.setPosition(event.latLng);
         marker.setMap(map);
+        lat.value = event.latLng.lat();
+        lng.value = event.latLng.lng();
     });
     });
 
@@ -225,9 +232,15 @@ $('#multiple-datasets .typeahead').typeahead({
                     next: "fa fa-arrow-right",
                     down: "fa fa-arrow-down"
                     },
-                    format: 'MM/dd/YYYY'
+                    format: 'YYYY-MM-DD H:m:s'
                 });
             });
         </script>
+<script>
+   $('.dropdown-menu').click(function (event){
+       event.stopPropagation();
+   });
+
+</script>
 </body>
 </html>
