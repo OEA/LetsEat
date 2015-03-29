@@ -59,9 +59,23 @@ class modelTest(TestCase):
 
 
         #Add Events
-        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway, taha, True)
-        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city, simge, True)
-        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol, bilal, False)
+        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway)
+        subway_meal.participants.add(taha)
+        subway_meal.participants.add(simge)
+        subway_meal.joinable = True
+
+
+        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city)
+        metro_city_dinning.participants.add(simge)
+        metro_city_dinning.participants.add(didem)
+        metro_city_dinning.joinable = True
+
+
+        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol)
+        capitol_meal.participants.add(bilal)
+        capitol_meal.participants.add(omer)
+        capitol_meal.joinable = False
+
 
         subway_meal.save()
         metro_city_dinning.save()
@@ -77,6 +91,9 @@ class modelTest(TestCase):
         subway_request.save()
         metro_city_request.save()
         capitol_request.save()
+
+
+
 
 
 
