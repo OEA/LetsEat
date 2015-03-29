@@ -77,10 +77,10 @@ class modelTest(TestCase):
 
     def make_request(self, params, url, request_method):
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-        conn = http.client.HTTPConnection('127.0.0.1', 8000)
-        conn.request(request_method, url, params, headers)
-        r1 = conn.getresponse()
-        data = r1.read()
+        connection = http.client.HTTPConnection('127.0.0.1', 8000)
+        connection.request(request_method, url, params, headers)
+        connection_response = connection.getresponse()
+        data = connection_response.read()
         response = json.loads(data.decode("utf-8"))
         return response
 
