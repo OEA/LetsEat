@@ -511,3 +511,17 @@ class modelTest(TestCase):
 
         response = self.make_request(params, "/api/invite_event/", "POST")
         self.assertEqual(response["status"], "success")
+
+
+    def accept_event_test(self):
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                { "event": '',
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "failed")
