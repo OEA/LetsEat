@@ -1,203 +1,255 @@
 {% include 'header.html' with user=user username=username title='Timeline' %}
 <!--<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div> -->
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="panel panel-default">
-                    <div class="panel-body">
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
 
-                            <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
-                            <small><a href="{% url 'profile' user.username %}">{{user.name}} {{ user.surname  }}</a></small>
-                            <br>
-                            <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit Profile</a></strong></small>
-
-                    </div>
-
-                             <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
-                             <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
-                             <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
-
+                    <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+                         class="img-circle" width="64" height="64" style="float: left;margin-right: 10px"/>
+                    <small><a href="{% url 'profile' user.username %}">{{ user.name }} {{ user.surname }}</a></small>
+                    <br>
+                    <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit
+                        Profile</a></strong></small>
 
                 </div>
+
+                <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
+                <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
+                <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i
+                        class="fa fa-power-off"></i> Logout</a>
+
+
             </div>
+        </div>
 
         <div class="col-md-6">
 
-            <a href="#" data-toggle="modal" data-target="#myMapModal">
-   Launch Map Modal
-</a>
-<div class="modal fade" id="myMapModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                 <h4 class="modal-title">Modal title</h4>
+            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#myMapModal"
+               style="margin-left: 75px;">
+                Create Event
+            </a>
 
-            </div>
-            <div class="modal-body">
-                         <div class="panel panel-default ">
-                            <div class="panel-heading">
-                                Event Name<span class="pull-right"><i class="fa fa-minus-square-o toggle-event-name"></i></span>
-                            </div>
-                            <div class="panel-body event-name">
-                                 <input class="form-control" type="text" placeholder="Event Name">
-                            </div>
+            <div class="modal fade" id="myMapModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Create Event</h4>
+
                         </div>
-                        <div class="panel panel-default ">
-                            <div class="panel-heading">
-                                Event Place *<span class="pull-right"><i class="fa fa-minus-square-o toggle-event-map"></i></span>
-                                <br>
-                            </div>
-                            <div class="panel-body event-map">
-                                 <input class="form-control" type="text"  id="keyword" placeholder="Event Place">
-
-                                <div class="footer" style="padding-top: 10px;">
-                                    <div id="map_canvas"></div>
+                        <div class="modal-body">
+                            <div class="panel panel-default ">
+                                <div class="panel-heading">
+                                    Event Name<span class="pull-right"><i
+                                        class="fa fa-minus-square-o toggle-event-name"></i></span>
+                                </div>
+                                <div class="panel-body event-name">
+                                    <input class="form-control" type="text" placeholder="Event Name">
                                 </div>
                             </div>
+                            <div class="panel panel-default ">
+                                <div class="panel-heading">
+                                    Event Place *<span class="pull-right"><i
+                                        class="fa fa-minus-square-o toggle-event-map"></i></span>
+                                    <br>
+                                </div>
+                                <div class="panel-body event-map">
+                                    <input class="form-control" type="text" id="keyword" placeholder="Event Place">
 
-                        </div>
-                        <div class="panel panel-default ">
-                            <div class="panel-heading">
-                                Event Time<span class="pull-right"><i class="fa fa-minus-square-o toggle-event-time"></i></span>
+                                    <div class="footer" style="padding-top: 10px;">
+                                        <div id="map_canvas"></div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-6">
+                                            Latitude
+                                            <input type="text" class="form-control" name="lat" id="lat" disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Longitude
+                                            <input type="text" class="form-control" name="lng" id="lng" disabled>
+                                        </div>
+                                        </div>
+                                </div>
+
                             </div>
-                            <div class="panel-body event-time">
-                                 <div class="form-group">
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <input type='text' class="form-control" />
+                            <div class="panel panel-default ">
+                                <div class="panel-heading">
+                                    Event Time<span class="pull-right"><i
+                                        class="fa fa-minus-square-o toggle-event-time"></i></span>
+                                </div>
+                                <div class="panel-body event-time">
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type='text' class="form-control"/>
                                         <span class="input-group-addon">
                                             <span class="fa fa-clock-o"></span>
                                         </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+            <!-- /.modal -->
             <div class="media">
-              <div class="media-left">
-                <a href="#">
-                  <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
-                </a>
-              </div>
-              <div class="media-body">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
-                    </div>
-                    <div class="panel-footer">
-                         <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i> Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i class="fa fa-share-alt"></i> Share</a>
-                        <div class="pull-right">
-                            <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small><a href="#" data-toggle="popover" data-content="<small>Burak Atalay</small><br><small>Yunus Yılmaz</small><br>and 4.998 more...">5k likes</a>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object"
+                             src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+                             alt="..." width="64" height="64">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i
+                                class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
+                        </div>
+                        <div class="panel-footer">
+                            <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i>
+                            Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
+                                class="fa fa-share-alt"></i> Share</a>
+
+                            <div class="pull-right">
+                                <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small>
+                                <a href="#" data-toggle="popover"
+                                   data-content="<small>Burak Atalay</small><br><small>Yunus Yılmaz</small><br>and 4.998 more...">5k
+                                    likes</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-              </div>
             </div>
 
 
-     <div class="media">
-              <div class="media-left">
-                <a href="#">
-                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
-                </a>
-              </div>
-              <div class="media-body">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i class="fa fa-map-marker"></i> Nusr-Et
-                    </div>
-                    <div class="panel-footer">
-                         <a><i class="fa fa-thumbs-o-up"></i> Like</a> .  <a disabled><i class="fa fa-unlock"></i> Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i class="fa fa-share-alt"></i> Share</a>
-                        <div class="pull-right">
-                            <small><i class="fa fa-thumbs-o-up"></i></small> <a>5m likes</a>
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object"
+                             src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..."
+                             width="64" height="64">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i
+                                class="fa fa-map-marker"></i> Nusr-Et
+                        </div>
+                        <div class="panel-footer">
+                            <a><i class="fa fa-thumbs-o-up"></i> Like</a> . <a disabled><i class="fa fa-unlock"></i>
+                            Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
+                                class="fa fa-share-alt"></i> Share</a>
+
+                            <div class="pull-right">
+                                <small><i class="fa fa-thumbs-o-up"></i></small>
+                                <a>5m likes</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-              </div>
             </div>
 
         </div>
         <div class="col-md-3">
-                <h5>Notification Center</h5>
+            <h5>Notification Center</h5>
+
             <div class="well">
                 <div class="content">
-                    <small><i class="fa fa-thumbs-up"></i> <a>Hakan</a> liked <a>your activity</a>. <span style="font-weight: bold; font-size:8px;">1h ago</span></small>
+                    <small><i class="fa fa-thumbs-up"></i> <a>Hakan</a> liked <a>your activity</a>. <span
+                            style="font-weight: bold; font-size:8px;">1h ago</span></small>
                     <br>
-                    <small><i class="fa fa-user-plus"></i> <a>Simge Sağın</a> added you as a friend. <span style="font-weight: bold; font-size:8px;">1d ago</span></small>
+                    <small><i class="fa fa-user-plus"></i> <a>Simge Sağın</a> added you as a friend. <span
+                            style="font-weight: bold; font-size:8px;">1d ago</span></small>
                     <br>
-                    <small><i class="fa fa-user-plus"></i></i> <a>Burak</a>, added  <a>Simge</a> as being friend. <span style="font-weight: bold; font-size:8px;">Now</span></small>
+                    <small><i class="fa fa-user-plus"></i></i> <a>Burak</a>, added <a>Simge</a> as being friend. <span
+                            style="font-weight: bold; font-size:8px;">Now</span></small>
                     <br>
-                    <small><i class="fa fa-user-plus"></i></i> <a>Bahadır</a>, added  <a>Yunus</a> as being friend. <span style="font-weight: bold; font-size:8px;">Now</span></small>
+                    <small><i class="fa fa-user-plus"></i></i> <a>Bahadır</a>, added <a>Yunus</a> as being friend. <span
+                            style="font-weight: bold; font-size:8px;">Now</span></small>
                     <br>
-                    <small><i class="fa fa-thumbs-up"></i> <a>Bahadır</a> liked <a>Ömer's activity</a>. <span style="font-weight: bold; font-size:8px;">1h ago</span></small>
+                    <small><i class="fa fa-thumbs-up"></i> <a>Bahadır</a> liked <a>Ömer's activity</a>. <span
+                            style="font-weight: bold; font-size:8px;">1h ago</span></small>
                 </div>
             </div>
             <h5>Who to Add Friend</h5>
+
             <div class="well">
-            <div class="content">
-                <div class="media">
-                  <div class="media-left">
-                    <a href="#">
-                      <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
-                    </a>
-                  </div>
-                  <div class="media-body">
+                <div class="content">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object"
+                                     src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png"
+                                     alt="..." width="64" height="64">
+                            </a>
+                        </div>
+                        <div class="media-body">
                             <a href="#">Hakan Uyumaz</a>
-                            <br><small>@huyumaz</small><br>
+                            <br>
+                            <small>@huyumaz</small>
+                            <br>
 
-                            <a href="#" class="btn btn-primary btn-xs submit" data-sender="okveyay" data-receiver="test"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                            <a href="#" class="btn btn-primary btn-xs submit" data-sender="okveyay"
+                               data-receiver="test"><i class="fa fa-user-plus"></i> Add Friend</a>
+                        </div>
                     </div>
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                    <a href="#">
-                          <img class="media-object" src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png" alt="..." width="64" height="64">
-                        </a>
-                      </div>
-                      <div class="media-body">
-                                <a href="#">Yunus Yılmaz</a>
-                                <br><small>@ynsy</small><br>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object"
+                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
+                                     alt="..." width="64" height="64">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <a href="#">Yunus Yılmaz</a>
+                            <br>
+                            <small>@ynsy</small>
+                            <br>
 
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i> Add Friend</a>
                         </div>
 
 
-
-                </div>
-                <div class="media">
-                    <div class="media-left">
-                    <a href="#">
-                          <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
-                        </a>
-                      </div>
-                      <div class="media-body">
-                                <a href="#">Ömer Aslan</a>
-                                <br><small>@oeaslan</small><br>
-
-                                <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                    </div>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object"
+                                     src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+                                     alt="..." width="64" height="64">
+                            </a>
                         </div>
-                </div>
+                        <div class="media-body">
+                            <a href="#">Ömer Aslan</a>
+                            <br>
+                            <small>@oeaslan</small>
+                            <br>
+
+                            <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i> Add Friend</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
 
-
     </div>
-        </div>
-        </div>
+</div>
+</div>
 </div>
 
 {% include 'footer.html' %}
