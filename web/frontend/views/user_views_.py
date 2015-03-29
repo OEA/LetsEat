@@ -168,7 +168,6 @@ def add_friend(request, username):
 def test(request):
     return HttpResponse("Successful")
 
-
 def logout(request):
     auth.logout(request)
     return redirect("../login")
