@@ -69,6 +69,17 @@ class modelTest(TestCase):
 
 
 
+        #Add Event Requests
+        subway_request = EventRequest('P', subway, bilal)
+        metro_city_request = EventRequest('A', metro_city, didem)
+        capitol_request = EventRequest('D', capitol, omer)
+
+        subway_request.save()
+        metro_city_request.save()
+        capitol_request.save()
+
+
+
     def send_post(self, data, url):
         response = self.client.post(url, json.dumps(data), "application/x-www-form-urlencoded",
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest').content.decode("utf-8")
