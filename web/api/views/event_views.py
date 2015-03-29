@@ -17,13 +17,15 @@ def create_event(request):
         owner = get_object_or_404(User, pk=owner_id)
         restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
         form = EventCreationForm(request.POST)
-        type = Event.TYPE_LABELS.get(request.POST["type"], None)
+        type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
         if form.errors or not type:
             responseJSON["status"] = "failed"
             responseJSON["message"] = "Errors occurred."
+            responseJSON["error"] = str(form.errors) + " Requested Type:" + request.POST["type"] + " Type:" + str(type)
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
         event = form.save(commit=False)
         event.owner = owner
+        event.save()
         event.participants.add(owner)
         event.restaurant = restaurant
         if request.POST["joinable"] == 1:
@@ -31,6 +33,7 @@ def create_event(request):
         else:
             event.joinable = False
         event.type = type
+        event.start_time = request.POST['start_time']
         event.save()
         responseJSON["status"] = "success"
         responseJSON["message"] = "Successfully registered."

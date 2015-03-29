@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from api.views import user_views, friendship_views, event_views
+from api.views import user_views, friendship_views, event_views, restaurant_views
 from frontend.views import user_views_, home_view
 
 
@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^api/reject_friend/$', friendship_views.reject_friend_request, name='api_reject_friend'),
     url(r'^api/accept_friend/$', friendship_views.accept_friend_request, name='api_accept_friend'),
     url(r'^api/get_friends/$', friendship_views.get_friend_list, name='api_get_friends'),
+    url(r'^api/create_restaurant/$', restaurant_views.create_restaurant, name='api_create_restaurant'),
     url(r'^api/get_friend_requests/$', friendship_views.get_friend_requests, name='api_get_friend_requests'),
     url(r'^api/create_event/$', event_views.create_event, name='api_create_event'),
     url(r'^api/get_owned_events/$', event_views.get_owned_events, name='api_get_owned_events'),

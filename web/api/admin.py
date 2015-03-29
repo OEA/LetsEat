@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models.user import User
+
+from .models import Event, User
+
 
 class UserAdmin(admin.ModelAdmin):
 
@@ -13,3 +15,10 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(User, UserAdmin)
+
+
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('name', 'start_time')
+
+
+admin.site.register(Event, EventAdmin)

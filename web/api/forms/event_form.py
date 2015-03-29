@@ -8,4 +8,4 @@ from ..models import Event
 class EventCreationForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'time', 'type', ]
+        fields = ['name', ]
