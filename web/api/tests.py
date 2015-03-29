@@ -1,4 +1,4 @@
-__author__ = 'bahadirkirdan'
+__author__ = 'bahadirkirdan & Burak Atalay'
 
 from django.test import TestCase
 from .models.user import User
@@ -9,6 +9,7 @@ from .models.event_request import EventRequest
 import urllib.parse
 import http.client
 import json
+import datetime
 
 
 
@@ -59,13 +60,41 @@ class modelTest(TestCase):
 
 
         #Add Events
-        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway, taha, True)
-        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city, simge, True)
-        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol, bilal, False)
+        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway)
+        subway_meal.participants.add(taha)
+        subway_meal.participants.add(simge)
+        subway_meal.joinable = True
+
+
+        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city)
+        metro_city_dinning.participants.add(simge)
+        metro_city_dinning.participants.add(didem)
+        metro_city_dinning.joinable = True
+
+
+        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol)
+        capitol_meal.participants.add(bilal)
+        capitol_meal.participants.add(omer)
+        capitol_meal.joinable = False
+
 
         subway_meal.save()
         metro_city_dinning.save()
         capitol_meal.save()
+
+
+
+        #Add Event Requests
+        subway_request = EventRequest('P', subway, bilal)
+        metro_city_request = EventRequest('A', metro_city, didem)
+        capitol_request = EventRequest('D', capitol, omer)
+
+        subway_request.save()
+        metro_city_request.save()
+        capitol_request.save()
+
+
+
 
 
 
@@ -378,3 +407,218 @@ class modelTest(TestCase):
         self.assertEqual(user.username, "tdgunes")
 
 
+    def create_event_test(self):
+        hakan = User.objects.get(name="hakanuyumaz")
+        subway = Restaurant.objects.get(name="Subway")
+
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "owner_id": hakan.id,
+                  "username": '',
+                  "type": 'D',
+                  "joinable": '1',
+                  "start_time": datetime.datetime.now()
+                })
+
+        response = self.make_request(params, "/api/create_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing type
+        params = urllib.parse.urlencode(
+                { "owner_id": hakan.id,
+                  "username": subway.id,
+                  "type": '',
+                  "joinable": '1',
+                  "start_time": datetime.datetime.now()
+                })
+
+        response = self.make_request(params, "/api/create_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing joinable
+        params = urllib.parse.urlencode(
+                { "owner_id": hakan.id,
+                  "username": subway.id,
+                  "type": 'D',
+                  "joinable": '',
+                  "start_time": datetime.datetime.now()
+                })
+
+        response = self.make_request(params, "/api/create_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        #Missing start time
+        params = urllib.parse.urlencode(
+                { "owner_id": hakan.id,
+                  "username": subway.id,
+                  "type": 'D',
+                  "joinable": '1',
+                  "start_time": ''
+                })
+
+        response = self.make_request(params, "/api/create_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+
+        params = urllib.parse.urlencode(
+                { "owner_id": hakan.id,
+                  "username": subway.id,
+                  "type": 'D',
+                  "joinable": '1',
+                  "start_time": datetime.datetime.now()
+                })
+
+        response = self.make_request(params, "/api/create_event/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
+    def invite_event_test(self):
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                { "event": '',
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": ''
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/invite_event/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
+    def accept_event_test(self):
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                { "event": '',
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": ''
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/accept_event/", "POST")
+        self.assertEqual(response["status"], "success")
+
+    def reject_event_test(self):
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                { "event": '',
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/reject_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        #Missing username
+        params = urllib.parse.urlencode(
+                { "event": metro_city_event.id,
+                  "username": ''
+                })
+
+        response = self.make_request(params, "/api/reject_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                {
+                  "event": metro_city_event.id,
+                  "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/reject_event/", "POST")
+        self.assertEqual(response["status"], "success")
+
+    def get_owned_events_test(self):
+        #Missing username
+        params = urllib.parse.urlencode(
+                {
+                    "username": ''
+                })
+
+        response = self.make_request(params, "/api/get_owned_events/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+
+        params = urllib.parse.urlencode(
+                {
+                    "username": 'tdgunes'
+                })
+
+        response = self.make_request(params, "/api/get_owned_events/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
+    def get_event_test(self):
+
+        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+
+        #Missing event
+        params = urllib.parse.urlencode(
+                {
+                    "event": ''
+                })
+
+        response = self.make_request(params, "/api/get_event/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+
+        params = urllib.parse.urlencode(
+                {
+                    "event": metro_city_event.id
+                })
+
+        response = self.make_request(params, "/api/get_event/", "POST")
+        self.assertEqual(response["status"], "success")
