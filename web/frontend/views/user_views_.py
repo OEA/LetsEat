@@ -181,3 +181,17 @@ def notifications_view(request):
         return render(request, 'notifications.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
+
+
+def create_event(request):
+    owner = request.user
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            event_name = request.POST["event_name"]
+            event_place = request.POST["event_place"]
+            event_time = request.POST["event_time"]
+            event_type = request.POST["event_type"]
+            event_participants = request.POST["event_participants"]
+
+        else:
+            return redirect("http://127.0.0.1:8000/homepage")
