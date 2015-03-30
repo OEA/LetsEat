@@ -51,6 +51,7 @@ def create_user_JSON(user):
     user_container["name"] = user.name
     user_container["surname"] = user.surname
     user_container["email"] = user.email
+    return user_container
 
 
 def login_view(request):
@@ -62,6 +63,7 @@ def login_view(request):
         if user is not None:
                 login(request, user)
                 success_response()
+
                 responseJSON["container"] = create_user_JSON(user)
                 responseJSON["message"] = "Successfully logged in"
                 print(responseJSON["status"])
