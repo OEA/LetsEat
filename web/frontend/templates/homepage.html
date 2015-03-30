@@ -47,7 +47,8 @@
                                         class="fa fa-minus-square-o toggle-event-name"></i></span>
                                 </div>
                                 <div class="panel-body event-name">
-                                    <input class="form-control" type="text" placeholder="Event Name" name="event_name">
+                                    <input type="hidden" name="owner" value="{{ user.username }}">
+                                    <input class="form-control" type="text" placeholder="Event Name" name="name">
                                 </div>
                             </div>
                             <div class="panel panel-default ">
