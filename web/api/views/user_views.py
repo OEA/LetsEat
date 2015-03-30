@@ -9,14 +9,31 @@ from django.http import HttpResponse
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
 
+responseJSON = {}
+
+
+def is_POST(request):
+    if request.method != "POST":
+        fail_response()
+        responseJSON["message"] = "No request found."
+        return False
+    return True
+
+
+def success_response():
+    responseJSON["status"] = "success"
+
+
+def fail_response():
+    responseJSON["status"] = "failed"
+
 
 def registration_view(request):
-    responseJSON = {}
-    if request.method == "POST":
+    if is_POST(request):
         form = UserCreationForm(request.POST)
 
         if form.errors:
-            responseJSON["status"] = "failed"
+            fail_response()
             responseJSON["message"] = "Errors occurred."
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
@@ -24,49 +41,41 @@ def registration_view(request):
         user.is_active = True
         user.save()
 
-        responseJSON["status"] = "success"
+        success_response()
         responseJSON["message"] = "Successfully registered."
-        return HttpResponse(json.dumps(responseJSON), content_type="application/json")
-    else:
-        responseJSON["status"] = "failed"
-        responseJSON["message"] = "No request found."
-        return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def create_user_JSON():
+    user = {}
+    user["username"] = user.username
+    user["name"] = user.name
+    user["surname"] = user.surname
+    user["email"] = user.email
+
 
 def login_view(request):
-    responseJSON = {}
-    if request.method == "POST":
+    if is_POST(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
         if user is not None:
                 login(request, user)
-                responseJSON["status"] = "success"
+                success_response()
                 responseJSON["container"] = {}
-                responseJSON["container"]["username"] = user.username
-                responseJSON["container"]["name"] = user.name
-                responseJSON["container"]["surname"] = user.surname
-                responseJSON["container"]["email"] = user.email
+                create_user_JSON()
                 responseJSON["message"] = "Successfully logged in"
                 print(responseJSON["status"])
-                return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
-                                    content_type="application/json; charset=utf-8")
         else:
-            responseJSON["status"] = "failed"
+            fail_response()
             responseJSON["message"] = "User credentials are not correct."
-            return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
-                                content_type="application/json")
-    else:
-        responseJSON["status"] = "failed"
-        responseJSON["message"] = "No request found."
-        return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
+    return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
 
 def user_profile(request):
-
-    responseJSON = {}
-    responseJSON["status"] = "success"
+    success_response()
     responseJSON["container"] = {}
     responseJSON["container"]["username"] = request.user.username
     responseJSON["container"]["name"] = request.user.name
@@ -77,7 +86,6 @@ def user_profile(request):
 
 
 def profile(request, username):
-    responseJSON = {}
     user = User.objects.get(username=username)
     responseJSON["status"] = "success"
     responseJSON["container"] = {}
@@ -89,17 +97,15 @@ def profile(request, username):
                             content_type="application/json")
 
 def logout(request):
-    responseJSON = {}
     auth.logout(request)
-    responseJSON["status"] = "success"
+    success_response()
     responseJSON["message"] = "You logout successfully"
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
 
 def edit(request, username):
-    responseJSON = {}
-    if request.method == "POST":
+    if is_POST(request):
         user = User.objects.get(username=username)
         form = UserUpdateForm(request.POST, instance=user)
         new_password = request.POST["newPassword"]
@@ -108,7 +114,7 @@ def edit(request, username):
         if user.check_password(current_password):
             if form.errors:
                 print(form.errors)
-                responseJSON["status"] = "failed"
+                fail_response()
                 responseJSON["message"] = "Form errors occurred."
             else:
                 user = form.save(commit=False)
@@ -117,12 +123,12 @@ def edit(request, username):
                     user.set_password(new_password)
                 user.is_active = True
                 user.save()
-                responseJSON["status"] = "success"
+                success_response()
                 responseJSON["message"] = "Successfully updated."
         else:
-            responseJSON["status"] = "failed"
+            fail_response()
             responseJSON["message"] = "Current password is invalid."
-        return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
 def test(request):
