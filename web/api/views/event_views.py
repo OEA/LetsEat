@@ -75,7 +75,7 @@ def invite_event(request):
             event_request = EventRequest(event=event, guest=participant, status='P')
             event_request.save()
             success_response(responseJSON)
-            responseJSON["message"] = "Friend request created."
+            responseJSON["message"] = "Event request created."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
