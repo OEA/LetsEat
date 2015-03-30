@@ -14,12 +14,11 @@ def homepage(request):
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
         connection = http.client.HTTPConnection('127.0.0.1',8000)
         connection.request("POST", "/api/get_friend_requests/", params, headers)
-        registration_response = connection.getresponse()
-        registration_data_json = registration_response.read()
-        registration_data = json.loads(registration_data_json.decode("utf-8"))
-        list = registration_data["senders"]
-        print("list burada : "+str(list))
-        context = {'user' : user, 'username': user.username, 'friend_request': list }
+        friend_request_response = connection.getresponse()
+        friend_request_json_data = friend_request_response.read()
+        friend_request_data = json.loads(friend_request_json_data.decode("utf-8"))
+        friend_request_list = friend_request_data["senders"]
+        context = {'user' : user, 'username': user.username, 'friend_request': friend_request_list }
         return render(request, "./homepage.html", context)
     else:
         return redirect("../")
