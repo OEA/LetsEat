@@ -111,6 +111,29 @@ def reject_friend_request(request):
     return HttpResponse(json.dumps(responseJSON))
 
 
+def get_friendship_request_situation(request):
+    responseJSON = {}
+    if request.method == "POST":
+        sender_username = request.POST["sender"]
+        receiver_username = request.POST["receiver"]
+        sender = get_object_or_404(FriendshipRequest, sender=sender_username)
+        receiver = get_object_or_404(FriendshipRequest, receiver=receiver_username)
+        if FriendshipRequest.objects.filter(sender=sender, receiver=receiver).count() > 0:
+            friendship_request_situation = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver).status
+            friendship_requestJSON = {}
+            friendship_requestJSON["sender"] = sender_username
+            friendship_requestJSON["receiver"] = receiver_username
+            friendship_requestJSON["status"] = friendship_request_situation
+            friendship_requestJSON["friendship_request"].append(friendship_requestJSON)
+        else:
+            responseJSON["status"] = "failed"
+            responseJSON["message"] = "Pending friend request cannot be found."
+    else:
+        responseJSON["status"] = "failed"
+        responseJSON["message"] = "No request found"
+    return HttpResponse(json.dumps(responseJSON))
+
+
 def get_friend_list(request):
     responseJSON = {}
     if request.method == "POST":
