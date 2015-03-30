@@ -13,7 +13,7 @@ responseJSON = {}
 
 def is_POST(request):
     if request.method != "POST":
-        fail_response()
+        fail_response(responseJSON)
         responseJSON["message"] = "No request found."
         return False
     return True
@@ -182,7 +182,7 @@ def create_event_json(event):
     eventJSON["name"] = event.name
     eventJSON["owner"] = create_owner_JSON(event)
     eventJSON["restaurant"] = create_restaurant_json(event)
-    eventJSON["time"] = event.start_time
+    eventJSON["time"] = str(event.start_time)
     eventJSON["type"] = Event.TYPE_LABELS_REVERSE.get(event.type, None)
     eventJSON["participants"] = create_participants_JSON(event)
     eventJSON["joinable"] = event.joinable
@@ -190,8 +190,8 @@ def create_event_json(event):
 
 
 def create_events_json(events):
-    events = []
+    events_list = []
     for event in events:
         eventJSON = create_event_json(event)
-        events.append(eventJSON)
-    return events
+        events_list.append(eventJSON)
+    return events_list
