@@ -622,3 +622,4 @@ class modelTest(TestCase):
 
         response = self.make_request(params, "/api/get_event/", "POST")
         self.assertEqual(response["status"], "success")
+
