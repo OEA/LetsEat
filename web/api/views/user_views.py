@@ -28,6 +28,7 @@ def fail_response():
     responseJSON["status"] = "failed"
 
 def registration_view(request):
+    responseJSON = {}
     if is_POST(request):
         form = UserCreationForm(request.POST)
 
@@ -55,6 +56,7 @@ def create_user_JSON(user):
 
 
 def login_view(request):
+    responseJSON = {}
     if is_POST(request):
         username = request.POST['username']
         password = request.POST['password']
@@ -75,6 +77,7 @@ def login_view(request):
 
 
 def user_profile(request):
+    responseJSON = {}
     success_response()
     responseJSON["container"] = create_user_JSON(request.user)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
@@ -82,6 +85,7 @@ def user_profile(request):
 
 
 def profile(request, username):
+    responseJSON = {}
     user = User.objects.get(username=username)
     responseJSON["status"] = "success"
     responseJSON["container"] = {}
@@ -101,6 +105,7 @@ def logout(request):
 
 
 def edit(request, username):
+    responseJSON = {}
     if is_POST(request):
         user = User.objects.get(username=username)
         form = UserUpdateForm(request.POST, instance=user)

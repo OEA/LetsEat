@@ -18,15 +18,16 @@ def is_POST(request):
     return True
 
 
-def success_response():
+def success_response(responseJSON):
     responseJSON["status"] = "success"
 
 
-def fail_response():
+def fail_response(responseJSON):
     responseJSON["status"] = "failed"
 
 
 def create_restaurant(request):
+    responseJSON = {}
     if is_POST(request):
         restaurant = RestaurantCreationForm(request.POST)
         if restaurant.errors or not type:
@@ -52,7 +53,8 @@ def create_restaurants_json(responseJSON):
 
 
 def get_restaurant_list(request):
+    responseJSON = {}
     create_restaurants_json(responseJSON)
-    success_response()
+    success_response(responseJSON)
     responseJSON["message"] = "Successfully returned."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
