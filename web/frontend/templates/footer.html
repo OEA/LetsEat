@@ -157,7 +157,30 @@
     });
 
 </script>
+<script type="text/javascript">
+    $(".reject-friend").click(function () {
+        var sender = $(this).attr('data-sender');
+        var receiver = $(this).attr('data-receiver');
+        $(this).removeClass("btn-primary");
+        $(this).addClass("btn-default");
+        $(this).parent().parent().text(sender+"'s request is rejected");
+        $.ajax({
+            url: "{% url 'api_reject_friend' %}",
+            type: "POST",
+            data: 'sender=' + sender + "&receiver=" + receiver,
+            dataType: "JSON",
+            success: function (data) {
 
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+    });
+
+</script>
 
 <script type='text/javascript'>
 
