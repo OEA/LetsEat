@@ -13,12 +13,18 @@ responseJSON = {}
 
 def is_POST(request):
     if request.method != "POST":
-        responseJSON["status"] = "failed"
+        fail_response()
         responseJSON["message"] = "No request found."
         return False
     return True
 
 
+def success_response():
+    responseJSON["status"] = "success"
+
+
+def fail_response():
+    responseJSON["status"] = "failed"
 
 
 def create_event(request):
@@ -30,7 +36,7 @@ def create_event(request):
         form = EventCreationForm(request.POST)
         type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
         if form.errors or not type:
-            responseJSON["status"] = "failed"
+            fail_response()
             responseJSON["message"] = "Errors occurred."
             responseJSON["error"] = str(form.errors) + " Requested Type:" + request.POST["type"] + " Type:" + str(type)
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
@@ -51,8 +57,6 @@ def create_event(request):
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
-def success_response():
-    responseJSON["status"] = "success"
 
 
 def invite_event(request):
@@ -102,7 +106,7 @@ def reject_event(request):
             success_response()
             responseJSON["message"] = "Existing event request updated."
         else:
-            responseJSON["status"] = "failed"
+            fail_response()
             responseJSON["message"] = "Pending event request cannot be found."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
