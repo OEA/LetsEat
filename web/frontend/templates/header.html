@@ -153,7 +153,7 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                                         </div>
                                         <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
                                             <small>{{ req.name }} {{ req.surname }}</small>
-                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                            <a class="btn btn-default pull-right reject-friend" data-sender="{{ req.username }}" data-receiver="{{ username }}" style="margin-left: 10px;">Delete
                                                 Request</a>
                                             <a class="btn btn-primary pull-right accept-friend" data-sender="{{ req.username }}" data-receiver="{{ username }}">Accept</a>
                                         </div>
