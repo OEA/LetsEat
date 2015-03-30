@@ -51,7 +51,7 @@ def search_user(request, search_field):
         for result_user in User.objects.filter(username__contains=search_field).exclude(username__exact=user.username):
             users_list.add(result_user)
         success_response(responseJSON)
-        print(json.dumps(responseJSON))
+        #print(json.dumps(responseJSON))
         if len(users_list) > 0:
             responseJSON["message"] = "Users found."
             responseJSON["users"] = []
@@ -62,7 +62,7 @@ def search_user(request, search_field):
     else:
         fail_response(responseJSON)
         responseJSON["message"] = "No search field found."
-    print(json.dumps(responseJSON))
+    #print(json.dumps(responseJSON))
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -165,7 +165,7 @@ def get_friend_requests(request):
     responseJSON = {}
     if is_POST(request):
         username = request.POST["username"]
-        print(json.dumps(responseJSON))
+        #print(json.dumps(responseJSON))
         user = get_object_or_404(User, username=username)
         friend_request_list = FriendshipRequest.objects.filter(receiver=user, status='P')
         success_response(responseJSON)
