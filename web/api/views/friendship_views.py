@@ -18,7 +18,7 @@ def is_POST(request):
     return True
 
 
-def success_response():
+def success_response(responseJSON):
     responseJSON["status"] = "success"
 
 
@@ -36,6 +36,7 @@ def create_user_JSON(user):
 
 
 def search_user(request, search_field):
+    responseJSON = {}
     user = None
     if request.user.is_authenticated():
         user = request.user
@@ -49,7 +50,8 @@ def search_user(request, search_field):
             users_list.add(result_user)
         for result_user in User.objects.filter(username__contains=search_field).exclude(username__exact=user.username):
             users_list.add(result_user)
-        success_response()
+        success_response(responseJSON)
+        print(json.dumps(responseJSON))
         if len(users_list) > 0:
             responseJSON["message"] = "Users found."
             responseJSON["users"] = []
@@ -58,12 +60,14 @@ def search_user(request, search_field):
         else:
             responseJSON["message"] = "Users not found."
     else:
-        fail_response()
+        fail_response(responseJSON)
         responseJSON["message"] = "No search field found."
+    print(json.dumps(responseJSON))
     return HttpResponse(json.dumps(responseJSON))
 
 
 def send_friend_request(request):
+    responseJSON = {}
     if is_POST(request):
         sender_username = request.POST["sender"]
         receiver_username = request.POST["receiver"]
@@ -73,16 +77,17 @@ def send_friend_request(request):
             friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
             friend_request.status = 'P'
             friend_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing friend request updated."
         else:
             friend_request = FriendshipRequest(sender=sender, receiver=receiver, status='P')
             friend_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Friend request created."
     return HttpResponse(json.dumps(responseJSON))
 
 def accept_friend_request(request):
+    responseJSON = {}
     if is_POST(request):
         sender_username = request.POST["sender"]
         receiver_username = request.POST["receiver"]
@@ -93,15 +98,16 @@ def accept_friend_request(request):
             friend_request.status = 'A'
             friend_request.save()
             sender.friends.add(receiver)
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing friend request updated."
         else:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Pending friend request cannot be found."
     return HttpResponse(json.dumps(responseJSON))
 
 
 def reject_friend_request(request):
+    responseJSON = {}
     if is_POST(request):
         sender_username = request.POST["sender"]
         receiver_username = request.POST["receiver"]
@@ -112,15 +118,16 @@ def reject_friend_request(request):
             friend_request.status = 'R'
             friend_request.save()
             sender.friends.add(receiver)
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing friend request updated."
         else:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Pending friend request cannot be found."
     return HttpResponse(json.dumps(responseJSON))
 
 
 def get_friendship_request_situation(request):
+    responseJSON = {}
     if is_POST(request):
         sender_username = request.POST["sender"]
         receiver_username = request.POST["receiver"]
@@ -128,7 +135,7 @@ def get_friendship_request_situation(request):
         receiver = get_object_or_404(FriendshipRequest, receiver=receiver_username)
         if FriendshipRequest.objects.filter(sender=sender, receiver=receiver).count() > 0:
             friendship_request_situation = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver).status
-            success_response()
+            success_response(responseJSON)
             friendship_requestJSON = {}
             friendship_requestJSON["sender"] = sender_username
             friendship_requestJSON["receiver"] = receiver_username
@@ -141,11 +148,12 @@ def get_friendship_request_situation(request):
 
 
 def get_friend_list(request):
+    responseJSON = {}
     if is_POST(request):
         username = request.POST["username"]
         user = get_object_or_404(User, username=username)
         friend_list = user.friends.all()
-        success_response()
+        success_response(responseJSON)
         responseJSON["message"] = "Friends found."
         responseJSON["friends"] = []
         for friend in friend_list:
@@ -154,19 +162,23 @@ def get_friend_list(request):
 
 
 def get_friend_requests(request):
+    responseJSON = {}
     if is_POST(request):
         username = request.POST["username"]
+        print(json.dumps(responseJSON))
         user = get_object_or_404(User, username=username)
         friend_request_list = FriendshipRequest.objects.filter(receiver=user, status='P')
-        success_response()
+        success_response(responseJSON)
         responseJSON["senders"] = []
         sender_list = []
+
         for friend_request in friend_request_list:
             sender_list.append(friend_request.sender)
         if len(sender_list) > 0:
             responseJSON["message"] = "Requests found."
         else:
             responseJSON["message"] = "Requests not found."
+
         for sender in sender_list:
             responseJSON["senders"].append(create_user_JSON(sender))
     return HttpResponse(json.dumps(responseJSON))
