@@ -142,7 +142,7 @@ def get_event_requests(request):
         user = get_object_or_404(User, username=request.POST["username"])
         event_requests = EventRequest.objects.filter(guest=user)
         for event_request in event_requests:
-            event_request
+            event = event_request.event
 
     return HttpResponse("Not implemented")
 
