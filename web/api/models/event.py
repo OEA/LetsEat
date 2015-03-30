@@ -7,7 +7,7 @@ from .user import User
 
 class Event(models.Model):
     TYPE_LABELS = (('D', 'Dinning'), ('M', 'Meal'))
-    TYPE_LABELS_REVERSE = {y: x for x, y in self.TYPE_LABELS}
+    TYPE_LABELS_REVERSE = {y: x for x, y in TYPE_LABELS}
     owner = models.ForeignKey(User, related_name="owner")
     name = models.CharField('Name', max_length=50, unique=False, null=True, blank=True)
     start_time = models.DateTimeField('Start_Time', auto_now_add=True, null=True, blank=True)
