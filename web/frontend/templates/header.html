@@ -138,7 +138,11 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                         <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
                             <div class="col-md-12">
                                 <h5><i class="fa fa-user-plus"></i> Friend Requests</h5>
-                                <li>
+                                {% if friend_request %}
+
+                                    {% for req in friend_request %}
+
+                                        <li>
                                     <div class="media">
                                         <div class="media-left">
                                             <a href="#">
@@ -148,53 +152,20 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                                             </a>
                                         </div>
                                         <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
-                                            <small>Burak Atalay</small>
-                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
+                                            <small>{{ req.name }} {{ req.surname }}</small>
+                                            <a class="btn btn-default pull-right reject-friend" data-sender="{{ req.username }}" data-receiver="{{ username }}" style="margin-left: 10px;">Delete
                                                 Request</a>
-                                            <a class="btn btn-primary pull-right">Accept</a>
+                                            <a class="btn btn-primary pull-right accept-friend" data-sender="{{ req.username }}" data-receiver="{{ username }}">Accept</a>
                                         </div>
 
 
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object"
-                                                     src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png"
-                                                     alt="..." width="32" height="32">
-                                            </a>
-                                        </div>
-                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
-                                            <small>Hakan Uyumaz</small>
-                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
-                                                Request</a>
-                                            <a class="btn btn-primary pull-right">Accept</a>
-                                        </div>
 
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object"
-                                                     src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
-                                                     alt="..." width="32" height="32">
-                                            </a>
-                                        </div>
-                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
-                                            <small>Bahadır Kırdan</small>
-                                            <a class="btn btn-default pull-right" style="margin-left: 10px;">Delete
-                                                Request</a>
-                                            <a class="btn btn-primary pull-right">Accept</a>
-                                        </div>
-
-
-                                    </div>
-                                </li>
+                                    {% endfor %}
+                    {% else %}
+                        <li><h6>Nothing to show.</h6></li>
+                     {% endif %}
                                 <h5><i class="fa fa-user-plus"></i> Event Requests</h5>
                                 <li>
                                     <div class="media">

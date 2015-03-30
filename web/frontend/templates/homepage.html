@@ -47,7 +47,8 @@
                                         class="fa fa-minus-square-o toggle-event-name"></i></span>
                                 </div>
                                 <div class="panel-body event-name">
-                                    <input class="form-control" type="text" placeholder="Event Name">
+                                    <input type="hidden" name="owner" value="{{ user.username }}">
+                                    <input class="form-control" type="text" placeholder="Event Name" name="name">
                                 </div>
                             </div>
                             <div class="panel panel-default ">
@@ -57,7 +58,7 @@
                                     <br>
                                 </div>
                                 <div class="panel-body event-map">
-                                    <input class="form-control" type="text" id="keyword" placeholder="Event Place">
+                                    <input class="form-control" type="text" id="keyword" placeholder="Event Place" name="event_place">
 
                                     <div class="footer" style="padding-top: 10px;">
                                         <div id="map_canvas"></div>
@@ -83,7 +84,7 @@
                                 <div class="panel-body event-time">
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control"/>
+                                            <input type='text' class="form-control" name="event_time"/>
                                         <span class="input-group-addon">
                                             <span class="fa fa-clock-o"></span>
                                         </span>
@@ -98,7 +99,7 @@
                                 </div>
                                 <div class="panel-body event-time">
                                         <div class="form-group">
-                                            <input type="text" data-role="tagsinput" class="participant" style="width: 100% !important;" autocomplete="off">
+                                            <input type="text" data-role="tagsinput" class="participant" name="event_participant" style="width: 100% !important;" autocomplete="off">
                                         </div>
                                 </div>
                                 </div>
@@ -106,7 +107,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-primary create-event">Save changes</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -131,7 +132,8 @@
                         <div class="panel-footer">
                             <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i>
                             Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
-                                class="fa fa-share-alt"></i> Share</a>
+                                class="fa fa-share-alt"></i> Share</a> . <i class="fa fa-clock-o" data-toggle="popover"
+                                   data-content="23 Mar. 2015 16:20"></i>
 
                             <div class="pull-right">
                                 <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small>
@@ -162,7 +164,8 @@
                         <div class="panel-footer">
                             <a><i class="fa fa-thumbs-o-up"></i> Like</a> . <a disabled><i class="fa fa-unlock"></i>
                             Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
-                                class="fa fa-share-alt"></i> Share</a>
+                                class="fa fa-share-alt"></i> Share</a> . <i class="fa fa-clock-o" data-toggle="popover"
+                                   data-content="13 Mar. 2015 16:20"></i>
 
                             <div class="pull-right">
                                 <small><i class="fa fa-thumbs-o-up"></i></small>

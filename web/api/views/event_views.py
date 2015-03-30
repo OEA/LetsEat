@@ -13,7 +13,7 @@ responseJSON = {}
 
 def is_POST(request):
     if request.method != "POST":
-        fail_response()
+        fail_response(responseJSON)
         responseJSON["message"] = "No request found."
         return False
     return True
@@ -31,6 +31,7 @@ def create_event(request):
     responseJSON = {}
     if is_POST(request):
         owner_id = request.POST["owner"]
+        event_name = request.POST["event_name"]
         restaurant = request.POST["restaurant"]
         owner = get_object_or_404(User, username=owner_id)
         form = EventCreationForm(request.POST)
@@ -75,7 +76,7 @@ def invite_event(request):
             event_request = EventRequest(event=event, guest=participant, status='P')
             event_request.save()
             success_response(responseJSON)
-            responseJSON["message"] = "Friend request created."
+            responseJSON["message"] = "Event request created."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -141,10 +142,11 @@ def get_event_requests(request):
     if is_POST(request):
         user = get_object_or_404(User, username=request.POST["username"])
         event_requests = EventRequest.objects.filter(guest=user)
+        responseJSON["events_requests"] = []
         for event_request in event_requests:
             event = event_request.event
-
-    return HttpResponse("Not implemented")
+            responseJSON["events_requests"].append(create_event_json(event))
+    return HttpResponse(json.dumps(responseJSON))
 
 
 def create_owner_JSON(event):
@@ -179,7 +181,7 @@ def create_event_json(event):
     eventJSON["name"] = event.name
     eventJSON["owner"] = create_owner_JSON(event)
     eventJSON["restaurant"] = create_restaurant_json(event)
-    eventJSON["time"] = event.start_time
+    eventJSON["time"] = str(event.start_time)
     eventJSON["type"] = Event.TYPE_LABELS_REVERSE.get(event.type, None)
     eventJSON["participants"] = create_participants_JSON(event)
     eventJSON["joinable"] = event.joinable
@@ -187,8 +189,8 @@ def create_event_json(event):
 
 
 def create_events_json(events):
-    events = []
+    events_list = []
     for event in events:
         eventJSON = create_event_json(event)
-        events.append(eventJSON)
-    return events
+        events_list.append(eventJSON)
+    return events_list

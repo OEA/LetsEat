@@ -31,7 +31,7 @@
         <div class="media-body">
             <div class="panel-body ">
                 {% if users %}
-                {% for user in users %}
+                {% for user_ in users %}
                 <div class="media well" style="padding: 10px;">
                     <div class="media-left">
                     <a href="#">
@@ -39,9 +39,9 @@
                         </a>
                       </div>
                       <div class="media-body">
-                          <a href="{% url 'profile' user.username %}">{{ user.name }} {{ user.surname }}</a><br>
+                          <a href="{% url 'profile' user_.username %}">{{ user_.name }} {{ user_.surname }}</a><br>
 
-                          <a href="#" class="btn btn-primary btn-xs submit" data-sender="{{ username }}" data-receiver="{{ user.username }}"><i class="fa fa-user-plus"></i>  Add Friend</a>
+                          <a href="#" class="btn btn-primary btn-xs submit" data-sender="{{ user.username }}" data-receiver="{{ user_.username }}"><i class="fa fa-user-plus"></i>  Add Friend</a>
                         </div>
                 </div>
                 {% endfor %}
