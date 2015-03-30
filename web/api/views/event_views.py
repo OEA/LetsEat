@@ -131,6 +131,16 @@ def get_event(request):
     return HttpResponse(json.dumps(responseJSON))
 
 
+def get_event_requests(request):
+    if is_POST(request):
+        user = get_object_or_404(User, username=request.POST["username"])
+        event_requests = EventRequest.objects.filter(guest=user)
+        for event_request in event_requests:
+            event_request
+
+    return HttpResponse("Not implemented")
+
+
 def create_owner_JSON(event):
     ownerJSON = {}
     ownerJSON["username"] = event.owner.username
