@@ -2,7 +2,6 @@ __author__ = 'Hakan Uyumaz'
 
 from django.db import models
 
-from .restaurant import Restaurant
 from .user import User
 
 
@@ -13,7 +12,7 @@ class Event(models.Model):
     start_time = models.DateTimeField('Start_Time', auto_now_add=True, null=True, blank=True)
     type = models.CharField('Type', max_length=50, choices=TYPE_LABELS)
     restaurant = models.CharField('Restaurant', max_length=100, unique=False, null=True, blank=True)
-    participants = models.ManyToManyField(Restaurant, related_name='participants', null=True, blank=True)
+    participants = models.ManyToManyField(User, related_name='participants', null=True, blank=True)
     joinable = models.BooleanField('Joinable', default=False)
 
     def get_type_symbol(self, type):

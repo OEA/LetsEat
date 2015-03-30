@@ -24,7 +24,7 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
         searchBar.enablesReturnKeyAutomatically = false
         
         //Sil bunları
-        friends = [["name": "test1", "surname": "test1", "username": "test1", "email": "test1"], ["name": "hello", "surname": "hello", "username": "hello", "email": "hello"]]
+        //friends = [["name": "test1", "surname": "test1", "username": "test1", "email": "test1"], ["name": "hello", "surname": "hello", "username": "hello", "email": "hello"]]
         //
         
         if let image2 = UIImage(named: "check"){
@@ -32,8 +32,8 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
         }
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        //if let list = userDefaults.valueForKey("Friends") as? [[String: String]]{
-            //friends = list
+        if let list = userDefaults.valueForKey("Friends") as? [[String: AnyObject]]{
+            friends = list
                 for index in 0...friends.count-1{
                     let friend = friends[index]
                     let friendUserName = friend["username"] as String
@@ -41,7 +41,7 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
                         addedFriends.updateValue(false, forKey: friend["username"] as String)
                     }
                 }
-        //}
+        }
         
         searchedList = friends
     }

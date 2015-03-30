@@ -53,6 +53,7 @@ def create_event(request):
         event.start_time = request.POST['start_time']
         event.save()
         success_response()
+        responseJSON["event"] = create_event_json(event)
         responseJSON["message"] = "Successfully registered."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
@@ -161,6 +162,7 @@ def create_participants_JSON(event):
 
 def create_event_json(event):
     eventJSON = {}
+    eventJSON["id"] = event.id
     eventJSON["name"] = event.name
     eventJSON["owner"] = create_owner_JSON(event)
     eventJSON["restaurant"] = create_restaurant_json(event)
