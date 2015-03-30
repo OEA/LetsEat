@@ -19,18 +19,14 @@ class RequestsTableViewController: UITableViewController {
 
     @IBOutlet var friendReqtTV: UITableView!
     
-    @IBOutlet weak var addButton: UIBarButtonItem!
+
     override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = addButton
         friendRequestList = []
         eventReqList = [1]
         getFriendRequests()
         //apiMethod.getOwnedEvent(self)
     }
     
-    override func viewWillDisappear(animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = nil
-    }
 
     // MARK: - Table view data source
 
