@@ -14,17 +14,17 @@ responseJSON = {}
 
 def is_POST(request):
     if request.method != "POST":
-        fail_response()
+        fail_response(responseJSON)
         responseJSON["message"] = "No request found."
         return False
     return True
 
 
-def success_response():
+def success_response(responseJSON):
     responseJSON["status"] = "success"
 
 
-def fail_response():
+def fail_response(responseJSON):
     responseJSON["status"] = "failed"
 
 def registration_view(request):
@@ -33,7 +33,7 @@ def registration_view(request):
         form = UserCreationForm(request.POST)
 
         if form.errors:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Errors occurred."
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
@@ -41,7 +41,7 @@ def registration_view(request):
         user.is_active = True
         user.save()
 
-        success_response()
+        success_response(responseJSON)
         responseJSON["message"] = "Successfully registered."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
@@ -64,13 +64,13 @@ def login_view(request):
 
         if user is not None:
                 login(request, user)
-                success_response()
+                success_response(responseJSON)
 
                 responseJSON["container"] = create_user_JSON(user)
                 responseJSON["message"] = "Successfully logged in"
                 print(responseJSON["status"])
         else:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "User credentials are not correct."
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
@@ -78,7 +78,7 @@ def login_view(request):
 
 def user_profile(request):
     responseJSON = {}
-    success_response()
+    success_response(responseJSON)
     responseJSON["container"] = create_user_JSON(request.user)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                         content_type="application/json")
@@ -98,7 +98,7 @@ def profile(request, username):
 
 def logout(request):
     auth.logout(request)
-    success_response()
+    success_response(responseJSON)
     responseJSON["message"] = "You logout successfully"
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
@@ -115,7 +115,7 @@ def edit(request, username):
         if user.check_password(current_password):
             if form.errors:
                 print(form.errors)
-                fail_response()
+                fail_response(responseJSON)
                 responseJSON["message"] = "Form errors occurred."
             else:
                 user = form.save(commit=False)
@@ -124,10 +124,10 @@ def edit(request, username):
                     user.set_password(new_password)
                 user.is_active = True
                 user.save()
-                success_response()
+                success_response(responseJSON)
                 responseJSON["message"] = "Successfully updated."
         else:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Current password is invalid."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 

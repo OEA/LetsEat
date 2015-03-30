@@ -141,8 +141,11 @@ def get_event_requests(request):
     if is_POST(request):
         user = get_object_or_404(User, username=request.POST["username"])
         event_requests = EventRequest.objects.filter(guest=user)
+        responseJSON["events_requests"] = []
         for event_request in event_requests:
             event = event_request.event
+            responseJSON["events_requests"].append(create_event_json(event))
+
 
     return HttpResponse("Not implemented")
 
