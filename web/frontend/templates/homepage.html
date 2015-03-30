@@ -47,8 +47,8 @@
                                         class="fa fa-minus-square-o toggle-event-name"></i></span>
                                 </div>
                                 <div class="panel-body event-name">
-                                    <input type="hidden" name="owner" value="{{ user.username }}">
-                                    <input class="form-control" type="text" placeholder="Event Name" name="name">
+                                    <input type="hidden" class="owner" name="owner" value="{{ user.username }}">
+                                    <input class="form-control event-name" type="text" placeholder="Event Name" name="event-name">
                                 </div>
                             </div>
                             <div class="panel panel-default ">
@@ -58,7 +58,7 @@
                                     <br>
                                 </div>
                                 <div class="panel-body event-map">
-                                    <input class="form-control" type="text" id="keyword" placeholder="Event Place" name="event_place">
+                                    <input class="form-control restaurant" type="text" id="keyword" placeholder="Event Place" name="restaurant">
 
                                     <div class="footer" style="padding-top: 10px;">
                                         <div id="map_canvas"></div>
@@ -84,7 +84,7 @@
                                 <div class="panel-body event-time">
                                     <div class="form-group">
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' class="form-control" name="event_time"/>
+                                            <input type='text' class="form-control start_time" name="start_time"/>
                                         <span class="input-group-addon">
                                             <span class="fa fa-clock-o"></span>
                                         </span>

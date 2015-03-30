@@ -134,7 +134,7 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 {% if user %}
                     <li class="dropdown">
                         <a href="{% url 'notifications' %}" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="fa fa-bell"></i> Notifications <label class="label label-danger">2</label> </a>
+                                class="fa fa-bell"></i> Notifications <label class="label label-danger">2</label></a>
                         <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
                             <div class="col-md-12">
                                 <h5><i class="fa fa-user-plus"></i> Friend Requests</h5>
@@ -209,12 +209,11 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                             </div>
                         </ul>
                     </li>
-                   <li><a href="#" class="navbar-link" data-toggle="modal" data-target="#myMapModal"
-               style="margin-left: 75px;"><i class="fa fa-envelope"></i> Messages</a>
+                   <li><a href="#" data-toggle="modal" data-target="#myMessageModal"><i class="fa fa-envelope"></i> Messages</a>
                     </li>
 
 
-            <div class="modal fade" id="myMapModal">
+            <div class="modal fade" id="myMessageModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

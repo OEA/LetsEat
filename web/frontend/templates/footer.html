@@ -181,6 +181,32 @@
     });
 
 </script>
+<script type="text/javascript">
+    $(".create-event").click(function () {
+        var event_name = $(".event-name").val();
+        var start_time = $(".start_time").val();
+        var owner = $(".owner").val();
+        var restaurant = $(".restaurant").val();
+
+        $(this).parent().parent().text("Event created!");
+        $.ajax({
+            url: "{% url 'api_create_event' %}",
+            type: "POST",
+            data: 'event-name=' + event_name + "&start_time=" + start_time + "&owner=" + owner + "&restaurant=" + restaurant,
+            dataType: "JSON",
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+
+    });
+
+</script>
 
 <script type='text/javascript'>
 
