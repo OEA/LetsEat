@@ -36,7 +36,7 @@ def create_event(request):
         owner = get_object_or_404(User, username=owner_id)
         form = EventCreationForm(request.POST)
         type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
-        if form.errors or not type:
+        if form.errors:
             fail_response(responseJSON)
             responseJSON["message"] = "Errors occurred."
             responseJSON["error"] = str(form.errors) + " Requested Type:" + request.POST["type"] + " Type:" + str(type)
@@ -50,7 +50,6 @@ def create_event(request):
             event.joinable = True
         else:
             event.joinable = False
-        event.type = type
         event.start_time = request.POST['start_time']
         event.save()
         success_response(responseJSON)
