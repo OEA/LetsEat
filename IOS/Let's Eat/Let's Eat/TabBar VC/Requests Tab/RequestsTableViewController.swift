@@ -22,7 +22,7 @@ class RequestsTableViewController: UITableViewController {
 
     override func viewWillAppear(animated: Bool) {
         friendRequestList = []
-        eventReqList = [1]
+        eventReqList = []
         getFriendRequests()
         //apiMethod.getOwnedEvent(self)
     }
