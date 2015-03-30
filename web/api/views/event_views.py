@@ -150,10 +150,7 @@ def create_owner_JSON(event):
 
 
 def create_restaurant_json(event):
-    restaurantJSON = {}
-    restaurantJSON["name"] = event.restaurant.name
-    restaurantJSON["latitude"] = event.restaurant.latitude
-    restaurantJSON["longitude"] = event.restaurant.longitude
+    restaurantJSON = event.restaurant.name
     return restaurantJSON
 
 
