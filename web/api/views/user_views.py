@@ -27,7 +27,6 @@ def success_response():
 def fail_response():
     responseJSON["status"] = "failed"
 
-
 def registration_view(request):
     if is_POST(request):
         form = UserCreationForm(request.POST)
@@ -46,12 +45,12 @@ def registration_view(request):
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
-def create_user_JSON():
-    user = {}
-    user["username"] = user.username
-    user["name"] = user.name
-    user["surname"] = user.surname
-    user["email"] = user.email
+def create_user_JSON(user):
+    user_container = {}
+    user_container["username"] = user.username
+    user_container["name"] = user.name
+    user_container["surname"] = user.surname
+    user_container["email"] = user.email
 
 
 def login_view(request):
@@ -63,8 +62,7 @@ def login_view(request):
         if user is not None:
                 login(request, user)
                 success_response()
-                responseJSON["container"] = {}
-                create_user_JSON()
+                responseJSON["container"] = create_user_JSON(user)
                 responseJSON["message"] = "Successfully logged in"
                 print(responseJSON["status"])
         else:
@@ -76,11 +74,7 @@ def login_view(request):
 
 def user_profile(request):
     success_response()
-    responseJSON["container"] = {}
-    responseJSON["container"]["username"] = request.user.username
-    responseJSON["container"]["name"] = request.user.name
-    responseJSON["container"]["surname"] = request.user.surname
-    responseJSON["container"]["email"] = request.user.email
+    responseJSON["container"] = create_user_JSON(request.user)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                         content_type="application/json")
 
