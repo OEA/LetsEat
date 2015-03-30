@@ -25,7 +25,7 @@ def create_restaurant(request):
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
-def get_restaurant_JSON(restaurant):
+def create_restaurant_JSON(restaurant):
     restaurantJSON = {}
     restaurantJSON["name"] = restaurant.name
     return restaurantJSON
@@ -34,7 +34,7 @@ def get_restaurant_JSON(restaurant):
 def create_restaurants_json(responseJSON):
     responseJSON["restaurants"] = []
     for restaurant in Restaurant.objects.all():
-        responseJSON["restaurants"].append(get_restaurant_JSON(restaurant))
+        responseJSON["restaurants"].append(create_restaurant_JSON(restaurant))
 
 
 def get_restaurant_list(request):
