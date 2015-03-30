@@ -18,10 +18,13 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     var participants = [String: Bool]()
     
     var types = ["Drink", "Food"]
+    let apiMethod = ApiMethods()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureDatePicker()
+        apiMethod.createEvent("test", time: "2015-03-31 15:20:00", type: "Drink", restaurant: "Aras", errorText: "Faild", vc: self)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -84,6 +87,9 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     
+    @IBAction func doneTapped(sender: UIBarButtonItem) {
+        
+    }
 
     /*
     // MARK: - Navigation

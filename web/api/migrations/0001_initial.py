@@ -2,11 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
 from django.conf import settings
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
+
     dependencies = [
     ]
 
@@ -14,18 +15,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('password', models.CharField(verbose_name='password', max_length=128)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(default=django.utils.timezone.now, verbose_name='last login')),
-                ('username', models.CharField(verbose_name='Username', unique=True, max_length=50)),
-                ('name', models.CharField(verbose_name='Name', max_length=50)),
-                ('surname', models.CharField(verbose_name='Surname', max_length=50)),
-                ('email', models.EmailField(verbose_name='Email', unique=True, max_length=255)),
+                ('username', models.CharField(verbose_name='Username', max_length=50, unique=True)),
+                ('name', models.CharField(max_length=50, verbose_name='Name')),
+                ('surname', models.CharField(max_length=50, verbose_name='Surname')),
+                ('email', models.EmailField(verbose_name='Email', max_length=255, unique=True)),
                 ('photo', models.ImageField(upload_to='uploaded/user_photos/%Y/%m/%d/%h/', blank=True, null=True)),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_admin', models.BooleanField(default=False)),
-                ('friends',
-                 models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL, related_name='friends_rel_+')),
+                ('friends', models.ManyToManyField(related_name='friends_rel_+', to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
             },
@@ -34,14 +34,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('name', models.CharField(blank=True, verbose_name='Name', null=True, max_length=50)),
-                ('start_time', models.DateTimeField(verbose_name='Start_Time', auto_now_add=True, null=True)),
-                ('type',
-                 models.CharField(verbose_name='Type', choices=[('D', 'Dinning'), ('M', 'Meal')], max_length=50)),
-                ('restaurant', models.CharField(blank=True, verbose_name='Restaurant', null=True, max_length=100)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50, verbose_name='Name', blank=True, null=True)),
+                ('start_time', models.DateTimeField(auto_now_add=True, verbose_name='Start_Time', null=True)),
+                ('type', models.CharField(max_length=50, verbose_name='Type', choices=[('D', 'Dinning'), ('M', 'Meal')])),
+                ('restaurant', models.CharField(max_length=100, verbose_name='Restaurant', blank=True, null=True)),
                 ('joinable', models.BooleanField(default=False, verbose_name='Joinable')),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='owner')),
+                ('participants', models.ManyToManyField(related_name='participants', to=settings.AUTH_USER_MODEL, blank=True, null=True)),
             ],
             options={
             },
@@ -50,10 +50,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='EventRequest',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('status', models.CharField(default='P', verbose_name='Event Request Status',
-                                            choices=[('P', 'Pending'), ('D', 'Declined'), ('A', 'Accepted')],
-                                            max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('status', models.CharField(default='P', max_length=50, verbose_name='Event Request Status', choices=[('P', 'Pending'), ('D', 'Declined'), ('A', 'Accepted')])),
                 ('event', models.ForeignKey(to='api.Event', related_name='event')),
                 ('guest', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='guest')),
             ],
@@ -64,11 +62,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FriendshipRequest',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('status', models.CharField(verbose_name='Status',
-                                            choices=[('P', 'Pending'), ('D', 'Declined'), ('A', 'Accepted')],
-                                            max_length=50)),
-                ('date', models.DateField(verbose_name='Date', auto_now_add=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('status', models.CharField(max_length=50, verbose_name='Status', choices=[('P', 'Pending'), ('D', 'Declined'), ('A', 'Accepted')])),
+                ('date', models.DateField(auto_now_add=True, verbose_name='Date')),
                 ('receiver', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='receiver')),
                 ('sender', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='sender')),
             ],
@@ -79,19 +75,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Restaurant',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, primary_key=True, auto_created=True)),
-                ('name', models.CharField(verbose_name='Name', max_length=100)),
-                ('latitude', models.CharField(blank=True, verbose_name='Latitude', null=True, max_length=50)),
-                ('longitude', models.CharField(blank=True, verbose_name='Longitude', null=True, max_length=50)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100, verbose_name='Name')),
+                ('latitude', models.CharField(max_length=50, verbose_name='Latitude', blank=True, null=True)),
+                ('longitude', models.CharField(max_length=50, verbose_name='Longitude', blank=True, null=True)),
             ],
             options={
             },
             bases=(models.Model,),
-        ),
-        migrations.AddField(
-            model_name='event',
-            name='participants',
-            field=models.ManyToManyField(blank=True, to='api.Restaurant', null=True, related_name='participants'),
-            preserve_default=True,
         ),
     ]

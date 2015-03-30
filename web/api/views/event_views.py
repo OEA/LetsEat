@@ -150,7 +150,7 @@ def create_owner_JSON(event):
 
 
 def create_restaurant_json(event):
-    restaurantJSON = event.restaurant.name
+    restaurantJSON = event.restaurant
     return restaurantJSON
 
 
@@ -172,8 +172,8 @@ def create_event_json(event):
     eventJSON["name"] = event.name
     eventJSON["owner"] = create_owner_JSON(event)
     eventJSON["restaurant"] = create_restaurant_json(event)
-    eventJSON["time"] = event.time
-    eventJSON["type"] = event.get_type_symbol(event.type)
+    eventJSON["time"] = event.start_time
+    eventJSON["type"] = Event.TYPE_LABELS_REVERSE.get(event.type, None)
     eventJSON["participants"] = create_participants_JSON(event)
     eventJSON["joinable"] = event.joinable
     return eventJSON

@@ -198,7 +198,6 @@ class RequestsTableViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UITableViewCell{
-            
             let friendInfoVC = segue.destinationViewController as FriendInfoViewController
             let friendNum = friendReqtTV.indexPathForSelectedRow()?.item
             friendInfoVC.friend = friendRequestList[friendNum!] as [String: NSString]

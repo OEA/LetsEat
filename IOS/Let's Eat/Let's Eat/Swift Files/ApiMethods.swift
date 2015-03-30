@@ -241,6 +241,59 @@ class ApiMethods {
         
     }
     
+    func createEvent(eventName: NSString, time: NSString, type: NSString, restaurant: NSString, errorText: NSString, vc: UIViewController){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username = prefs.valueForKey("USERNAME") as NSString
+        
+        var post:NSString = "restaurant=\(restaurant)&owner=\(username)&type=\(type)&start_time=\(time)&joinable=\(1)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/create_event/")!
+        
+        var request = self.getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = self.getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Success: " + status)
+                
+                if(status == "success")
+                {
+                    NSLog("ADD SUCCESS");
+                    let event = jsonData.valueForKey("event") as [String: AnyObject]
+                    println(jsonData)
+                } else {
+                        self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                }
+            } else {
+
+                    self.alert.getStatusCodeError(errorText, vc: vc)
+
+            }
+        } else {
+
+                self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+        
+        }
+
+    }
+    
     func eventRqst(url: NSString, event: [String: AnyObject], vc: UIViewController, errorText: NSString){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
