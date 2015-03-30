@@ -18,6 +18,7 @@ def homepage(request):
         registration_data_json = registration_response.read()
         registration_data = json.loads(registration_data_json.decode("utf-8"))
         list = registration_data["senders"]
+        print("list burada : "+str(list))
         context = {'user' : user, 'username': user.username, 'friend_request': list }
         return render(request, "./homepage.html", context)
     else:
