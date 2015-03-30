@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..forms import EventCreationForm
-from ..models import User, Restaurant, Event, EventRequest
+from ..models import User, Event, EventRequest
 
 responseJSON = {}
 
@@ -30,9 +30,8 @@ def fail_response():
 def create_event(request):
     if is_POST(request):
         owner_id = request.POST["owner"]
-        restaurant_id = request.POST["restaurant"]
+        restaurant = request.POST["restaurant"]
         owner = get_object_or_404(User, username=owner_id)
-        restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
         form = EventCreationForm(request.POST)
         type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
         if form.errors or not type:
