@@ -19,15 +19,16 @@ def is_POST(request):
     return True
 
 
-def success_response():
+def success_response(responseJSON):
     responseJSON["status"] = "success"
 
 
-def fail_response():
+def fail_response(responseJSON):
     responseJSON["status"] = "failed"
 
 
 def create_event(request):
+    responseJSON = {}
     if is_POST(request):
         owner_id = request.POST["owner"]
         restaurant = request.POST["restaurant"]
@@ -35,7 +36,7 @@ def create_event(request):
         form = EventCreationForm(request.POST)
         type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
         if form.errors or not type:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Errors occurred."
             responseJSON["error"] = str(form.errors) + " Requested Type:" + request.POST["type"] + " Type:" + str(type)
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
@@ -51,7 +52,7 @@ def create_event(request):
         event.type = type
         event.start_time = request.POST['start_time']
         event.save()
-        success_response()
+        success_response(responseJSON)
         responseJSON["event"] = create_event_json(event)
         responseJSON["message"] = "Successfully registered."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
@@ -60,6 +61,7 @@ def create_event(request):
 
 
 def invite_event(request):
+    responseJSON = {}
     if is_POST(request):
         event = get_object_or_404(Event, pk=request.POST["event"])
         participant = get_object_or_404(User, username=request.POST["participant"])
@@ -67,17 +69,18 @@ def invite_event(request):
             event_request = get_object_or_404(EventRequest, event=event, guest=participant)
             event_request.status = 'P'
             event_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing event request updated."
         else:
             event_request = EventRequest(event=event, guest=participant, status='P')
             event_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Friend request created."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
 def accept_event(request):
+    responseJSON = {}
     if is_POST(request):
         event = get_object_or_404(Event, pk=request.POST["event"])
         participant = get_object_or_404(User, username=request.POST["participant"])
@@ -87,15 +90,16 @@ def accept_event(request):
             event.participants.add(participant)
             event.save()
             event_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing event request updated."
         else:
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Pending event request cannot be found."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
 def reject_event(request):
+    responseJSON = {}
     if is_POST(request):
         event = get_object_or_404(Event, pk=request.POST["event"])
         participant = get_object_or_404(User, username=request.POST["participant"])
@@ -103,34 +107,37 @@ def reject_event(request):
             event_request = get_object_or_404(EventRequest, event=event, guest=participant)
             event_request.status = 'R'
             event_request.save()
-            success_response()
+            success_response(responseJSON)
             responseJSON["message"] = "Existing event request updated."
         else:
-            fail_response()
+            fail_response(responseJSON)
             responseJSON["message"] = "Pending event request cannot be found."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
 def get_owned_events(request):
+    responseJSON = {}
     if is_POST(request):
         user = get_object_or_404(User, username=request.POST["username"])
         events = Event.objects.filter(owner=user)
         responseJSON["events"] = create_events_json(events)
-        success_response()
+        success_response(responseJSON)
         responseJSON["message"] = "Events found."
     return HttpResponse(json.dumps(responseJSON))
 
 
 def get_event(request):
+    responseJSON = {}
     if is_POST(request):
         event = get_object_or_404(Event, pk=request.POST["event"])
         responseJSON["event"] = create_event_json(event)
-        success_response()
+        success_response(responseJSON)
         responseJSON["message"] = "Event found."
     return HttpResponse(json.dumps(responseJSON))
 
 
 def get_event_requests(request):
+    responseJSON = {}
     if is_POST(request):
         user = get_object_or_404(User, username=request.POST["username"])
         event_requests = EventRequest.objects.filter(guest=user)
