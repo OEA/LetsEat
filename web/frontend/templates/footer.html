@@ -188,11 +188,11 @@
         var owner = $(".owner").val();
         var restaurant = $(".restaurant").val();
 
-        $(this).parent().parent().text("Event created!");
+        $(this).parent().parent().html("<h1>Event created!</h1>");
         $.ajax({
             url: "{% url 'api_create_event' %}",
             type: "POST",
-            data: 'event-name=' + event_name + "&start_time=" + start_time + "&owner=" + owner + "&restaurant=" + restaurant,
+            data: 'name=' + event_name + "&start_time=" + start_time + "&owner=" + owner + "&restaurant=" + restaurant,
             dataType: "JSON",
             success: function (data) {
 
