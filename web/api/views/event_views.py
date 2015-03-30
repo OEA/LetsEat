@@ -31,6 +31,7 @@ def create_event(request):
     responseJSON = {}
     if is_POST(request):
         owner_id = request.POST["owner"]
+        event_name = request.POST["event_name"]
         restaurant = request.POST["restaurant"]
         owner = get_object_or_404(User, username=owner_id)
         form = EventCreationForm(request.POST)
