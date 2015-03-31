@@ -34,6 +34,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     override func viewWillAppear(animated: Bool) {
         getFriendList()
+        listChoice(friendList)
+        searchBar.text = ""
+        //tabelView.reloadData()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
@@ -74,7 +77,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 if(status == "success")
                 {
-                    NSLog("Login SUCCESS");
+                    NSLog("Friends SUCCESS");
                     friends = jsonData["friends"] as NSArray
                     searchedList = friends
                     userDefaults.setObject(friends, forKey: "Friends")

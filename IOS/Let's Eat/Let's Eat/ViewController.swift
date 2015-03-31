@@ -18,6 +18,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     let apiMethod = ApiMethods()
     let alert = Alerts()
     var searchedList = []
+    var olustur = false
     
     @IBOutlet weak var naviItem: UINavigationItem!
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -89,8 +90,64 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
             self.deneme.reloadData()
         }*/
     }
+    func sendReqests(friend: NSString, username: NSString){
 
+        apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: friend, vc: self, errorText: "Add Friend Failed!", sender: username)
+        apiMethod.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: friend, vc: self, errorText: "Accept Friend Failed!", sender: username)
+    }
     
+    func setSignUp(name: NSString, surname: NSString, email: NSString, password: NSString, username: NSString){
+        
+        var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&password=\(password)&username=\(username)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/register/")!
+        
+        var request = apiMethod.getRequest(url, post: post)
+        
+        var reponseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+        
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                let jsonData = apiMethod.getJsonData(urlData!)
+                
+                
+                let success:NSString = jsonData.valueForKey("status") as NSString
+                
+                //[jsonData[@"success"] integerValue];
+                
+                NSLog("Success: %ld", success);
+                
+                if(success == "success")
+                {
+                    NSLog("Sign Up SUCCESS");
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    
+                    
+                } else {
+                    alert.getSuccesError(jsonData, str: "Sign up Failed!", vc: self)
+                }
+                
+            } else {
+                alert.getStatusCodeError("Sign up Failed!", vc: self)
+            }
+        }  else {
+            alert.getUrlDataError(reponseError, str: "Sign up Failed!", vc: self)
+        }
+    
+    }
+
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
         if searchedList.count > 0 {
             return searchedList.count
@@ -137,11 +194,23 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         sideBar = SideBar(sourceView: self.view, menuItems: ["Friend List", "Profile", "Logout"])
         sideBar.delegate = self
+        if olustur {
+            setSignUp("vidal", surname: "hara", email: "ab@ab.ab", password: "Vidal1", username: "vidal1")
+            setSignUp("burak", surname: "atalay", email: "abc@ab.ab", password: "Vidal1", username: "burak1")
+            setSignUp("hasan", surname: "sozer", email: "abcd@ab.ab", password: "Vidal1", username: "hasan1")
+            setSignUp("hakan", surname: "uyumaz", email: "abcde@ab.ab", password: "Vidal1", username: "hakan1")
+            sendReqests("hasan1", username: "vidal1")
+            sendReqests("hakan1", username: "vidal1")
+            sendReqests("burak1", username: "vidal1")
+            olustur = false
+        }
+                
     }
 
     override func viewWillDisappear(animated: Bool) {

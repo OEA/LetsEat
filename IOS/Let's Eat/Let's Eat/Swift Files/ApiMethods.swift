@@ -145,12 +145,12 @@ class ApiMethods {
                     
                     if(status == "success")
                     {
-                        NSLog("ADD SUCCESS");
+                        NSLog("Get Owned SUCCESS");
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            if vc is RequestsTableViewController{
-                                let viewC = vc as RequestsTableViewController
-                                //viewC.getFriendRequests()
-                                viewC.friendReqtTV.reloadData()
+                            if vc is OwnedEventsTableViewController{
+                                let viewC = vc as OwnedEventsTableViewController
+                                viewC.ownedEventList = jsonData.valueForKey("events") as [[String: AnyObject]]
+                                viewC.eventTBV.reloadData()
                             }else{
                                 self.goBack(vc)
                             }
@@ -214,7 +214,9 @@ class ApiMethods {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is RequestsTableViewController{
                                 let viewC = vc as RequestsTableViewController
-                                viewC.getFriendRequests()
+                                let fVC = FriendsViewController()
+                                fVC.getFriendList()
+                                self.getUserRequests(viewC)
                                 viewC.friendReqtTV.reloadData()
                             }else{
                                 self.goBack(vc)
@@ -241,11 +243,71 @@ class ApiMethods {
         
     }
     
+    func getUserRequest(urlStr: NSString, vc: RequestsTableViewController, errorText: NSString, type: Int){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        
+        var post:NSString = "username=\(username)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: urlStr)!
+        
+        var request = getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = getJsonData(urlData!)
+                
+                let status:NSString = "success"/*jsonData.valueForKey("status") as NSString*/
+                
+                //[jsonData[@"success"] integerValue];
+                
+                println("Success: " + status)
+                
+                if(status == "success")
+                {
+                    NSLog("SUCCESS");
+                    
+                    println(jsonData)
+                    if type == 1{
+                        vc.eventReqList = jsonData["events_requests"] as NSArray
+                    }else {
+                        vc.friendRequestList = jsonData["senders"] as NSArray
+                    }
+                    vc.friendReqtTV.reloadData()
+                } else {
+                    alert.getSuccesError(jsonData, str:errorText, vc: vc)
+                }
+            } else {
+                alert.getStatusCodeError(errorText, vc:vc)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str:errorText, vc: vc)
+        }
+        
+    }
+    
+    func getUserRequests(vc: RequestsTableViewController){
+        getUserRequest("http://127.0.0.1:8000/api/get_event_requests/", vc: vc, errorText: "Get Event Failed!", type: 1)
+        getUserRequest("http://127.0.0.1:8000/api/get_friend_requests/", vc: vc, errorText: "Get Friend Failed!", type: 2)
+    }
+    
     func createEvent(eventName: NSString, time: NSString, type: NSString, restaurant: NSString, errorText: NSString, vc: UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username = prefs.valueForKey("USERNAME") as NSString
         
-        var post:NSString = "restaurant=\(restaurant)&owner=\(username)&type=\(type)&start_time=\(time)&joinable=\(1)"
+        var post:NSString = "name=\(eventName)&restaurant=\(restaurant)&owner=\(username)&type=\(type)&start_time=\(time)&joinable=\(1)"
         
         NSLog("PostData: %@",post);
         
@@ -277,6 +339,8 @@ class ApiMethods {
                 {
                     NSLog("ADD SUCCESS");
                     let event = jsonData.valueForKey("event") as [String: AnyObject]
+                    let viewC = vc as CreateEventViewController
+                    viewC.eventID = event["id"] as Int
                     println(jsonData)
                 } else {
                         self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
@@ -294,10 +358,9 @@ class ApiMethods {
 
     }
     
-    func eventRqst(url: NSString, event: [String: AnyObject], vc: UIViewController, errorText: NSString){
+    func eventRqst(url: NSString, event: Int, vc: UIViewController, errorText: NSString, username: NSString){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username = prefs.valueForKey("USERNAME") as NSString
+        
         
         var post:NSString = "event=\(event)&participant=\(username)"
         
@@ -329,7 +392,7 @@ class ApiMethods {
                 
                 if(status == "success")
                 {
-                    NSLog("ADD SUCCESS");
+                    NSLog("SUCCESS");
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         if vc is RequestsTableViewController{
                             let viewC = vc as RequestsTableViewController
@@ -360,16 +423,21 @@ class ApiMethods {
 
     }
     
-    func inviteEvent(event: [String: AnyObject], vc: UIViewController){
-        eventRqst("http://127.0.0.1:8000/api/invite_event/", event: event, vc: vc, errorText: "Invite Friends Failed")
+    func inviteEvent(event: Int, vc: UIViewController, username: NSString){
+        
+        eventRqst("http://127.0.0.1:8000/api/invite_event/", event: event, vc: vc, errorText: "Invite Friends Failed", username: username)
     }
     
-    func acceptEvent(event: [String: AnyObject], vc: UIViewController){
-        eventRqst("http://127.0.0.1:8000/api/accept_event/", event: event, vc: vc, errorText: "Accept Event Failed")
+    func acceptEvent(event: Int, vc: UIViewController){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username = prefs.valueForKey("USERNAME") as NSString
+        eventRqst("http://127.0.0.1:8000/api/accept_event/", event: event, vc: vc, errorText: "Accept Event Failed", username: username)
     }
     
-    func rejectEvent(event: [String: AnyObject], vc: UIViewController){
-        eventRqst("http://127.0.0.1:8000/api/reject_event/", event: event, vc: vc, errorText: "Reject Event Failed")
+    func rejectEvent(event: Int, vc: UIViewController){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username = prefs.valueForKey("USERNAME") as NSString
+        eventRqst("http://127.0.0.1:8000/api/reject_event/", event: event, vc: vc, errorText: "Reject Event Failed", username: username)
     }
     
     func goBack(vc: UIViewController){

@@ -150,11 +150,11 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
             }
             backUI.participants = list
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
 
     @IBAction func cancelTapped(sender: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
 }
