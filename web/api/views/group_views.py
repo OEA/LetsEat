@@ -57,5 +57,24 @@ def create_group(request):
         group.save()
         success_response(responseJSON)
         responseJSON["group"] = create_group_JSON(group)
+    return HttpResponse(json.dumps(responseJSON))
 
+
+def add_member(request):
+    responseJSON = {}
+    if is_POST(request):
+        group_id = request.POST["group_id"]
+        username = request.POST["username"]
+        member_username = request.POST["member"]
+        user = get_object_or_404(User, username=username)
+        group = get_object_or_404(Group, pk=group_id)
+        member = get_object_or_404(User, username=member_username)
+        if group.owner == user:
+            group.members.add(member)
+            success_response(responseJSON)
+            responseJSON["message"] = "Group member added."
+        else:
+            fail_response(responseJSON)
+            responseJSON["message"] = "User is not owner of the group."
+        responseJSON["group"] = create_group_JSON(group)
     return HttpResponse(json.dumps(responseJSON))
