@@ -15,7 +15,7 @@ class RequestsTableViewController: UITableViewController {
     
     let alert = Alerts()
     let apiMethod = ApiMethods()
-
+    var dateSetter = DateSetter()
 
     @IBOutlet var friendReqtTV: UITableView!
     
@@ -23,8 +23,7 @@ class RequestsTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         friendRequestList = []
         eventReqList = []
-        getFriendRequests()
-        //apiMethod.getOwnedEvent(self)
+        apiMethod.getUserRequests(self)
     }
     
 
@@ -74,19 +73,28 @@ class RequestsTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
+        //var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
         if friendRequestList.count > 0 && eventReqList.count > 0{
             if indexPath.section == 0{
-                cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
+                setEventList(cell, indexPath: indexPath)
+                return cell
             }else{
+                var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
                 setFriendList(cell, indexPath: indexPath)
+                return cell
             }
         }else if eventReqList.count > 0 {
-            cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
-            
+            let cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
+            setEventList(cell, indexPath: indexPath)
+            println("heeeey: \(cell.frame.height)")
+            return cell
         }else if friendRequestList.count > 0 {
+            var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
             setFriendList(cell, indexPath: indexPath)
+            return cell
         }
+        var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
         return cell
     }
     
@@ -107,12 +115,15 @@ class RequestsTableViewController: UITableViewController {
         let ownerField = cell.viewWithTag(1) as UILabel
         let owner = eventReqList[indexPath.item]["owner"] as [String: AnyObject]
         ownerField.text = owner["username"] as NSString
+        
         let eventLocName = cell.viewWithTag(2) as UILabel
-        let restaurant = eventReqList[indexPath.item]["restaurant"] as [String: NSString]
-        eventLocName.text = restaurant["name"]
+        let restaurant = eventReqList[indexPath.item]["restaurant"] as String
+        eventLocName.text = restaurant
+        
         let timeField = cell.viewWithTag(5) as UILabel
         let time = eventReqList[indexPath.item]["time"] as NSString
-        timeField.text = time
+        timeField.text = dateSetter.getDate(time)
+        
         let check = cell.viewWithTag(3) as UIButton
         let cross = cell.viewWithTag(4) as UIButton
         check.addTarget(self, action: "requestEventChoice:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -137,71 +148,22 @@ class RequestsTableViewController: UITableViewController {
         if let index = friendReqtTV.indexPathForCell(cell)?.item{
             let event = eventReqList[index] as [String: AnyObject]
             if sender.tag == 3 {
-                apiMethod.acceptEvent(event, vc: self)
+                apiMethod.acceptEvent(event["id"] as Int, vc: self)
             }else if sender.tag == 4 {
-                apiMethod.rejectEvent(event, vc: self)
+                apiMethod.rejectEvent(event["id"] as Int, vc: self)
             }
         }
+        apiMethod.getUserRequests(self)
     }
     
-    func getFriendRequests(){
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
-        
-        var post:NSString = "username=\(username)"
-        
-        NSLog("PostData: %@",post);
-        
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friend_requests/")!
-        
-        var request = apiMethod.getRequest(url, post: post)
-        
-        var responseError: NSError?
-        var response: NSURLResponse?
-        
-        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
-        if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
-            
-            NSLog("Response code: %ld", res.statusCode);
-            
-            if (res.statusCode >= 200 && res.statusCode < 300)
-            {
-                
-                let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
-                
-                let status:NSString = jsonData.valueForKey("status") as NSString
-                
-                //[jsonData[@"success"] integerValue];
-                
-                println("Success: " + status)
-                
-                if(status == "success")
-                {
-                    NSLog("Login SUCCESS");
-                    
-                    println(jsonData)
-                    
-                    friendRequestList = jsonData["senders"] as NSArray
-                    friendReqtTV.reloadData()
-                    
-                } else {
-                    alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
-                }
-            } else {
-                alert.getStatusCodeError("Sign in Failed!", vc:self)
-            }
-        } else {
-            alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UITableViewCell{
-            let friendInfoVC = segue.destinationViewController as FriendInfoViewController
-            let friendNum = friendReqtTV.indexPathForSelectedRow()?.item
-            friendInfoVC.friend = friendRequestList[friendNum!] as [String: NSString]
-            friendInfoVC.isRequestView = true
+            if segue.destinationViewController is FriendInfoViewController{
+                let friendInfoVC = segue.destinationViewController as FriendInfoViewController
+                let friendNum = friendReqtTV.indexPathForSelectedRow()?.item
+                friendInfoVC.friend = friendRequestList[friendNum!] as [String: NSString]
+                friendInfoVC.isRequestView = true
+            }
         }
     }
 

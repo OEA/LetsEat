@@ -15,16 +15,22 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var datePV: UIDatePicker!
     @IBOutlet weak var participantLabel: UILabel!
+    
+    
+    @IBOutlet weak var restButton: UIButton!
+    @IBOutlet weak var eventName: UITextField!
+    
     var participants = [String: Bool]()
     
     var types = ["Drink", "Food"]
     let apiMethod = ApiMethods()
+    var eventID: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureDatePicker()
-        apiMethod.createEvent("test", time: "2015-03-31 15:20:00", type: "Drink", restaurant: "Aras", errorText: "Faild", vc: self)
+        //apiMethod.createEvent("test", time: "2015-03-31 15:20:00", type: "Meal", restaurant: "Aras", errorText: "Faild", vc: self)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -40,6 +46,7 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func configureDatePicker() {
         let now = NSDate()
         datePV.minimumDate = now
+        datePV.timeZone = NSTimeZone.localTimeZone()
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,7 +95,46 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     
     @IBAction func doneTapped(sender: UIBarButtonItem) {
+        let typeText = typeButton.titleLabel?.text
+        let restText = restButton.titleLabel?.text
+        let eventTime = getDate()
         
+        apiMethod.createEvent(eventName.text, time: eventTime, type: "Meal", restaurant: restText!, errorText: "Faild", vc: self)
+        if eventID != nil {
+            if participants.count > 0 {
+                for friend in participants{
+                    apiMethod.inviteEvent(eventID, vc: self, username: friend.0)
+                }
+            }
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        /*let rangeOfHello = Range(start: advance(eventTime.startIndex, 5), end: advance(eventTime.startIndex, 5))
+        let helloStr = eventTime.substringWithRange(rangeOfHello)*/
+    }
+    
+    func getDate() -> String{
+        var dateFormatter = NSDateFormatter()
+
+        //dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+
+        let calendar = NSCalendar.currentCalendar()
+        let components = calendar.components(.CalendarUnitYear | .CalendarUnitMonth | .CalendarUnitDay, fromDate: datePV.date)
+        
+        var month = "\(components.month)"
+        if components.month < 10{
+            month = "0" + month
+        }
+        var day = "\(components.day)"
+        if components.day < 10{
+            day = "0" + day
+        }
+        
+        var newString = "\(components.year)-\(month)-\(day) "
+        var strDate = dateFormatter.stringFromDate(datePV.date)
+        newString = newString + strDate
+        
+        return newString + ":00"
     }
 
     /*

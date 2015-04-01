@@ -134,7 +134,7 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 {% if user %}
                     <li class="dropdown">
                         <a href="{% url 'notifications' %}" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="fa fa-bell"></i> Notifications <label class="label label-danger">2</label> </a>
+                                class="fa fa-bell"></i> Notifications <label class="label label-danger">2</label></a>
                         <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
                             <div class="col-md-12">
                                 <h5><i class="fa fa-user-plus"></i> Friend Requests</h5>
@@ -167,54 +167,16 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                         <li><h6>Nothing to show.</h6></li>
                      {% endif %}
                                 <h5><i class="fa fa-user-plus"></i> Event Requests</h5>
-                                <li>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object"
-                                                     src="https://cdn2.iconfinder.com/data/icons/lil-faces/249/lil-face-15-512.png"
-                                                     alt="..." width="32" height="32">
-                                            </a>
-                                        </div>
-                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
-                                            <div class="pull-left"><a>Burak</a>, <a>Hakan</a> and <a>5 friends</a>.<br>@ <a>Nusr-Et Steak House</a></div>
-                                            <a class="btn btn-default btn-sm pull-right" style="margin-left: 10px;">Delete
-                                                Request</a>
-                                            <a class="btn btn-primary btn-sm pull-right">Accept</a>
-                                        </div>
-
-
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <a href="#">
-                                                <img class="media-object"
-                                                     src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
-                                                     alt="..." width="32" height="32">
-                                            </a>
-                                        </div>
-                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
-                                            <div class="pull-left"><a>Bahadır</a>, <a>Hakan</a> and <a>5 friends</a>.<br>@ <a>Aras-Et Kasap Izgara</a></div>
-                                            <a class="btn btn-default btn-sm pull-right" style="margin-left: 10px;">Delete
-                                                Request</a>
-                                            <a class="btn btn-primary btn-sm pull-right">Accept</a>
-                                        </div>
-
-
-                                    </div>
-                                </li>
+                                <li><h6>Nothing to show.</h6></li>
 
                             </div>
                         </ul>
                     </li>
-                   <li><a href="#" class="navbar-link" data-toggle="modal" data-target="#myMapModal"
-               style="margin-left: 75px;"><i class="fa fa-envelope"></i> Messages</a>
+                   <li><a href="#" data-toggle="modal" data-target="#myMessageModal"><i class="fa fa-envelope"></i> Messages</a>
                     </li>
 
 
-            <div class="modal fade" id="myMapModal">
+            <div class="modal fade" id="myMessageModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

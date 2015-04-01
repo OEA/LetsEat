@@ -1,12 +1,3 @@
-{% load staticfiles %}
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/moment.min.js' %}"></script>
-<script src="{% static 'js/bootstrap-datetimepicker.min.js' %}"></script>
-<script src="{% static 'js/bootstrap-tagsinput.min.js' %}"></script>
-<script src="{% static 'js/typeahead.js' %}"></script>
-<script type="text/javascript" src='http://maps.google.com/maps/api/js?sensor=false&libraries=places'></script>
-<script>
 
     // multiple datasets
     // -----------------
@@ -99,17 +90,15 @@
                     header: '<h3 class="league-name">NHL Teams</h3>'
                 }
             });
-</script>
-<script>
-    $(function () {
+
+            $(function () {
         $('[data-toggle="popover"]').popover({
             placement: 'auto',
             html: true,
             trigger: 'hover'
         });
-    })
-</script>
-<script type="text/javascript">
+    });
+
     $(".submit").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
@@ -132,9 +121,7 @@
 
     });
 
-</script>
-<script type="text/javascript">
-    $(".accept-friend").click(function () {
+     $(".accept-friend").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
         $(this).removeClass("btn-primary");
@@ -156,9 +143,7 @@
 
     });
 
-</script>
-<script type="text/javascript">
-    $(".reject-friend").click(function () {
+ $(".reject-friend").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
         $(this).removeClass("btn-primary");
@@ -180,8 +165,6 @@
 
     });
 
-</script>
-<script type="text/javascript">
     $(".create-event").click(function () {
         var event_name = $(".event-name").val();
         var start_time = $(".start_time").val();
@@ -206,9 +189,6 @@
 
     });
 
-</script>
-
-<script type='text/javascript'>
 
     $('#myMapModal').on('shown.bs.modal', function (e) {
         var map_options = {
@@ -281,9 +261,7 @@
         });
     });
 
-</script>
-<script>
-    $('.toggle-event-name').click(function () {
+$('.toggle-event-name').click(function () {
         $('.event-name').toggle();
     });
     $('.toggle-event-map').click(function () {
@@ -292,8 +270,7 @@
     $('.toggle-event-time').click(function () {
         $('.event-time').toggle();
     });
-</script>
-<script type="text/javascript">
+
     $(function () {
         $('#datetimepicker1').datetimepicker({
             icons: {
@@ -308,14 +285,11 @@
             minDate: moment()
         });
     });
-</script>
-<script>
-    $('.dropdown-menu').click(function (event) {
+
+     $('.dropdown-menu').click(function (event) {
         event.stopPropagation();
     });
 
-</script>
-<script>
 var citynames = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -337,6 +311,3 @@ $('.participant').tagsinput({
     source: citynames.ttAdapter()
   }
 });
-</script>
-</body>
-</html>

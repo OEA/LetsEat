@@ -477,70 +477,54 @@ class modelTest(TestCase):
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "success")
 
-
     def invite_event_test(self):
         metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
 
-
-        #Missing event
+        # Missing event
         params = urllib.parse.urlencode(
-                { "event": '',
-                  "username": 'tdgunes'
-                })
+            {"event": '', "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/invite_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
-        #Missing username
+        # Missing username
         params = urllib.parse.urlencode(
-                { "event": metro_city_event.id,
-                  "username": ''
-                })
+            {"event": metro_city_event.id, "username": ''}
+        )
 
         response = self.make_request(params, "/api/invite_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
         params = urllib.parse.urlencode(
-                { "event": metro_city_event.id,
-                  "username": 'tdgunes'
-                })
+            {"event": metro_city_event.id, "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/invite_event/", "POST")
         self.assertEqual(response["status"], "success")
 
-
     def accept_event_test(self):
         metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
 
-
-        #Missing event
+        # Missing event
         params = urllib.parse.urlencode(
-                { "event": '',
-                  "username": 'tdgunes'
-                })
+            {"event": '', "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/accept_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-        #Missing username
+        # Missing username
         params = urllib.parse.urlencode(
-                { "event": metro_city_event.id,
-                  "username": ''
-                })
+            {"event": metro_city_event.id, "username": ''}
+        )
 
         response = self.make_request(params, "/api/accept_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
         params = urllib.parse.urlencode(
-                { "event": metro_city_event.id,
-                  "username": 'tdgunes'
-                })
+            {"event": metro_city_event.id, "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/accept_event/", "POST")
         self.assertEqual(response["status"], "success")
@@ -548,77 +532,60 @@ class modelTest(TestCase):
     def reject_event_test(self):
         metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
 
-
-        #Missing event
+        # Missing event
         params = urllib.parse.urlencode(
-                { "event": '',
-                  "username": 'tdgunes'
-                })
+            {"event": '', "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/reject_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
-        #Missing username
+        # Missing username
         params = urllib.parse.urlencode(
-                { "event": metro_city_event.id,
-                  "username": ''
-                })
+            {"event": metro_city_event.id, "username": ''}
+        )
 
         response = self.make_request(params, "/api/reject_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
         params = urllib.parse.urlencode(
-                {
-                  "event": metro_city_event.id,
-                  "username": 'tdgunes'
-                })
+            {"event": metro_city_event.id, "username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/reject_event/", "POST")
         self.assertEqual(response["status"], "success")
 
     def get_owned_events_test(self):
-        #Missing username
+        # Missing username
         params = urllib.parse.urlencode(
-                {
-                    "username": ''
-                })
+            {"username": ''}
+        )
 
         response = self.make_request(params, "/api/get_owned_events/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
         params = urllib.parse.urlencode(
-                {
-                    "username": 'tdgunes'
-                })
+            {"username": 'tdgunes'}
+        )
 
         response = self.make_request(params, "/api/get_owned_events/", "POST")
         self.assertEqual(response["status"], "success")
-
 
     def get_event_test(self):
 
         metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
 
-        #Missing event
+        # Missing event
         params = urllib.parse.urlencode(
-                {
-                    "event": ''
-                })
+            {"event": ''}
+        )
 
         response = self.make_request(params, "/api/get_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
         params = urllib.parse.urlencode(
-                {
-                    "event": metro_city_event.id
-                })
+            {"event": metro_city_event.id}
+        )
 
         response = self.make_request(params, "/api/get_event/", "POST")
         self.assertEqual(response["status"], "success")
