@@ -341,6 +341,12 @@
                                     <constraint firstAttribute="height" constant="30" id="DuM-Qd-3vb"/>
                                     <constraint firstAttribute="width" constant="175" id="zZE-cs-j8U"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.70024314620000006" green="0.85545751530000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
