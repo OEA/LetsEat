@@ -347,6 +347,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="EAu-hp-aEu" id="amK-2W-Fwi"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.70024314620000006" green="0.85545751530000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -666,10 +669,28 @@
                                     <segue destination="EAu-hp-aEu" kind="presentation" identifier="goToLogin" id="td2-tB-gtM"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LKS-Y9-tYM" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="200" y="327" width="200" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="Z1J-Cc-nvD"/>
+                                    <constraint firstAttribute="height" constant="30" id="Zun-bj-5dm"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="R0w-4p-F8v" id="262-6A-A2b"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="LKS-Y9-tYM" secondAttribute="centerX" id="0Xa-9C-Ftt"/>
                             <constraint firstItem="5RR-Uu-abI" firstAttribute="height" secondItem="7Ha-2c-F4e" secondAttribute="height" id="4cq-cA-c2K"/>
                             <constraint firstItem="9g8-VJ-tCi" firstAttribute="top" secondItem="F9t-eX-hZn" secondAttribute="bottom" constant="10" id="5Hh-WT-Sfo"/>
                             <constraint firstItem="5RR-Uu-abI" firstAttribute="top" secondItem="wjb-Ou-Hvh" secondAttribute="bottom" constant="8" symbolic="YES" id="6W6-kO-76s"/>
@@ -677,6 +698,7 @@
                             <constraint firstItem="zu0-Cy-5Oc" firstAttribute="top" secondItem="ukE-i5-PB9" secondAttribute="bottom" constant="10" id="78Y-Is-w39"/>
                             <constraint firstItem="7Ha-2c-F4e" firstAttribute="width" secondItem="X4U-Wv-qnp" secondAttribute="width" id="7uw-e8-QTH"/>
                             <constraint firstItem="7Ha-2c-F4e" firstAttribute="height" secondItem="X4U-Wv-qnp" secondAttribute="height" id="960-fC-mIU"/>
+                            <constraint firstItem="LKS-Y9-tYM" firstAttribute="centerY" secondItem="X4U-Wv-qnp" secondAttribute="centerY" id="BYp-Pl-8BT"/>
                             <constraint firstItem="1bm-vc-mgX" firstAttribute="top" secondItem="ukE-i5-PB9" secondAttribute="bottom" constant="10" id="CaK-gI-rN4"/>
                             <constraint firstAttribute="centerY" secondItem="5RR-Uu-abI" secondAttribute="centerY" constant="40" id="DCc-1G-Dd4"/>
                             <constraint firstItem="5RR-Uu-abI" firstAttribute="width" secondItem="7Ha-2c-F4e" secondAttribute="width" id="Dgd-Ew-mci"/>
@@ -690,6 +712,7 @@
                             <constraint firstAttribute="centerX" secondItem="X4U-Wv-qnp" secondAttribute="centerX" id="PK0-fy-8ah"/>
                             <constraint firstAttribute="centerX" secondItem="5RR-Uu-abI" secondAttribute="centerX" id="Q4B-YL-Wbz"/>
                             <constraint firstAttribute="centerY" secondItem="7Ha-2c-F4e" secondAttribute="centerY" id="Rfj-C4-56I"/>
+                            <constraint firstItem="LKS-Y9-tYM" firstAttribute="top" secondItem="7Ha-2c-F4e" secondAttribute="bottom" constant="10" id="VOn-92-YQC"/>
                             <constraint firstItem="X4U-Wv-qnp" firstAttribute="top" secondItem="7Ha-2c-F4e" secondAttribute="bottom" constant="10" id="WPP-ev-RLr"/>
                             <constraint firstItem="5RR-Uu-abI" firstAttribute="top" secondItem="WM2-Kz-abr" secondAttribute="bottom" constant="10" id="ad8-pu-E8d"/>
                             <constraint firstItem="zu0-Cy-5Oc" firstAttribute="leading" secondItem="5Gc-6K-Ybq" secondAttribute="trailing" constant="16" id="bXY-eF-Qlb"/>
@@ -712,6 +735,7 @@
                                 <exclude reference="CaK-gI-rN4"/>
                                 <exclude reference="DCc-1G-Dd4"/>
                                 <exclude reference="Rfj-C4-56I"/>
+                                <exclude reference="BYp-Pl-8BT"/>
                             </mask>
                         </variation>
                     </view>
@@ -725,7 +749,9 @@
                     <connections>
                         <outlet property="changePasswordButton" destination="5RR-Uu-abI" id="2XF-vg-sA7"/>
                         <outlet property="emailField" destination="WM2-Kz-abr" id="9Rb-cg-R6D"/>
+                        <outlet property="fLogOutView" destination="LKS-Y9-tYM" id="S9d-Ot-Jr4"/>
                         <outlet property="infoButton" destination="7Ha-2c-F4e" id="2v1-9s-Vfp"/>
+                        <outlet property="logOutButton" destination="X4U-Wv-qnp" id="REy-eS-G1s"/>
                         <outlet property="nameField" destination="ukE-i5-PB9" id="Yoj-kf-uaQ"/>
                         <outlet property="surnameField" destination="zu0-Cy-5Oc" id="QEq-f4-TpM"/>
                         <outlet property="userNameField" destination="1bm-vc-mgX" id="LcV-H6-Ofc"/>

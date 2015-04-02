@@ -8,12 +8,14 @@
 
 import UIKit
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
     
     @IBOutlet weak var nameField: UILabel!
     @IBOutlet weak var surnameField: UILabel!
     @IBOutlet weak var userNameField: UILabel!
+    @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var emailField: UILabel!
+    @IBOutlet weak var fLogOutView: FBSDKLoginButton!
     @IBOutlet weak var changePasswordButton: UIButton!
     @IBOutlet weak var infoButton: UIButton!
     var user: [String: NSString]!
@@ -29,9 +31,57 @@ class ProfileVC: UIViewController {
             surnameField.text = user["surname"]
             userNameField.text = user["username"]
             emailField.text = user["email"]
+            
         }
 
     }
+    
+    override func viewDidLoad() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let user = userDefaults.objectForKey("userInfo") as [String: NSString]
+        if user.indexForKey("password") == nil {
+            changePasswordButton.hidden = true
+            logOutButton.hidden = true
+            fLogOutView.hidden = false
+        }
+    }
+    
+    func loginButton(fLogOutView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        println("User Logged In")
+        
+        if ((error) != nil)
+        {
+            // Process error
+        }
+        else if result.isCancelled {
+            // Handle cancellations
+        }
+        else {
+            // If you ask for multiple permissions at once, you
+            // should check if specific permissions missing
+            if result.grantedPermissions.containsObject("email")
+            {
+                
+                /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                
+                prefs.setObject(username, forKey: "USERNAME")
+                prefs.setInteger(1, forKey: "ISLOGGEDIN")
+                let userInfo: AnyObject? = jsonData.valueForKey("container")
+                prefs.setObject(userInfo, forKey: "userInfo")*/
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(fLogOutView: FBSDKLoginButton!) {
+        println("User Logged Out")
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("userInfo")
+        userDefaults.removeObjectForKey("Friends")
+        userDefaults.removeObjectForKey("USERNAME")
+        self.tabBarController?.selectedIndex = 0
+    }
+
   
     @IBAction func logoutTapped() {
         apiMethod.requestLogout(self)

@@ -36,25 +36,25 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         bgSetter = BackgroundSetter(viewControler: self)
         bgSetter.getBackgroundView()
         
-        
     }
     
     override func viewDidLoad() {
         if (FBSDKAccessToken.currentAccessToken() != nil)
         {
             // User is already logged in, do work such as go to next view controller.
+            returnUserData()
         }else
         {
             /*fbButtonView = FBSDKLoginButton()
             self.view.addSubview(loginView)
-            loginView.center = self.view.center
+            loginView.center = self.view.center*/
             fbButtonView.readPermissions = ["public_profile", "email"]
-            loginView.delegate = self
+            /*loginView.delegate = self
             println(loginView.frame)*/
         }
     }
     
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+    func loginButton(fbButtonView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         println("User Logged In")
         
         if ((error) != nil)
@@ -69,17 +69,48 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
             // should check if specific permissions missing
             if result.grantedPermissions.containsObject("email")
             {
-                // Do work
+                self.returnUserData()
+                /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                
+                prefs.setObject(username, forKey: "USERNAME")
+                prefs.setInteger(1, forKey: "ISLOGGEDIN")
+                let userInfo: AnyObject? = jsonData.valueForKey("container")
+                prefs.setObject(userInfo, forKey: "userInfo")*/
             }
         }
     }
     
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+    func loginButtonDidLogOut(fbButtonView: FBSDKLoginButton!) {
         println("User Logged Out")
     }
     
-    
-    
+    func returnUserData(){
+        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            
+            if ((error) != nil){
+                // Process error
+                println("Error: \(error)")
+            }else{
+                println("fetched user: \(result)")
+                let userName : NSString = result.valueForKey("name") as NSString
+                println("User Name is: \(userName)")
+                let userEmail : NSString = result.valueForKey("email") as NSString
+                println("User Email is: \(userEmail)")
+                let userInfo = ["name": result.valueForKey("first_name")!, "surname": result.valueForKey("last_name")!, "username": result.valueForKey("id")!, "email": result.valueForKey("email")!]
+                println(userInfo)
+                var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+
+                prefs.setObject(userInfo["username"], forKey: "USERNAME")
+                prefs.setInteger(1, forKey: "ISLOGGEDIN")
+                prefs.setObject(userInfo, forKey: "userInfo")
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        })
+    }
+
+
+
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
     }
@@ -149,10 +180,9 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                         let userInfo: AnyObject? = jsonData.valueForKey("container")
                         prefs.setObject(userInfo, forKey: "userInfo")
                         prefs.synchronize()
-                        let userDefaults = NSUserDefaults.standardUserDefaults()
                         if saveSwitch.on == true{
-                            userDefaults.setObject(username, forKey: "savedUsername")
-                            userDefaults.setObject(password, forKey: "savedPass")
+                            prefs.setObject(username, forKey: "savedUsername")
+                            prefs.setObject(password, forKey: "savedPass")
                         }
                         self.dismissViewControllerAnimated(true, completion: nil)
                     } else {

@@ -34,6 +34,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 //userImageView.image = userImage
             })
         })
+
     }
     
     
