@@ -23,6 +23,9 @@
 		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
 		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
 		46C6C0491ACAAB20007FB4A2 /* DateSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C6C0481ACAAB20007FB4A2 /* DateSetter.swift */; };
+		46C6C05E1ACC74F8007FB4A2 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C6C05B1ACC74F8007FB4A2 /* FBSDKLoginKit.framework */; };
+		46C6C05F1ACC74F8007FB4A2 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C6C05C1ACC74F8007FB4A2 /* FBSDKShareKit.framework */; };
+		46C6C0631ACC7759007FB4A2 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46C6C0621ACC7759007FB4A2 /* FBSDKCoreKit.framework */; };
 		46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C7381D1AC5A6E500826621 /* CreateEventViewController.swift */; };
 		46C738201AC5B7FF00826621 /* AddParticipantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C7381F1AC5B7FF00826621 /* AddParticipantViewController.swift */; };
 		46DBF7761AAED2E6009E72F2 /* Login_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7751AAED2E6009E72F2 /* Login_Test.swift */; };
@@ -63,9 +66,13 @@
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		469691121AC966BA0068062D /* passwordCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = passwordCheck.png; sourceTree = "<group>"; };
+		46C1E0BD1ACD6B020068F5F4 /* Bridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
 		46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBarTableViewController.swift; path = SideBar/SideBarTableViewController.swift; sourceTree = "<group>"; };
 		46C6C0481ACAAB20007FB4A2 /* DateSetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateSetter.swift; sourceTree = "<group>"; };
+		46C6C05B1ACC74F8007FB4A2 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		46C6C05C1ACC74F8007FB4A2 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		46C6C0621ACC7759007FB4A2 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		46C7381D1AC5A6E500826621 /* CreateEventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateEventViewController.swift; path = "Requests Tab/CreateEventViewController.swift"; sourceTree = "<group>"; };
 		46C7381F1AC5B7FF00826621 /* AddParticipantViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddParticipantViewController.swift; path = "Requests Tab/AddParticipantViewController.swift"; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
@@ -83,6 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46C6C05E1ACC74F8007FB4A2 /* FBSDKLoginKit.framework in Frameworks */,
+				46C6C0631ACC7759007FB4A2 /* FBSDKCoreKit.framework in Frameworks */,
+				46C6C05F1ACC74F8007FB4A2 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +158,9 @@
 		464E9D5A1A92594000396EE8 = {
 			isa = PBXGroup;
 			children = (
+				46C6C0621ACC7759007FB4A2 /* FBSDKCoreKit.framework */,
+				46C6C05B1ACC74F8007FB4A2 /* FBSDKLoginKit.framework */,
+				46C6C05C1ACC74F8007FB4A2 /* FBSDKShareKit.framework */,
 				464E9D651A92594000396EE8 /* Let's Eat */,
 				464E9D7E1A92594000396EE8 /* Let's EatTests */,
 				464E9D641A92594000396EE8 /* Products */,
@@ -178,6 +191,7 @@
 				464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */,
 				469691121AC966BA0068062D /* passwordCheck.png */,
 				464E9D661A92594000396EE8 /* Supporting Files */,
+				46C1E0BD1ACD6B020068F5F4 /* Bridge-Header.h */,
 			);
 			path = "Let's Eat";
 			sourceTree = "<group>";
@@ -474,9 +488,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/macbookretina/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = "Let's Eat/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Let's Eat/Bridge-Header.h";
 			};
 			name = Debug;
 		};
@@ -484,9 +503,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/macbookretina/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = "Let's Eat/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Let's Eat/Bridge-Header.h";
 			};
 			name = Release;
 		};

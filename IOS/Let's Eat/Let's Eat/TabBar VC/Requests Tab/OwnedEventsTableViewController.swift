@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class OwnedEventsTableViewController: UITableViewController {
 
     var ownedEventList = [[String: AnyObject]]()

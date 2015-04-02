@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
 
     @IBOutlet weak var saveSwitch: UISwitch!
     @IBOutlet weak var textUsername: UITextField!
@@ -16,6 +16,8 @@ class LoginVC: UIViewController {
     @IBOutlet weak var checkImage: UIButton!
     var bgSetter: BackgroundSetter!
     
+
+    @IBOutlet weak var fbButtonView: FBSDKLoginButton!
     let alert = Alerts()
     let apiMethod = ApiMethods()
     
@@ -33,7 +35,51 @@ class LoginVC: UIViewController {
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background.jpg")!)
         bgSetter = BackgroundSetter(viewControler: self)
         bgSetter.getBackgroundView()
+        
+        
     }
+    
+    override func viewDidLoad() {
+        if (FBSDKAccessToken.currentAccessToken() != nil)
+        {
+            // User is already logged in, do work such as go to next view controller.
+        }else
+        {
+            /*fbButtonView = FBSDKLoginButton()
+            self.view.addSubview(loginView)
+            loginView.center = self.view.center
+            fbButtonView.readPermissions = ["public_profile", "email"]
+            loginView.delegate = self
+            println(loginView.frame)*/
+        }
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        println("User Logged In")
+        
+        if ((error) != nil)
+        {
+            // Process error
+        }
+        else if result.isCancelled {
+            // Handle cancellations
+        }
+        else {
+            // If you ask for multiple permissions at once, you
+            // should check if specific permissions missing
+            if result.grantedPermissions.containsObject("email")
+            {
+                // Do work
+            }
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        println("User Logged Out")
+    }
+    
+    
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
     }

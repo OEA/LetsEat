@@ -87,7 +87,6 @@ class RequestsTableViewController: UITableViewController {
         }else if eventReqList.count > 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
             setEventList(cell, indexPath: indexPath)
-            println("heeeey: \(cell.frame.height)")
             return cell
         }else if friendRequestList.count > 0 {
             var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell

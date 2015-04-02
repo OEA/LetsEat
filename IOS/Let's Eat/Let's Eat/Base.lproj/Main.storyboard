@@ -279,10 +279,10 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kua-w9-9D8">
-                                <rect key="frame" x="250" y="357" width="100" height="30"/>
+                                <rect key="frame" x="212" y="357" width="175" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="4eS-hT-Jxf"/>
+                                    <constraint firstAttribute="width" constant="175" id="4eS-hT-Jxf"/>
                                     <constraint firstAttribute="height" constant="30" id="SP6-EI-o6W"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -334,10 +334,19 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3y-2i-6NB" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="212" y="407" width="175" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="DuM-Qd-3vb"/>
+                                    <constraint firstAttribute="width" constant="175" id="zZE-cs-j8U"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.70024314620000006" green="0.85545751530000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lg3-T2-dcO" firstAttribute="top" secondItem="5dH-aG-8Xk" secondAttribute="bottom" constant="15" id="1MX-i6-dN8"/>
+                            <constraint firstItem="F3y-2i-6NB" firstAttribute="top" secondItem="kua-w9-9D8" secondAttribute="bottom" constant="20" id="2O3-fd-Oqx"/>
                             <constraint firstAttribute="centerY" secondItem="kua-w9-9D8" secondAttribute="centerY" constant="-72" id="3FL-aX-mc3"/>
                             <constraint firstItem="yUQ-Lx-buz" firstAttribute="height" secondItem="5dH-aG-8Xk" secondAttribute="height" id="4kI-w2-NAy"/>
                             <constraint firstItem="kua-w9-9D8" firstAttribute="top" secondItem="5dH-aG-8Xk" secondAttribute="bottom" constant="40" id="4nz-8g-fIf"/>
@@ -355,6 +364,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="5dH-aG-8Xk" secondAttribute="trailing" constant="15" id="WYV-fr-IZD"/>
                             <constraint firstItem="5dH-aG-8Xk" firstAttribute="centerY" secondItem="cEr-Gl-yQz" secondAttribute="centerY" id="Yz2-bC-wVJ"/>
                             <constraint firstItem="yUQ-Lx-buz" firstAttribute="leading" secondItem="yvV-FJ-3Db" secondAttribute="leadingMargin" constant="15" id="ZIY-pl-oj5"/>
+                            <constraint firstItem="F3y-2i-6NB" firstAttribute="centerX" secondItem="kua-w9-9D8" secondAttribute="centerX" id="bEj-aW-uCU"/>
                             <constraint firstAttribute="centerY" secondItem="cEr-Gl-yQz" secondAttribute="centerY" constant="-2" id="cde-Ca-FhI"/>
                             <constraint firstAttribute="centerX" secondItem="D7P-XP-1en" secondAttribute="centerX" id="cmQ-AB-V8A"/>
                             <constraint firstItem="5dH-aG-8Xk" firstAttribute="centerY" secondItem="cEr-Gl-yQz" secondAttribute="centerY" id="fVM-aV-Mec"/>
@@ -384,6 +394,7 @@
                     <navigationItem key="navigationItem" id="e5k-UI-fl0"/>
                     <connections>
                         <outlet property="checkImage" destination="cEr-Gl-yQz" id="e2U-Ou-fhb"/>
+                        <outlet property="fbButtonView" destination="F3y-2i-6NB" id="e8t-ZR-zXk"/>
                         <outlet property="saveSwitch" destination="bcp-JV-H2e" id="hs0-9H-NlE"/>
                         <outlet property="textPassword" destination="5dH-aG-8Xk" id="6y4-9u-Gbg"/>
                         <outlet property="textUsername" destination="yUQ-Lx-buz" id="Kx9-cu-w27"/>
@@ -2070,8 +2081,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2h3-pZ-gOI">
-                                <rect key="frame" x="123" y="107" width="30" height="33"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2h3-pZ-gOI">
+                                <rect key="frame" x="123" y="107" width="35" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="107" id="wz6-kc-QBw"/>
                                 </constraints>
@@ -2144,16 +2155,16 @@
                                     <!--2015-03-27 14:35:36 +0000-->
                                 </date>
                             </datePicker>
-                            <pickerView hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hdc-Oh-7on">
-                                <rect key="frame" x="0.0" y="473" width="600" height="162"/>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hdc-Oh-7on">
+                                <rect key="frame" x="0.0" y="429" width="600" height="162"/>
                                 <color key="backgroundColor" red="0.90588235294117647" green="0.90588235294117647" blue="0.90588235294117647" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="lyY-2F-Fan" id="IDK-ed-fBP"/>
                                     <outlet property="delegate" destination="lyY-2F-Fan" id="p8B-4c-qfF"/>
                                 </connections>
                             </pickerView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YN-a3-Zw3">
-                                <rect key="frame" x="0.0" y="440" width="600" height="33"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YN-a3-Zw3">
+                                <rect key="frame" x="0.0" y="396" width="600" height="33"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="16" maxY="0.0"/>
