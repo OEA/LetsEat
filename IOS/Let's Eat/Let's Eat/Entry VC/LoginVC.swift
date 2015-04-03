@@ -57,25 +57,15 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
     func loginButton(fbButtonView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         println("User Logged In")
         
-        if ((error) != nil)
-        {
+        if ((error) != nil){
             // Process error
-        }
-        else if result.isCancelled {
+        }else if result.isCancelled {
             // Handle cancellations
-        }
-        else {
+        }else {
             // If you ask for multiple permissions at once, you
             // should check if specific permissions missing
-            if result.grantedPermissions.containsObject("email")
-            {
+            if result.grantedPermissions.containsObject("email"){
                 self.returnUserData()
-                /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-                
-                prefs.setObject(username, forKey: "USERNAME")
-                prefs.setInteger(1, forKey: "ISLOGGEDIN")
-                let userInfo: AnyObject? = jsonData.valueForKey("container")
-                prefs.setObject(userInfo, forKey: "userInfo")*/
             }
         }
     }

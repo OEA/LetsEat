@@ -33,13 +33,12 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
             emailField.text = user["email"]
             
         }
-
     }
     
     override func viewDidLoad() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let user = userDefaults.objectForKey("userInfo") as [String: NSString]
-        if user.indexForKey("password") == nil {
+        if (FBSDKAccessToken.currentAccessToken() != nil){
             changePasswordButton.hidden = true
             logOutButton.hidden = true
             fLogOutView.hidden = false
@@ -48,28 +47,6 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
     
     func loginButton(fLogOutView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         println("User Logged In")
-        
-        if ((error) != nil)
-        {
-            // Process error
-        }
-        else if result.isCancelled {
-            // Handle cancellations
-        }
-        else {
-            // If you ask for multiple permissions at once, you
-            // should check if specific permissions missing
-            if result.grantedPermissions.containsObject("email")
-            {
-                
-                /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-                
-                prefs.setObject(username, forKey: "USERNAME")
-                prefs.setInteger(1, forKey: "ISLOGGEDIN")
-                let userInfo: AnyObject? = jsonData.valueForKey("container")
-                prefs.setObject(userInfo, forKey: "userInfo")*/
-            }
-        }
     }
     
     func loginButtonDidLogOut(fLogOutView: FBSDKLoginButton!) {

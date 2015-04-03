@@ -241,7 +241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cSq-2x-mnx" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1557" y="-450"/>
+            <point key="canvasLocation" x="1565" y="-502"/>
         </scene>
         <!--Login-->
         <scene sceneID="fgb-Fx-ehj">
@@ -411,7 +411,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLO-xy-mKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7" y="211"/>
+            <point key="canvasLocation" x="81" y="232"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="xea-YV-x4g">
@@ -1757,7 +1757,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dmP-e9-tKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2405" y="216"/>
+            <point key="canvasLocation" x="2405" y="232"/>
         </scene>
         <!--Owned Events Table View Controller-->
         <scene sceneID="Ymt-sS-bgF">
@@ -2054,29 +2054,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2kx-gU-fk2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2413" y="1770"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="FDL-08-Hz5">
-            <objects>
-                <viewController id="0OU-8j-UJo" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1VE-4m-w4s"/>
-                        <viewControllerLayoutGuide type="bottom" id="CsX-eP-mxf"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="24W-Hd-Hf7">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="CU3-Ac-0lF">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </mapView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1Qu-a4-hyt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2405" y="-450"/>
         </scene>
         <!--Create Event-->
         <scene sceneID="ioA-mY-ExB">
@@ -2756,8 +2733,8 @@
         <image name="passwordCheck.png" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OrK-Wc-AGq"/>
-        <segue reference="eAE-Xa-3jM"/>
         <segue reference="td2-tB-gtM"/>
+        <segue reference="s2s-DW-zs6"/>
+        <segue reference="eAE-Xa-3jM"/>
     </inferredMetricsTieBreakers>
 </document>
