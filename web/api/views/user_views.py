@@ -5,6 +5,8 @@ import json
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.http import HttpResponse
+from django.template.defaultfilters import slugify
+from random import randint
 
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
@@ -59,7 +61,6 @@ def registration_from_facebook(request):
 
         if form.errors:
             fail_response(responseJSON)
-            print(form.errors)
             responseJSON["message"] = "Errors occurred."
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
@@ -73,8 +74,17 @@ def registration_from_facebook(request):
 
 
 def get_available_username(name, surname):
-    #It will be done.
-    return "testUserNamejkkhjForFB"
+    if User.objects.filter(username=normalized_username(name + " " + surname)).count() > 0:
+        surname = surname + "-" + str(randint(0,500))
+        return get_available_username(name, surname)
+    else:
+        return normalized_username(name + " " + surname)
+
+
+def normalized_username(title):
+    title = slugify(title)
+    title = title.replace("-",".")
+    return title
 
 
 def get_random_password():
