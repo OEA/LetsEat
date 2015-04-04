@@ -312,4 +312,31 @@ $('.participant').tagsinput({
     source: citynames.ttAdapter()
   }
 });
+
+    function loginFacebook() {
+    FB.api('/me', function(response) {
+        var name = response.first_name;
+        var surname = response.last_name;
+        var middle_name = response.middle_name;
+        var email = response.email;
+
+        $.ajax({
+            url: "{% url 'registration_from_facebook' %}",
+            type: "POST",
+            data: 'name=' + name + " " + middle_name + "&surname=" + surname + "&email=" + email,
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+        //alert("Welcome to the board: " + name + " " + middle_name + " " + surname + "( " + email + " )");
+
+    });
+  }
+
     </script>

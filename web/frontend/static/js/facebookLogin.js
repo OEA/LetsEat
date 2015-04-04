@@ -16,13 +16,7 @@
   }
 
 
-  function loginFacebook() {
-    FB.api('/me', function(response) {
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-        //It will be redirection
-    });
-  }
+
 
   window.fbAsyncInit = function() {
   FB.init({
