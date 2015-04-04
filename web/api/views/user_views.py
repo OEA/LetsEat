@@ -55,23 +55,31 @@ def registration_from_facebook(request):
         request_copy = request.POST.copy()
         name = request.POST["name"]
         surname = request.POST["surname"]
-        request_copy["username"] = get_available_username(name, surname)
-        request_copy["password"] = get_random_password()
-        form = UserCreationForm(request_copy)
+        email = request.POST["email"]
+        if User.objects.filter(email=email).count() > 0:
+            responseJSON["message"] = "Successfully logged in from facebook."
+            user = User.objects.get(email=email)
+            authenticate(username=user.username, password=user.password)
+            login(request, user)
+        else:
+            request_copy["username"] = get_available_username(name, surname)
+            request_copy["password"] = get_random_password()
+            form = UserCreationForm(request_copy)
 
-        if form.errors:
-            fail_response(responseJSON)
-            responseJSON["message"] = "Errors occurred."
-            return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+            if form.errors:
+                fail_response(responseJSON)
+                responseJSON["message"] = "Errors occurred."
+                return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
-        user = form.save(commit=False)
-        user.is_active = True
-        user.save()
-        user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
-        login(request, user_)
+            user = form.save(commit=False)
+            user.is_active = True
+            user.save()
+            user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
+            login(request, user_)
+
+            responseJSON["message"] = "Successfully registered from facebook."
 
         success_response(responseJSON)
-        responseJSON["message"] = "Successfully registered from facebook."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
