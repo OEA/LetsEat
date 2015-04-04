@@ -323,7 +323,7 @@ $('.participant').tagsinput({
         $.ajax({
             url: "{% url 'registration_from_facebook' %}",
             type: "POST",
-            data: 'name=' + name + " " + middle_name + "&surname=" + surname + "&email=" + email,
+            data: "name=" + name + " " + middle_name + "&surname=" + surname + "&email=" + email,
             dataType: "JSON",
             success: function (data) {
                 console.log(data);

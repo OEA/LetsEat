@@ -50,11 +50,12 @@ def registration_view(request):
 def registration_from_facebook(request):
     responseJSON = {}
     if is_POST(request):
+        request_copy = request.POST.copy()
         name = request.POST["name"]
         surname = request.POST["surname"]
-        request.POST["username"] = get_available_username(name, surname)
-        request.POST["password"] = get_random_password()
-        form = UserCreationForm(request.POST)
+        request_copy["username"] = get_available_username(name, surname)
+        request_copy["password"] = get_random_password()
+        form = UserCreationForm(request_copy)
 
         if form.errors:
             fail_response(responseJSON)
@@ -73,12 +74,12 @@ def registration_from_facebook(request):
 
 def get_available_username(name, surname):
     #It will be done.
-    return "testUserNameForFB"
+    return "testUserNamejkkhjForFB"
 
 
 def get_random_password():
     #It will be done
-    return "testPasswordForFB"
+    return "testPassworjkkjhdForFB"
 
 
 def create_user_JSON(user):
