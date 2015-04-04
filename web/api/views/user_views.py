@@ -67,6 +67,8 @@ def registration_from_facebook(request):
         user = form.save(commit=False)
         user.is_active = True
         user.save()
+        user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
+        login(request, user_)
 
         success_response(responseJSON)
         responseJSON["message"] = "Successfully registered from facebook."
