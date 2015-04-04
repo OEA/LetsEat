@@ -88,8 +88,9 @@ def normalized_username(title):
 
 
 def get_random_password():
-    #It will be done
-    return "testPassworjkkjhdForFB"
+    password = User.objects.make_random_password()
+    #mail will be sent.
+    return password
 
 
 def create_user_JSON(user):
