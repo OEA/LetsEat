@@ -27,6 +27,7 @@ def success_response(responseJSON):
 def fail_response(responseJSON):
     responseJSON["status"] = "failed"
 
+
 def registration_view(request):
     responseJSON = {}
     if is_POST(request):
@@ -44,6 +45,40 @@ def registration_view(request):
         success_response(responseJSON)
         responseJSON["message"] = "Successfully registered."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def registration_from_facebook(request):
+    responseJSON = {}
+    if is_POST(request):
+        name = request.POST["name"]
+        surname = request.POST["surname"]
+        request.POST["username"] = get_available_username(name, surname)
+        request.POST["password"] = get_random_password()
+        form = UserCreationForm(request.POST)
+
+        if form.errors:
+            fail_response(responseJSON)
+            print(form.errors)
+            responseJSON["message"] = "Errors occurred."
+            return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+        user = form.save(commit=False)
+        user.is_active = True
+        user.save()
+
+        success_response(responseJSON)
+        responseJSON["message"] = "Successfully registered from facebook."
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def get_available_username(name, surname):
+    #It will be done.
+    return "testUserNameForFB"
+
+
+def get_random_password():
+    #It will be done
+    return "testPasswordForFB"
 
 
 def create_user_JSON(user):
@@ -95,6 +130,7 @@ def profile(request, username):
     responseJSON["container"]["email"] = user.email
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
+
 
 def logout(request):
     auth.logout(request)
