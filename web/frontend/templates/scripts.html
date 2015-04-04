@@ -326,7 +326,9 @@ $('.participant').tagsinput({
             data: "name=" + name + ((middle_name) ? " " + middle_name : "") + "&surname=" + surname + "&email=" + email,
             dataType: "JSON",
             success: function (data) {
-                console.log(data);
+                document.getElementById('status').innerHTML =
+            'Logged In.. Please wait..';
+                window.location = "{% url 'home_view' %}";
             },
             error: function (data) {
                 console.log(data);
