@@ -165,19 +165,18 @@ def add_friend(request, username):
         return render(request, "./login.html")
 
 
-def friends_view(request):
-    context = None
+def friends_view(request, username):
     if request.user.is_authenticated():
         user = request.user
-        params = urllib.parse.urlencode({'username': user.username})
+        params = urllib.parse.urlencode({'username': username})
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
         connection = http.client.HTTPConnection('127.0.0.1', 8000)
-        connection.request("POST", "api/get_friends/", params, headers)
+        connection.request("POST", "/api/get_friends/", params, headers)
         friend_list_response = connection.getresponse()
         friend_list_json_data = friend_list_response.read()
         friend_list_data = json.loads(friend_list_json_data.decode("utf-8"))
         friend_list = friend_list_data["friends"]
-        context = {'user': user, 'username': user.username, 'friend_list': friend_list}
+        context = {'user': user, 'username': username, 'friend_list': friend_list}
         return render(request, "friends.html", context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
