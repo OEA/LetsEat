@@ -1,12 +1,13 @@
 __author__ = 'Hakan Uyumaz & Burak Atalay & Omer Aslan'
 
 import json
+from random import randint
 
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.http import HttpResponse
 from django.template.defaultfilters import slugify
-from random import randint
+from django.core.mail import EmailMessage
 
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
@@ -28,6 +29,20 @@ def success_response(responseJSON):
 
 def fail_response(responseJSON):
     responseJSON["status"] = "failed"
+
+
+def send_password_mail(user):
+    subject = "Your Let's Eat Account Password"
+    body = """Hello {0} {1},
+Thank you for signing up for Let's Eat.
+To login to Let's Eat you can use following password:
+{2}
+Best Regards,
+Let's Eat Team
+            """.format(user.name, user.surname, user.password)
+
+    mail = EmailMessage(subject, body, "Let's Eat <hakanuyumaz@hotmail.com>", to=[user.email])
+    mail.send(fail_silently=False)
 
 
 def registration_view(request):
@@ -74,6 +89,7 @@ def registration_from_facebook(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            send_password_mail(user)
             user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
             login(request, user_)
 
