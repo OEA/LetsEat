@@ -81,7 +81,7 @@ def profile(request, username):
     if request.user.is_authenticated():
     #It will be replaced by web service when it runs
         user = get_object_or_404(User, username=username)
-        context = {'user' : user, 'username': request.user.username}
+        context = {'user': user, 'username': request.user.username}
         return render(request, 'profile.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
@@ -93,12 +93,12 @@ def edit(request, username):
             user = request.user
             name = request.POST["name"]
             surname = request.POST["surname"]
-            newPassword = request.POST["newPassword"]
-            newPassword2 = request.POST["newPassword2"]
+            new_password = request.POST["new_password"]
+            new_password2 = request.POST["new_password2"]
             currentPassword = request.POST["currentPassword"]
             params = urllib.parse.urlencode(
-                {'name': name, 'surname': surname, 'username': username, 'newPassword': newPassword,
-                 'newPassword2': newPassword2, 'currentPassword': currentPassword})
+                {'name': name, 'surname': surname, 'username': username, 'new_password': new_password,
+                 'new_password2': new_password2, 'currentPassword': currentPassword})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
             connection = http.client.HTTPConnection('127.0.0.1', 8000)
             url = "/api/profile/%s/edit/" % username
@@ -107,9 +107,9 @@ def edit(request, username):
             edit_data_json = edit_response.read()
             edit_data = json.loads(edit_data_json.decode("utf-8"))
             if edit_data["status"] == "success":
-                context = {'user': user, 'username':user.username, 'error': False, 'success': True}
+                context = {'user': user, 'username': user.username, 'error': False, 'success': True}
             else:
-                context = {'user': user, 'username':user.username,'error': True, 'success': False}
+                context = {'user': user, 'username': user.username, 'error': True, 'success': False}
             return render(request, 'profile_edit.html', context)
         else:
             user = request.user
@@ -127,7 +127,7 @@ def search_user(request):
                  return redirect("../homepage")
             params = urllib.parse.urlencode({"username" : request.user.username})
             headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-            connection = http.client.HTTPConnection('127.0.0.1',8000)
+            connection = http.client.HTTPConnection('127.0.0.1', 8000)
             connection.request("POST", "/api/search/"+username+"/", params, headers)
             search_response = connection.getresponse()
             search_data_json = search_response.read()
@@ -171,13 +171,13 @@ def friends_view(request):
         user = request.user
         params = urllib.parse.urlencode({'username': user.username})
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
-        connection = http.client.HTTPConnection('127.0.0.1',8000)
+        connection = http.client.HTTPConnection('127.0.0.1', 8000)
         connection.request("POST", "api/get_friends/", params, headers)
         friend_list_response = connection.getresponse()
         friend_list_json_data = friend_list_response.read()
         friend_list_data = json.loads(friend_list_json_data.decode("utf-8"))
         friend_list = friend_list_data["friends"]
-        context = {'user' : user, 'username': user.username, 'friend_list': friend_list}
+        context = {'user': user, 'username': user.username, 'friend_list': friend_list}
         return render(request, "friends.html", context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
