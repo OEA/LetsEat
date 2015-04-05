@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^homepage/$', home_view.homepage, name='home_view'),
     url(r'^search/$', user_views_.search_user, name='search_user'),
     url(r'^notifications/$', user_views_.notifications_view, name='notifications'),
+    url(r'^friends/$', user_views_.friends_view, name='friends'),
     url(r'^create_event/$', event_views.create_event, name='api.create_event'),
     url(r'^admin/', include(admin.site.urls)),
 )
