@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
 
+
 responseJSON = {}
 
 
@@ -96,6 +97,20 @@ def registration_from_facebook(request):
             responseJSON["message"] = "Successfully registered from facebook."
 
         success_response(responseJSON)
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def login_with_facebook(request):
+    responseJSON = {}
+    if is_POST(request):
+        facebook_id = request.POST["facebook_id"]
+        users = User.objects.filter(facebook_id=facebook_id)
+        if users.count() > 0:
+            user = users[0]
+            responseJSON["user"] = create_user_JSON(user)
+        else:
+            fail_response(responseJSON)
+            responseJSON["message"] = "No user found with given id"
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
