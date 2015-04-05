@@ -176,9 +176,11 @@ def friends_view(request):
         friend_list_response = connection.getresponse()
         friend_list_json_data = friend_list_response.read()
         friend_list_data = json.loads(friend_list_json_data.decode("utf-8"))
-        friend_list = friend_list_data["senders"]
+        friend_list = friend_list_data["friends"]
         context = {'user' : user, 'username': user.username, 'friend_list': friend_list}
         return render(request, "friends.html", context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")
 
 def test(request):
     return HttpResponse("Successful")
@@ -208,5 +210,15 @@ def create_event(request):
             event_type = request.POST["event_type"]
             event_participants = request.POST["event_participants"]
 
+        else:
+            return redirect("http://127.0.0.1:8000/homepage")
+
+
+def create_group(request):
+    owner = request.user
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            group_name = request.POST["group_name"]
+            group_members = request.POST["group_members"]
         else:
             return redirect("http://127.0.0.1:8000/homepage")
