@@ -319,13 +319,15 @@ $('.participant').tagsinput({
         var surname = response.last_name;
         var middle_name = response.middle_name;
         var email = response.email;
-
+        var facebook_id = response.id;
         $.ajax({
-            url: "{% url 'registration_from_facebook' %}",
+            url: "{% url 'api_registration_from_facebook' %}",
             type: "POST",
-            data: "name=" + name + ((middle_name) ? " " + middle_name : "") + "&surname=" + surname + "&email=" + email,
+            data: "name=" + name + ((middle_name) ? " " + middle_name : "") + "&surname=" + surname + "&email=" + email +
+                  "&facebook_id=" + facebook_id,
             dataType: "JSON",
             success: function (data) {
+                alert(facebook_id);
                 document.getElementById('status').innerHTML =
             'Logged In.. Please wait..';
                 window.location = "{% url 'home_view' %}";
