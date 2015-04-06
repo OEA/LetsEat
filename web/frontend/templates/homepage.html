@@ -4,25 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-
-                    <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
-                         class="img-circle" width="64" height="64" style="float: left;margin-right: 10px"/>
-                    <small><a href="{% url 'profile' user.username %}">{{ user.name }} {{ user.surname }}</a></small>
-                    <br>
-                    <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit
-                        Profile</a></strong></small>
-
-                </div>
-
-                <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">237</span></a>
-                <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
-                <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i
-                        class="fa fa-power-off"></i> Logout</a>
-
-
-            </div>
+            {% include 'profile_menu.html' with user=user friends_count=friends_count %}
         </div>
 
         <div class="col-md-6">
@@ -97,7 +79,7 @@
                                     Event Participants<span class="pull-right"><i
                                         class="fa fa-minus-square-o toggle-event-time"></i></span>
                                 </div>
-                                <div class="panel-body event-time">
+                                <div class="panel-body event-participants">
                                         <div class="form-group">
                                             <input type="text" data-role="tagsinput" class="participant" name="event_participant" style="width: 100% !important;" autocomplete="off">
                                         </div>
@@ -109,9 +91,9 @@
                                     Group Participants<span class="pull-right"><i
                                         class="fa fa-minus-square-o toggle-event-time"></i></span>
                                 </div>
-                                <div class="panel-body event-time">
+                                <div class="panel-body event-group">
                                         <div class="form-group">
-                                            <input type="text" data-role="tagsinput" class="participant" name="event_participant" style="width: 100% !important;" autocomplete="off">
+                                            <input type="text" data-role="tagsinput" class="group-participant" name="event_group" style="width: 100% !important;" autocomplete="off">
                                         </div>
                                 </div>
                                 </div>
@@ -144,14 +126,14 @@
                 <div class="media-body">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i
+                            I will be eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i
                                 class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
                         </div>
                         <div class="panel-footer">
                             <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i>
                             Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
                                 class="fa fa-share-alt"></i> Share</a> . <i class="fa fa-clock-o" data-toggle="popover"
-                                   data-content="23 Mar. 2015 16:20"></i>
+                                   data-content="23 Mar. 2015 16:20"></i> <span style="color:red">13 hours left</span>
 
                             <div class="pull-right">
                                 <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small>
@@ -176,14 +158,14 @@
                 <div class="media-body">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i
+                            I will be eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i
                                 class="fa fa-map-marker"></i> Nusr-Et
                         </div>
                         <div class="panel-footer">
                             <a><i class="fa fa-thumbs-o-up"></i> Like</a> . <a disabled><i class="fa fa-unlock"></i>
                             Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i
                                 class="fa fa-share-alt"></i> Share</a> . <i class="fa fa-clock-o" data-toggle="popover"
-                                   data-content="13 Mar. 2015 16:20"></i>
+                                   data-content="13 Mar. 2015 16:20"></i> <span style="color:green">5 days left</span>
 
                             <div class="pull-right">
                                 <small><i class="fa fa-thumbs-o-up"></i></small>
