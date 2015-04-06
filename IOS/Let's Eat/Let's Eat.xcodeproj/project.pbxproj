@@ -19,6 +19,8 @@
 		464E9D761A92594000396EE8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 464E9D741A92594000396EE8 /* LaunchScreen.xib */; };
 		464E9D821A92594000396EE8 /* Let_s_EatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D811A92594000396EE8 /* Let_s_EatTests.swift */; };
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
+		46784B321AD2A657008D242F /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46784B311AD2A657008D242F /* CreateGroupViewController.swift */; };
+		468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468DC3751AD265530045A06A /* GroupTableViewController.swift */; };
 		469691131AC966BA0068062D /* passwordCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 469691121AC966BA0068062D /* passwordCheck.png */; };
 		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
 		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
@@ -65,6 +67,8 @@
 		464E9D801A92594000396EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		464E9D811A92594000396EE8 /* Let_s_EatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Let_s_EatTests.swift; sourceTree = "<group>"; };
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		46784B311AD2A657008D242F /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
+		468DC3751AD265530045A06A /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		469691121AC966BA0068062D /* passwordCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = passwordCheck.png; sourceTree = "<group>"; };
 		46C1E0BD1ACD6B020068F5F4 /* Bridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
@@ -228,6 +232,8 @@
 				462EFDB01AC5A48100EF4E26 /* Requests Tab */,
 				461A15511AB78525009DA34E /* Friends Tab */,
 				46FE77671A9911DA003BDD80 /* Profile Tab */,
+				468DC3751AD265530045A06A /* GroupTableViewController.swift */,
+				46784B311AD2A657008D242F /* CreateGroupViewController.swift */,
 			);
 			path = "TabBar VC";
 			sourceTree = "<group>";
@@ -351,12 +357,14 @@
 				46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */,
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
+				46784B321AD2A657008D242F /* CreateGroupViewController.swift in Sources */,
 				462F58821AB864560053DD37 /* Alerts.swift in Sources */,
 				46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */,
 				46C738201AC5B7FF00826621 /* AddParticipantViewController.swift in Sources */,
 				462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */,
 				46C6C0491ACAAB20007FB4A2 /* DateSetter.swift in Sources */,
 				4642F9861AC9841D0000E7A4 /* OwnedEventsTableViewController.swift in Sources */,
+				468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,

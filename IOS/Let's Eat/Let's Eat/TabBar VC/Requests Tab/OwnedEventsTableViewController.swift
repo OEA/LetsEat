@@ -13,6 +13,7 @@ class OwnedEventsTableViewController: UITableViewController {
 
     var ownedEventList = [[String: AnyObject]]()
     let apiMethod = ApiMethods()
+    var dateSetter = DateSetter()
     
     @IBOutlet var eventTBV: UITableView!
     override func viewDidLoad() {
@@ -37,7 +38,16 @@ class OwnedEventsTableViewController: UITableViewController {
             let restaurant = event["restaurant"] as String
             locationLabel.text = restaurant
             let date = event["time"] as String
-            dateLabel.text = date
+            
+            dateLabel.text = dateSetter.getDate(date)
+            let dateText = "\(dateLabel.text!)"
+            if let firstWordR = dateText.rangeOfString(" ")?.startIndex{
+                let firstWord = dateText.substringToIndex(firstWordR)
+                let a: NSString = "\(firstWord)" as NSString
+                if firstWord == "Today" || firstWord == "Tomorrow"{
+                    dateLabel.textColor = UIColor.redColor()
+                }
+            }
         }
         return cell
     }
