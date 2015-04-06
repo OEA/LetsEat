@@ -89,6 +89,8 @@ def registration_from_facebook(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            user.facebook_id = facebook_id
+            user.save()
             #send_password_mail(user)
             user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
             login(request, user_)
