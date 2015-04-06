@@ -160,7 +160,20 @@ def add_friend(request, username):
                 print("There is no user like that")
                 return None
         else:
-            print("please use POST method!")
+            print("Please use POST method!")
+    else:
+        return render(request, "./login.html")
+
+def delete_friend(request, username):
+    if request.user.is_authenticated():
+        if request.method == "POST":
+            if search_user(request, username):
+                User.friend_list.remove(search_user(request, username))
+            else:
+                print("That user is not on your friend list")
+                return None
+        else:
+            print ("Please use POST method!")
     else:
         return render(request, "./login.html")
 
