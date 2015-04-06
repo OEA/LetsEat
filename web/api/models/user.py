@@ -51,6 +51,7 @@ class User(AbstractBaseUser):
     name = models.CharField('Name', max_length=50)
     surname = models.CharField('Surname', max_length=50)
     friends = models.ManyToManyField('self', related_name='friends', symmetrical=True, blank=True)
+    facebook_id = models.CharField('Facebook ID', max_length=50, unique=True, null=True)
 
     email = models.EmailField(
         verbose_name='Email',

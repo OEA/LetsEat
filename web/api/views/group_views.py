@@ -78,3 +78,17 @@ def add_member(request):
             responseJSON["message"] = "User is not owner of the group."
         responseJSON["group"] = create_group_JSON(group)
     return HttpResponse(json.dumps(responseJSON))
+
+
+def remove_member(request):
+    responseJSON = {}
+    if is_POST(request):
+        group_id = request.POST["group_id"]
+        member_username = request.POST["member"]
+        group = get_object_or_404(Group, pk=group_id)
+        member = get_object_or_404(User, username=member_username)
+        group.members.remove(member)
+        success_response(responseJSON)
+        responseJSON["message"] = "Group member removed."
+        responseJSON["group"] = create_group_JSON(group)
+    return HttpResponse(json.dumps(responseJSON))

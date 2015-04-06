@@ -1,15 +1,17 @@
 __author__ = 'Hakan Uyumaz & Burak Atalay & Omer Aslan'
 
 import json
+from random import randint
 
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
 from django.http import HttpResponse
 from django.template.defaultfilters import slugify
-from random import randint
+from django.core.mail import EmailMessage
 
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
+
 
 responseJSON = {}
 
@@ -28,6 +30,20 @@ def success_response(responseJSON):
 
 def fail_response(responseJSON):
     responseJSON["status"] = "failed"
+
+
+def send_password_mail(user):
+    subject = "Your Let's Eat Account Password"
+    body = """Hello {0} {1},
+Thank you for signing up for Let's Eat.
+To login to Let's Eat you can use following password:
+{2}
+Best Regards,
+Let's Eat Team
+            """.format(user.name, user.surname, user.password)
+
+    mail = EmailMessage(subject, body, "Let's Eat <hakanuyumaz@hotmail.com>", to=[user.email])
+    mail.send(fail_silently=False)
 
 
 def registration_view(request):
@@ -56,14 +72,13 @@ def registration_from_facebook(request):
         name = request.POST["name"]
         surname = request.POST["surname"]
         email = request.POST["email"]
+        facebook_id = request.POST["facebook_id"]
         if User.objects.filter(email=email).count() > 0:
-            responseJSON["message"] = "Successfully logged in from facebook."
-            user = User.objects.get(email=email)
-            authenticate(username=user.username, password=user.password)
-            login(request, user)
+            login_with_facebook(request)
         else:
             request_copy["username"] = get_available_username(name, surname)
             request_copy["password"] = get_random_password()
+            request_copy["facebook_id"] = facebook_id
             form = UserCreationForm(request_copy)
 
             if form.errors:
@@ -74,12 +89,28 @@ def registration_from_facebook(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            #send_password_mail(user)
             user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
             login(request, user_)
 
             responseJSON["message"] = "Successfully registered from facebook."
 
         success_response(responseJSON)
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def login_with_facebook(request):
+    responseJSON = {}
+    if is_POST(request):
+        facebook_id = request.POST["facebook_id"]
+        users = User.objects.filter(facebook_id=facebook_id)
+        if users.count() > 0:
+            user = users[0]
+            print(user.facebook_id)
+            responseJSON["user"] = create_user_JSON(user)
+        else:
+            fail_response(responseJSON)
+            responseJSON["message"] = "No user found with given id"
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
