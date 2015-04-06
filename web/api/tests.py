@@ -402,17 +402,16 @@ class modelTest(TestCase):
         #Missing member
         params = urllib.parse.urlencode(
             {"group_id": agile_group_id,
-             "username": "diid",
+             "username": "didi",
              "member": ""
              }
         )
         response = self.make_request(params, "/api/add_group_member/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
         params = urllib.parse.urlencode(
             {"group_id": agile_group_id,
-             "username": "diid",
+             "username": "didi",
              "member": "kalaomer"
              }
         )
@@ -421,21 +420,26 @@ class modelTest(TestCase):
 
 
     def test_remove_member(self):
-        #Missing group name
 
         agile_group_id = Group.objects.get(name="agile_group").id
 
+        #Missing member
         params = urllib.parse.urlencode(
-            {"group_name": "", }
+            {"group_id": agile_group_id,
+             "member": ""
+             }
         )
         response = self.make_request(params, "/api/remove_group_member/", "POST")
         self.assertEqual(response["status"], "failed")
 
+        #Missing group id
         params = urllib.parse.urlencode(
-            {"group_name": "agile_group"}
+            {"group_id": "",
+             "member": "didi"
+             }
         )
-        response = self.make_request(params, "/api/remove_group_member_/", "POST")
-        self.assertEqual(response["status"], "success")
+        response = self.make_request(params, "/api/remove_group_member/", "POST")
+        self.assertEqual(response["status"], "failed")
 
 
     #Test Super User Credentials
