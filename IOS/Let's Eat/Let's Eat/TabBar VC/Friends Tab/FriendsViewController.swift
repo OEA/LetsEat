@@ -203,10 +203,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
                 nameLabel.text = name + " " + surname
             
+            
+            
         }
         
         return cell
     }
+    
     @IBAction func listChoice(sender: UIButton) {
         self.searchedList = []
 
@@ -226,6 +229,16 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tabelView.reloadData()
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
+        if findFriendChosen == false {
+            let cell = tabelView.cellForRowAtIndexPath(indexPath)
+            let usernameLabel = cell?.viewWithTag(2) as UILabel
+            if let username = usernameLabel.text{
+                NSLog(username)
+                apiMethod.removeFriend(username, vc: self)
+            }
+        }
+    }
 
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

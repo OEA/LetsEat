@@ -32,17 +32,19 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
             userNameField.text = user["username"]
             emailField.text = user["email"]
         }
+        if (FBSDKAccessToken.currentAccessToken() != nil){
+            changePasswordButton.hidden = true
+            logOutButton.hidden = true
+            fLogOutView.hidden = false
+        }
     }
     
     override func viewDidLoad() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let user = userDefaults.objectForKey("userInfo") as [String: NSString]
-            if (FBSDKAccessToken.currentAccessToken() != nil){
-                changePasswordButton.hidden = true
-                logOutButton.hidden = true
-                fLogOutView.hidden = false
-            }
     }
+    
+    
     
     func loginButton(fLogOutView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         println("User Logged In")
