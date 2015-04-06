@@ -1,4 +1,4 @@
-{% include 'header.html' with user=user username=username title='Notifications' %}
+{% include 'header.html' with user=user username=username title='Friend List' %}
 <!--<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div> -->
 
 <div class="container">
@@ -14,7 +14,7 @@
 
                 </div>
                      <div class="list-group">
-                         <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
+                         <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">237</span></a>
                          <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
                          <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
                     </div>
@@ -23,22 +23,118 @@
     </div>
 
     <div class="col-md-6 ">
-            <h5>Notification Center</h5>
-        <div class="media-body">
-            <div class="panel-body ">
-            <a class="list-group-item"> <i class="fa fa-thumbs-up"></i> Hakan liked your activity. <span style="font-weight: bold; font-size:8px;">1h ago</span> </a>
-            <a class="list-group-item"> <i class="fa fa-user-plus"></i> Simge Sağın added you as being friend. <span style="font-weight: bold; font-size:8px;">1d ago</span></a>
-            <a class="list-group-item"> <i class="fa fa-user-plus"></i> Burak is added to Simge Sağın as being friend <span style="font-weight: bold; font-size:8px;">Now</span></a>
-            <a class="list-group-item"> <i class="fa fa-thumbs-up"></i> Hakan  liked your activity. <span style="font-weight: bold; font-size:8px;">1h ago</span></a>
-             <a class="list-group-item"> <i class="fa fa-user-plus"></i> Simge Sağın added to Bahadır Kırdan as being friend. <span style="font-weight: bold; font-size:8px;">1d ago</span></a>
-            <a class="list-group-item"> <i class="fa fa-user-plus"></i> Ömer added to Simge Sağın as being friend <span style="font-weight: bold; font-size:8px;">Now</span></a>
-            <a class="list-group-item"> <i class="fa fa-thumbs-up"></i> Hakan  liked Bahadır's activity. <span style="font-weight: bold; font-size:8px;">1h ago</span></a>
-             <a class="list-group-item"> <i class="fa fa-user-plus"></i> Vidal added you as being friend. <span style="font-weight: bold; font-size:8px;">1d ago</span></a>
-            <a class="list-group-item"> <i class="fa fa-user-plus"></i> Burak added to Ömer as being friend <span style="font-weight: bold; font-size:8px;">Now</span></a>
-            </div>
-        </div>
-    </div>
+        <div class="panel panel-default">
+            <h5>Friend List</h5>
+            <div class="list-group ">
+                <div class="media-body">
+             <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a> <a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
 
+              </div>
+                </div>
+
+
+                <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                    <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                    <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                    <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+
+                </div>
+            </div>
+                    <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+                </a>
+              </div>
+              <div class="media-body">
+                        <a href="#">Hakan Uyumaz</a><a href="#" class="btn btn-primary pull-right"><i class="fa fa-times "></i>  Remove</a>
+                        <br><small>@huyumaz</small>
+
+                </div>
+            </div>
+            </div>
+    </div>
+        </div>
+</div>
     <div class="col-md-3 well">
         <h5>Who to Add Friend</h5>
         <div class="content">
@@ -85,6 +181,7 @@
                     </div>
             </div>
         </div>
+
 </div>
 
 </div>
