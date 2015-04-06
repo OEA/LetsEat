@@ -182,3 +182,16 @@ def get_friend_requests(request):
         for sender in sender_list:
             responseJSON["senders"].append(create_user_JSON(sender))
     return HttpResponse(json.dumps(responseJSON))
+
+
+def remove_friend(request):
+    responseJSON = {}
+    if is_POST(request):
+        username = request.POST["username"]
+        friend_username = request.POST["friend"]
+        user = get_object_or_404(User, username=username)
+        friend = get_object_or_404(User, username=friend_username)
+        user.friends.remove(friend)
+        success_response(responseJSON)
+        responseJSON["message"] = "Friend removed"
+    return HttpResponse(json.dumps(responseJSON))
