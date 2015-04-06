@@ -117,7 +117,6 @@ def reject_friend_request(request):
             friend_request = get_object_or_404(FriendshipRequest, sender=sender, receiver=receiver)
             friend_request.status = 'R'
             friend_request.save()
-            sender.friends.add(receiver)
             success_response(responseJSON)
             responseJSON["message"] = "Existing friend request updated."
         else:
