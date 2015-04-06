@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+
+        <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+             class="img-circle" width="64" height="64" style="float: left;margin-right: 10px"/>
+        <small><a href="{% url 'profile' user.username %}">{{ user.name }} {{ user.surname }}</a></small>
+        <br>
+        <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit
+            Profile</a></strong></small>
+
+    </div>
+
+    <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">{{ friends_count }}</span></a>
+    <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
+    <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i
+            class="fa fa-power-off"></i> Logout</a>
+
+
+</div>
