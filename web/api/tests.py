@@ -95,6 +95,22 @@ class modelTest(TestCase):
         capitol_request.save()
 
 
+        #Add Group
+        ozu_group = Group('Özyegin Grubu', omer)
+        ozu_group.members.add(taha)
+        ozu_group.members.add(bilal)
+
+        ozu_group.save()
+
+
+        agile_group = Group('CS 476 | Agile', didem)
+        agile_group.members.add(simge)
+        agile_group.members.add(bilal)
+
+        agile_group.save()
+
+
+
 
 
 
