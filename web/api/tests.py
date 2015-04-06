@@ -410,6 +410,16 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "failed")
 
 
+        params = urllib.parse.urlencode(
+            {"group_id": agile_group_id,
+             "username": "diid",
+             "member": "kalaomer"
+             }
+        )
+        response = self.make_request(params, "/api/add_group_member/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
     def test_remove_member(self):
         #Missing group name
 
