@@ -132,13 +132,15 @@ def search_user(request):
             search_response = connection.getresponse()
             search_data_json = search_response.read()
             search_data = json.loads(search_data_json.decode("utf-8"))
+            friends_count = get_friends_count(request.user)
             if 'users' in search_data:
                 user_list = []
                 for user in search_data['users']:
                     user_list.append(get_object_or_404(User, username=user['username']))
-                context = {'search_field': username, 'users': user_list, 'count': user_list.count(0)}
+                context = {'search_field': username, 'users': user_list,
+                           'count': user_list.count(0), 'friends_count': friends_count}
             else:
-                context = {'search_field': username, 'count': 0}
+                context = {'search_field': username, 'count': 0, 'friends_count': friends_count}
             user = None
             if search_data['status'] == "success":
                 return render(request, "search.html", context)
@@ -189,7 +191,7 @@ def friends_view(request, username):
         friend_list_json_data = friend_list_response.read()
         friend_list_data = json.loads(friend_list_json_data.decode("utf-8"))
         friend_list = friend_list_data["friends"]
-        context = {'user': user, 'username': username, 'friend_list': friend_list}
+        context = {'user': user, 'username': username, 'friend_list': friend_list, 'friends_count': len(friend_list)}
         return render(request, "friends.html", context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
@@ -234,3 +236,16 @@ def create_group(request):
             group_members = request.POST["group_members"]
         else:
             return redirect("http://127.0.0.1:8000/homepage")
+
+
+def get_friends_count(user):
+    params = urllib.parse.urlencode({'username': user.username})
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+    connection = http.client.HTTPConnection('127.0.0.1', 8000)
+    connection.request("POST", "/api/get_friends/", params, headers)
+    friend_list_response = connection.getresponse()
+    friend_list_json_data = friend_list_response.read()
+    friend_list_data = json.loads(friend_list_json_data.decode("utf-8"))
+    friend_list = friend_list_data["friends"]
+
+    return len(friend_list)
