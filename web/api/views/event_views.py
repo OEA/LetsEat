@@ -155,7 +155,7 @@ def get_event_requests(request):
     responseJSON = {}
     if is_POST(request):
         user = get_object_or_404(User, username=request.POST["username"])
-        event_requests = EventRequest.objects.filter(guest=user)
+        event_requests = EventRequest.objects.filter(guest=user, status='P')
         responseJSON["events_requests"] = []
         for event_request in event_requests:
             event = event_request.event
