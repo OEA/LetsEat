@@ -5,10 +5,10 @@ from .models import Event, User
 
 class UserAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'surname', 'email', 'username')
+    list_display = ('name', 'surname', 'email', 'username', 'facebook_id')
 
     fieldsets = [
-        ('Personal Infromation',    {'fields': ['photo', 'name', 'surname', 'password', 'username']}),
+        ('Personal Infromation',    {'fields': ['photo', 'name', 'surname', 'password', 'username', 'facebook_id']}),
         ('Contact Information',     {'fields': ['email']}),
         ('Admin Privilage',         {'fields': ['is_admin', 'is_active']}),
     ]
