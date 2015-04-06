@@ -6,6 +6,7 @@ from .models.friendship_request import FriendshipRequest
 from .models.restaurant import Restaurant
 from .models.event import Event
 from .models.event_request import EventRequest
+from .models.group import Group
 import urllib.parse
 import http.client
 import json
