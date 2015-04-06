@@ -60,6 +60,12 @@ class DateSetter {
             dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
             let eventTime = dateFormatter.stringFromDate(eventDate)
             return "Today \(eventTime)"
+        }else if (components.day - todayComp.day) == 1{
+            dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
+            let eventTime = dateFormatter.stringFromDate(eventDate)
+            return "Tomorrow \(eventTime)"
+        }else if (components.day - todayComp.day) < 7{
+            return "\(components.day - todayComp.day) days left"
         }else {
             dateFormatter.timeStyle = NSDateFormatterStyle.ShortStyle
             dateFormatter.dateStyle = NSDateFormatterStyle.ShortStyle

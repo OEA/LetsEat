@@ -123,6 +123,17 @@ class RequestsTableViewController: UITableViewController {
         let time = eventReqList[indexPath.item]["time"] as NSString
         timeField.text = dateSetter.getDate(time)
         
+        let dateText = "\(timeField.text)"
+        if let firstWordR = dateText.rangeOfString(" ")?.startIndex{
+            let firstWord = dateText.substringToIndex(firstWordR)
+            let a: NSString = "\(firstWord)" as NSString
+            if firstWord == "Today" || firstWord == "Tomorrow"{
+                timeField.textColor = UIColor.redColor()
+            }
+        }
+
+
+        
         let check = cell.viewWithTag(3) as UIButton
         let cross = cell.viewWithTag(4) as UIButton
         check.addTarget(self, action: "requestEventChoice:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -142,6 +153,7 @@ class RequestsTableViewController: UITableViewController {
         
         
     }
+    
     func requestEventChoice(sender: UIButton){
         let cell = sender.superview?.superview as UITableViewCell
         if let index = friendReqtTV.indexPathForCell(cell)?.item{

@@ -175,6 +175,75 @@ class ApiMethods {
         
     }
     
+    func addGroupMember(url: NSString, member: NSString, vc: UIViewController, errorText: NSString, group_id: NSString){
+        let urll2 = "http://127.0.0.1:8000/api/add_group_member/"
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            
+            let user = prefs.valueForKey("USERNAME") as NSString
+            var post:NSString = "username=\(user)&member=\(member)&group_id=\(group_id)"
+            
+            NSLog("PostData: %@",post);
+            
+            var url:NSURL = NSURL(string: urll2)!
+            
+            var request = self.getRequest(url, post: post)
+            
+            var responseError: NSError?
+            var response: NSURLResponse?
+            
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+            if ( urlData != nil ) {
+                let res = response as NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
+                
+                if (res.statusCode >= 200 && res.statusCode < 300)
+                {
+                    
+                    let jsonData:NSDictionary = self.getJsonData(urlData!)
+                    
+                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    
+                    //[jsonData[@"success"] integerValue];
+                    
+                    println("Success: " + status)
+                    
+                    if(status == "success")
+                    {
+                        NSLog("ADD SUCCESS");
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            if vc is RequestsTableViewController{
+                                let viewC = vc as RequestsTableViewController
+                                let fVC = FriendsViewController()
+                                fVC.getFriendList()
+                                self.getUserRequests(viewC)
+                                viewC.friendReqtTV.reloadData()
+                            }else{
+                                self.goBack(vc)
+                            }
+                        })
+                        
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                        })
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.alert.getStatusCodeError(errorText, vc: vc)
+                    })
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+                })
+            }
+        })
+        
+    }
+    
     func addFriend(url: NSString, receiver: NSString, vc: UIViewController, errorText: NSString, sender: NSString){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
@@ -397,7 +466,7 @@ class ApiMethods {
                         if vc is RequestsTableViewController{
                             let viewC = vc as RequestsTableViewController
                             self.getOwnedEvent(vc)
-                            //viewC.friendReqtTV.reloadData()
+                            viewC.friendReqtTV.reloadData()
                         }else{
                             self.goBack(vc)
                         }

@@ -149,7 +149,17 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
                 }
             }
             backUI.participants = list
+        }else if let backUI = backUIVC as? GroupTableViewController{
+            var list = [String: Bool]()
+            let keys = addedFriends.keys.array
+            for userKey in keys{
+                if addedFriends[userKey] == true {
+                    list.updateValue(true, forKey: userKey)
+                }
+            }
+            backUI.participants = list
         }
+
         self.navigationController?.popViewControllerAnimated(true)
     }
 
