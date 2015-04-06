@@ -322,9 +322,8 @@ class modelTest(TestCase):
 
         #Pending
         params = urllib.parse.urlencode(
-                {
-                  "username": "tdgunes",
-                })
+            {"username": "tdgunes", }
+        )
         response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "failed")
 
@@ -338,18 +337,14 @@ class modelTest(TestCase):
 
         #Accepted
         params = urllib.parse.urlencode(
-                {
-                  "username": "aby",
-                })
+            {"username": "aby", }
+        )
         response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "success")
 
-
     def test_get_friend_requests(self):
         params = urllib.parse.urlencode(
-                {
-                  "username": "aby",
-                })
+            {"username": "aby", })
         response = self.make_request(params, "/api/get_friend_requests/", "POST")
         self.assertEqual(response["status"], "success")
 
@@ -406,73 +401,55 @@ class modelTest(TestCase):
         user = User.objects.get(email="tdgunes@gmail.com")
         self.assertEqual(user.username, "tdgunes")
 
-
     def create_event_test(self):
         hakan = User.objects.get(name="hakanuyumaz")
         subway = Restaurant.objects.get(name="Subway")
 
-
         #Missing username
         params = urllib.parse.urlencode(
-                { "owner_id": hakan.id,
-                  "username": '',
-                  "type": 'D',
-                  "joinable": '1',
-                  "start_time": datetime.datetime.now()
-                })
+            {"owner_id": hakan.id,
+             "username": '',
+             "type": 'D',
+             "joinable": '1',
+             "start_time": datetime.datetime.now()}
+        )
 
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "failed")
-
 
         #Missing type
         params = urllib.parse.urlencode(
-                { "owner_id": hakan.id,
-                  "username": subway.id,
-                  "type": '',
-                  "joinable": '1',
-                  "start_time": datetime.datetime.now()
-                })
+            {"owner_id": hakan.id,
+             "username": subway.id,
+             "type": '',
+             "joinable": '1',
+             "start_time": datetime.datetime.now()}
+        )
 
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "failed")
-
 
         #Missing joinable
         params = urllib.parse.urlencode(
-                { "owner_id": hakan.id,
-                  "username": subway.id,
-                  "type": 'D',
-                  "joinable": '',
-                  "start_time": datetime.datetime.now()
-                })
+            {"owner_id": hakan.id, "username": subway.id, "type": 'D', "joinable": '',
+             "start_time": datetime.datetime.now()}
+        )
 
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "failed")
-
 
         #Missing start time
         params = urllib.parse.urlencode(
-                { "owner_id": hakan.id,
-                  "username": subway.id,
-                  "type": 'D',
-                  "joinable": '1',
-                  "start_time": ''
-                })
+            {"owner_id": hakan.id, "username": subway.id, "type": 'D', "joinable": '1', "start_time": ''}
+        )
 
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "failed")
 
-
-
-
         params = urllib.parse.urlencode(
-                { "owner_id": hakan.id,
-                  "username": subway.id,
-                  "type": 'D',
-                  "joinable": '1',
-                  "start_time": datetime.datetime.now()
-                })
+            {"owner_id": hakan.id, "username": subway.id, "type": 'D', "joinable": '1',
+             "start_time": datetime.datetime.now()}
+        )
 
         response = self.make_request(params, "/api/create_event/", "POST")
         self.assertEqual(response["status"], "success")
