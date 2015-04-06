@@ -442,6 +442,15 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "failed")
 
 
+        params = urllib.parse.urlencode(
+            {"group_id": agile_group_id,
+             "member": "didi"
+             }
+        )
+        response = self.make_request(params, "/api/remove_group_member/", "POST")
+        self.assertEqual(response["status"], "success")
+
+
     #Test Super User Credentials
     def test_superuser_is_active(self):
         superuser = User.objects.get(username="kalaomer")
