@@ -122,6 +122,29 @@
 
     });
 
+    $(".remove-friend").click(function () {
+        var sender = $(this).attr('data-sender');
+        var receiver = $(this).attr('data-receiver');
+        var message = 'Removed';
+        $(this).removeClass("btn-danger");
+        $(this).addClass("btn-primary");
+        $(this).text(message);
+        $.ajax({
+            url: "{% url 'api_remove_friend' %}",
+            type: "POST",
+            data: 'username=' + sender + "&friend=" + receiver,
+            dataType: "JSON",
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+    });
+
      $(".accept-friend").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
@@ -304,12 +327,35 @@ var citynames = new Bloodhound({
 });
 citynames.initialize();
 
+var groups = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  prefetch: {
+    url: "{% static 'js/groups.json' %}",
+    filter: function(list) {
+      return $.map(list, function(groups) {
+        return { name: groups }; });
+    }
+  }
+});
+groups.initialize();
+
 $('.participant').tagsinput({
   typeaheadjs: {
     name: 'citynames',
     displayKey: 'name',
     valueKey: 'name',
     source: citynames.ttAdapter()
+  }
+});
+
+$('.group-participant').tagsinput({
+  typeaheadjs: {
+    name: 'groups',
+    displayKey: 'name',
+    valueKey: 'name',
+    tagClass: 'label-success',
+    source: groups.ttAdapter()
   }
 });
 
