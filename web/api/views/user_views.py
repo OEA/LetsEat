@@ -75,6 +75,8 @@ def registration_from_facebook(request):
         facebook_id = request.POST["facebook_id"]
         if User.objects.filter(facebook_id=facebook_id).count() > 0:
             login_with_facebook(request)
+            user = User.objects.filter(facebook_id=facebook_id)[0]
+            login(request, authenticate(username=user.username, password=user.password))
         else:
             request_copy["username"] = get_available_username(name, surname)
             request_copy["password"] = get_random_password()
