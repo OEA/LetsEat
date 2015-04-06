@@ -359,9 +359,11 @@ class modelTest(TestCase):
         response = self.make_request(params, "/api/get_friends/", "POST")
         self.assertEqual(response["status"], "success")
 
+
     def test_get_friend_requests(self):
         params = urllib.parse.urlencode(
-            {"username": "aby", })
+            {"username": "aby", }
+        )
         response = self.make_request(params, "/api/get_friend_requests/", "POST")
         self.assertEqual(response["status"], "success")
 
@@ -371,6 +373,21 @@ class modelTest(TestCase):
                 })
         response = self.make_request(params, "/api/get_friend_requests/", "POST")
         self.assertEqual(response["status"], "failed")
+
+
+    def test_add_member(self):
+        #Missing group name
+        params = urllib.parse.urlencode(
+            {"group_name": "", }
+        )
+        response = self.make_request(params, "/api/add_group_member/", "POST")
+        self.assertEqual(response["status"], "failed")
+
+        params = urllib.parse.urlencode(
+            {"group_name": "agile_group" }
+        )
+        response = self.make_request(params, "/api/add_group_member/", "POST")
+        self.assertEqual(response["status"], "success")
 
 
     #Test Super User Credentials
