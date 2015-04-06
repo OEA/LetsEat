@@ -72,14 +72,13 @@ def registration_from_facebook(request):
         name = request.POST["name"]
         surname = request.POST["surname"]
         email = request.POST["email"]
+        facebook_id = request.POST["facebook_id"]
         if User.objects.filter(email=email).count() > 0:
-            responseJSON["message"] = "Successfully logged in from facebook."
-            user = User.objects.get(email=email)
-            authenticate(username=user.username, password=user.password)
-            login(request, user)
+            login_with_facebook(request)
         else:
             request_copy["username"] = get_available_username(name, surname)
             request_copy["password"] = get_random_password()
+            request_copy["facebook_id"] = facebook_id
             form = UserCreationForm(request_copy)
 
             if form.errors:
@@ -90,7 +89,7 @@ def registration_from_facebook(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
-            send_password_mail(user)
+            #send_password_mail(user)
             user_ = authenticate(username=request_copy["username"], password=request_copy["password"])
             login(request, user_)
 
@@ -107,6 +106,7 @@ def login_with_facebook(request):
         users = User.objects.filter(facebook_id=facebook_id)
         if users.count() > 0:
             user = users[0]
+            print(user.facebook_id)
             responseJSON["user"] = create_user_JSON(user)
         else:
             fail_response(responseJSON)
