@@ -2,25 +2,10 @@
 <!--<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div> -->
 
 <div class="container">
+<div class="row">
     <div class="col-md-3">
-
-        <div class="panel panel-default">
-                <div class="panel-body">
-
-                        <img src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" class="img-circle" width="64" height="64" style="float: left;margin-right: 10px" />
-                        <small><a href="{% url 'profile' user.username %}">{{user.name}} {{ user.surname  }}</a></small>
-                        <br>
-                        <small><strong><a href="{% url 'edit' user.username %}"> <i class="fa fa-pencil-square-o"></i> Edit Profile</a></strong></small>
-
-                </div>
-                     <div class="list-group">
-                         <a href="#" class="list-group-item">Friends <span class="badge">237</span></a>
-                         <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
-                         <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
-                    </div>
-
-            </div>
-    </div>
+            {% include 'profile_menu.html' with user=user friends_count=friends_count %}
+        </div>
 
     <div class="col-md-6 ">
         <h5>Search Result
@@ -98,5 +83,6 @@
         </div>
 </div>
 
+</div>
 </div>
 {% include 'footer.html' %}
