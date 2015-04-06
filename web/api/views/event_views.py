@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..forms import EventCreationForm
-from ..models import User, Event, EventRequest
+from ..models import User, Event, EventRequest, Group
 
 responseJSON = {}
 
@@ -73,6 +73,24 @@ def invite_event(request):
             event_request.save()
             success_response(responseJSON)
             responseJSON["message"] = "Event request created."
+    return HttpResponse(json.dumps(responseJSON), content_type="application/json")
+
+
+def invite_group_event(request):
+    responseJSON = {}
+    if is_POST(request):
+        event = get_object_or_404(Event, pk=request.POST["event"])
+        group = get_object_or_404(Group, pk=request.POST["group"])
+        for participant in group.members.all():
+            if EventRequest.objects.filter(event=event, guest=participant).count() > 0:
+                event_request = get_object_or_404(EventRequest, event=event, guest=participant)
+                event_request.status = 'P'
+                event_request.save()
+            else:
+                event_request = EventRequest(event=event, guest=participant, status='P')
+                event_request.save()
+            success_response(responseJSON)
+            responseJSON["message"] = "Event requests have been sent."
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
