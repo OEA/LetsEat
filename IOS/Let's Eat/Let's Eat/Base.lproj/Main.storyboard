@@ -3019,7 +3019,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose Friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waZ-2U-KLH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Add Friends" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="waZ-2U-KLH">
                                 <rect key="frame" x="123" y="119" width="121" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -3028,6 +3028,9 @@
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ULF-aM-BdU">
                                 <rect key="frame" x="0.0" y="159" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="KWd-1O-wwM" id="ypu-df-JzE"/>
+                                </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kWK-Uz-idE">
                                 <rect key="frame" x="0.0" y="203" width="600" height="353"/>
@@ -3148,11 +3151,18 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Create Group" id="stO-U9-rKK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="lcN-eY-j69"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="lcN-eY-j69">
+                            <connections>
+                                <action selector="doneTapped:" destination="KWd-1O-wwM" id="Y7O-we-8FH"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="groupNameLabel" destination="QQl-rZ-FUQ" id="gsH-wd-rXk"/>
+                        <outlet property="participantLabel" destination="waZ-2U-KLH" id="uwR-Rr-cq2"/>
                         <outlet property="searchBar" destination="ULF-aM-BdU" id="2KX-PQ-0ft"/>
+                        <outlet property="tabelView" destination="kWK-Uz-idE" id="RbC-09-V6L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JKl-2n-8Rx" userLabel="First Responder" sceneMemberID="firstResponder"/>

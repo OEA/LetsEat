@@ -11,104 +11,7 @@ import UIKit
 class ApiMethods {
     let alert = Alerts()
     
-    func getRequest(url: NSURL, post: NSString) -> NSMutableURLRequest{
-            var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
-        
-            var postLength:NSString = String( postData.length )
-        
-            var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-            request.HTTPMethod = "POST"
-            request.HTTPBody = postData
-            request.setValue(postLength, forHTTPHeaderField: "Content-Length")
-            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            request.setValue("application/json", forHTTPHeaderField: "Accept")
-        
-            return request
-    }
     
-    func getJsonData(urlData: NSData) -> NSDictionary{
-        var responseData:NSString  = NSString(data:urlData, encoding:NSUTF8StringEncoding)!
-        
-        println("Response ==>  \(responseData)");
-        
-        var error: NSError?
-        return NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-    }
-    
-    func requestLogout(vc: UIViewController){
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/logout/")!
-        
-        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
-        
-        var reponseError: NSError?
-        var response: NSURLResponse?
-        
-        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
-        
-        if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
-            
-            NSLog("Response code: %ld", res.statusCode);
-            
-            checkResponse(urlData!, res: res, vc: vc)
-            
-        } else {
-            alert.getUrlDataError(reponseError, str:"Logout Failed!", vc: vc)
-        }
-        
-    }
-    
-    func checkResponse(urlData: NSData, res: NSHTTPURLResponse, vc: UIViewController){
-        if (res.statusCode >= 200 && res.statusCode < 300){
-            
-            var responseData:NSString  = NSString(data:urlData, encoding:NSUTF8StringEncoding)!
-            
-            NSLog("Response ==> %@", responseData);
-            
-            var error: NSError?
-            let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-            
-            let status:NSString = jsonData.valueForKey("status") as NSString
-            
-            //[jsonData[@"success"] integerValue];
-            
-            println("Status: " + status)
-            
-            checkStatus(status, jsonData: jsonData, vc: vc)
-            
-            
-        } else {
-            alert.getStatusCodeError("Logout Failed!", vc: vc)
-        }
-        
-    }
-    
-    func checkStatus(status: NSString, jsonData: NSDictionary, vc: UIViewController){
-        if(status == "success"){
-            
-            NSLog("Logout SUCCESS");
-            logoutProcess(jsonData, vc: vc)
-            
-        } else {
-            alert.getSuccesError(jsonData, str:"Logout Failed!", vc: vc)
-        }
-        
-    }
-    
-    func logoutProcess(jsonData: NSDictionary, vc: UIViewController){
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
-        userDefaults.removeObjectForKey("userInfo")
-        userDefaults.removeObjectForKey("Friends")
-        userDefaults.removeObjectForKey("USERNAME")
-        
-        alert.getSuccesLogoutAleart(jsonData, vc: vc)
-        if vc is ViewController {
-            vc.performSegueWithIdentifier("goto_login", sender: nil)
-        }else{
-            vc.navigationController?.popToRootViewControllerAnimated(true)
-        }
-    }
     
     func getOwnedEvent(vc: UIViewController){
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
@@ -175,7 +78,60 @@ class ApiMethods {
         
     }
     
-    func addGroupMember(url: NSString, member: NSString, vc: UIViewController, errorText: NSString, group_id: NSString){
+    func createGroup(groupName: NSString, vc: UIViewController){
+            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            let errorText = "Create Group Failed"
+            let user = prefs.valueForKey("USERNAME") as NSString
+            
+            
+            var post:NSString = "username=\(user)&group_name=\(groupName)"
+            
+            NSLog("PostData: %@",post);
+            
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/create_group/")!
+            
+            var request = self.getRequest(url, post: post)
+            
+            var responseError: NSError?
+            var response: NSURLResponse?
+            
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+            if ( urlData != nil ) {
+                let res = response as NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
+                
+                if (res.statusCode >= 200 && res.statusCode < 300)
+                {
+                    
+                    let jsonData:NSDictionary = self.getJsonData(urlData!)
+                    
+                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    
+                    //[jsonData[@"success"] integerValue];
+                    
+                    println("Success: " + status)
+                    
+                    if(status == "success")
+                    {
+                        NSLog("Create Group SUCCESS");
+                            if vc is CreateGroupViewController{
+                                let viewC = vc as CreateGroupViewController
+                                let group = jsonData.valueForKey("group") as [String: AnyObject]
+                                viewC.groupID = group["id"] as Int
+                            }
+                    } else {
+                            self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                    }
+                } else {
+                        self.alert.getStatusCodeError(errorText, vc: vc)
+                }
+            } else {
+                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+            }
+    }
+    
+    func addGroupMember(url: NSString, member: NSDictionary, vc: UIViewController, errorText: NSString, group_id: Int){
         let urll2 = "http://127.0.0.1:8000/api/add_group_member/"
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
@@ -211,17 +167,8 @@ class ApiMethods {
                     
                     if(status == "success")
                     {
-                        NSLog("ADD SUCCESS");
+                        NSLog("ADD To Group SUCCESS");
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            if vc is RequestsTableViewController{
-                                let viewC = vc as RequestsTableViewController
-                                let fVC = FriendsViewController()
-                                fVC.getFriendList()
-                                self.getUserRequests(viewC)
-                                viewC.friendReqtTV.reloadData()
-                            }else{
-                                self.goBack(vc)
-                            }
                         })
                         
                     } else {
@@ -249,7 +196,7 @@ class ApiMethods {
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             
             let username = prefs.valueForKey("USERNAME") as NSString
-            NSLog(username)
+            println("Username: ", username)
             var post:NSString = "username=\(username)&friend=\(friend)"
             let errorText = "Remove Friend Fail"
             
@@ -285,9 +232,8 @@ class ApiMethods {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is FriendsViewController{
                                 let viewC = vc as FriendsViewController
-                                let fVC = FriendsViewController()
-                                fVC.getFriendList()
-                                fVC.tabelView.reloadData()
+                                //let fVC = FriendsViewController()
+                                viewC.getFriendList(vc)
                             }else{
                                 self.goBack(vc)
                             }
@@ -354,7 +300,7 @@ class ApiMethods {
                             if vc is RequestsTableViewController{
                                 let viewC = vc as RequestsTableViewController
                                 let fVC = FriendsViewController()
-                                fVC.getFriendList()
+                                fVC.getFriendList(vc)
                                 self.getUserRequests(viewC)
                                 viewC.friendReqtTV.reloadData()
                             }else{
@@ -381,6 +327,57 @@ class ApiMethods {
         })
         
     }
+    
+    func getFriends(vc : UIViewController){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        
+        var post:NSString = "username=\(username)"
+        
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_friends/")!
+        
+        var request = getRequest(url, post: post)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as NSString
+                
+                
+                println("Success: " + status)
+                
+                if(status == "success")
+                {
+                    NSLog("Friends SUCCESS");
+                    var userDefaults:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                    let data = jsonData["friends"] as NSArray
+                    userDefaults.setObject(data, forKey: "Friends")
+                    println(jsonData)
+                } else {
+                    alert.getSuccesError(jsonData, str:"Friend Search Failed!", vc: vc)
+                }
+            } else {
+                alert.getStatusCodeError("Friend Search Failed!", vc:vc)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str:"Friend Search Failed!", vc: vc)
+        }
+        
+    }
+
     
     func getUserRequest(urlStr: NSString, vc: RequestsTableViewController, errorText: NSString, type: Int){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
@@ -421,10 +418,12 @@ class ApiMethods {
                     println(jsonData)
                     if type == 1{
                         vc.eventReqList = jsonData["events_requests"] as NSArray
-                    }else {
+                        vc.friendReqtTV.reloadData()
+                    }else if type == 2{
                         vc.friendRequestList = jsonData["senders"] as NSArray
+                        vc.friendReqtTV.reloadData()
                     }
-                    vc.friendReqtTV.reloadData()
+                    
                 } else {
                     alert.getSuccesError(jsonData, str:errorText, vc: vc)
                 }
@@ -596,6 +595,240 @@ class ApiMethods {
         
         addFriend("http://127.0.0.1:8000/api/reject_friend/", receiver: username, vc: vc, errorText: "Reject Friend Failed!", sender: sender)
     }
+    
+    func registerWithFaceB(vc: UIViewController){
+        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            
+            if ((error) != nil){
+                // Process error
+                println("Error: \(error)")
+            }else{
+                var name = result.valueForKey("first_name") as NSString
+                var surname:NSString = result.valueForKey("last_name") as NSString
+                if result.valueForKey("middle_name") != nil {
+                    let middleName = result.valueForKey("middle_name") as NSString
+                    name = "\(name) \(middleName)"
+                }
+                var email:NSString = result.valueForKey("email") as NSString
+                var id:NSString = result.valueForKey("id") as NSString
+                
+                
+                var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&facebook_id=\(id)"
+                
+                NSLog("PostData: %@",post);
+                
+                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/register_with_facebook/")!
+                
+                var request = self.getRequest(url, post: post)
+                
+                var responseError: NSError?
+                var response: NSURLResponse?
+                
+                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+                if ( urlData != nil ) {
+                    let res = response as NSHTTPURLResponse!;
+                    
+                    NSLog("Response code: %ld", res.statusCode);
+                    
+                    if (res.statusCode >= 200 && res.statusCode < 300)
+                    {
+                        
+                        let jsonData:NSDictionary = self.getJsonData(urlData!)
+                        
+                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        
+                        //[jsonData[@"success"] integerValue];
+                        
+                        println("Success: " + status)
+                        
+                        if(status == "success")
+                        {
+                            NSLog("Signin SUCCESS")
+                            self.loginWithFaceB(vc)
+                            
+                        } else {
+                            self.alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: vc)
+                        }
+                    } else {
+                        self.alert.getStatusCodeError("Sign in Failed!", vc:vc)
+                    }
+                } else {
+                    self.alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: vc)
+                }
+                
+            }
+        })
+    }
+
+    func loginWithFaceB(vc: UIViewController){
+        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
+            
+            if ((error) != nil){
+                // Process error
+                println("Error: \(error)")
+            }else{
+                var id:NSString = result.valueForKey("id") as NSString
+                
+                
+                var post:NSString = "facebook_id=\(id)"
+                
+                NSLog("PostData: %@",post);
+                
+                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/login_with_facebook/")!
+                
+                var request = self.getRequest(url, post: post)
+                
+                var responseError: NSError?
+                var response: NSURLResponse?
+                
+                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+                if ( urlData != nil ) {
+                    let res = response as NSHTTPURLResponse!;
+                    
+                    NSLog("Response code: %ld", res.statusCode);
+                    
+                    if (res.statusCode >= 200 && res.statusCode < 300)
+                    {
+                        
+                        let jsonData:NSDictionary = self.getJsonData(urlData!)
+                        
+                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        
+                        //[jsonData[@"success"] integerValue];
+                        
+                        println("Success: " + status)
+                        
+                        if(status == "success")
+                        {
+                            NSLog("Login SUCCESS");
+                            
+                            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                            
+                            prefs.setInteger(1, forKey: "ISLOGGEDIN")
+                            let userInfo: [String: AnyObject] = jsonData.valueForKey("user") as [String: AnyObject]
+                            prefs.setObject(userInfo, forKey: "userInfo")
+                            prefs.setObject(userInfo["username"], forKey: "USERNAME")
+                            prefs.synchronize()
+                            println("Test: \(userInfo)")
+                            vc.dismissViewControllerAnimated(true, completion: nil)
+                            
+                        } else {
+                            self.registerWithFaceB(vc)
+                        }
+                    } else {
+                        self.alert.getStatusCodeError("Loginin Failed!", vc:vc)
+                    }
+                } else {
+                    self.alert.getUrlDataError(responseError, str:"Login Failed!", vc: vc)
+                }
+                
+            }
+        })
+        
+        
+    }
+    
+    func getRequest(url: NSURL, post: NSString) -> NSMutableURLRequest{
+        var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!
+        
+        var postLength:NSString = String( postData.length )
+        
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "POST"
+        request.HTTPBody = postData
+        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        return request
+    }
+    
+    func getJsonData(urlData: NSData) -> NSDictionary{
+        var responseData:NSString  = NSString(data:urlData, encoding:NSUTF8StringEncoding)!
+        
+        println("Response ==>  \(responseData)");
+        
+        var error: NSError?
+        return NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+    }
+    
+    func requestLogout(vc: UIViewController){
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/logout/")!
+        
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        
+        var reponseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+        
+        if ( urlData != nil ) {
+            let res = response as NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            checkResponse(urlData!, res: res, vc: vc)
+            
+        } else {
+            alert.getUrlDataError(reponseError, str:"Logout Failed!", vc: vc)
+        }
+        
+    }
+    
+    func checkResponse(urlData: NSData, res: NSHTTPURLResponse, vc: UIViewController){
+        if (res.statusCode >= 200 && res.statusCode < 300){
+            
+            var responseData:NSString  = NSString(data:urlData, encoding:NSUTF8StringEncoding)!
+            
+            NSLog("Response ==> %@", responseData);
+            
+            var error: NSError?
+            let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+            
+            let status:NSString = jsonData.valueForKey("status") as NSString
+            
+            //[jsonData[@"success"] integerValue];
+            
+            println("Status: " + status)
+            
+            checkStatus(status, jsonData: jsonData, vc: vc)
+            
+            
+        } else {
+            alert.getStatusCodeError("Logout Failed!", vc: vc)
+        }
+        
+    }
+    
+    func checkStatus(status: NSString, jsonData: NSDictionary, vc: UIViewController){
+        if(status == "success"){
+            
+            NSLog("Logout SUCCESS");
+            logoutProcess(jsonData, vc: vc)
+            
+        } else {
+            alert.getSuccesError(jsonData, str:"Logout Failed!", vc: vc)
+        }
+        
+    }
+    
+    func logoutProcess(jsonData: NSDictionary, vc: UIViewController){
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setInteger(0, forKey: "ISLOGGEDIN")
+        userDefaults.removeObjectForKey("userInfo")
+        userDefaults.removeObjectForKey("Friends")
+        userDefaults.removeObjectForKey("USERNAME")
+        
+        alert.getSuccesLogoutAleart(jsonData, vc: vc)
+        if vc is ViewController {
+            vc.performSegueWithIdentifier("goto_login", sender: nil)
+        }else{
+            vc.navigationController?.popToRootViewControllerAnimated(true)
+        }
+    }
+
 
     
     

@@ -33,7 +33,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     override func viewWillAppear(animated: Bool) {
-        getFriendList()
+        getFriendList(self)
         listChoice(friendList)
         searchBar.text = ""
         //tabelView.reloadData()
@@ -44,9 +44,107 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    func getFriendList(){
-        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+    func searchBarTextDidEndEditing(searchBar: UISearchBar){
+        self.view.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.view.endEditing(true)
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String){
+        if !findFriendChosen {
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+                if (searchBar.text != nil && searchBar.text != "") {
+                    var list = [AnyObject]()
+                    for user in self.friends{
+                        let name = user["name"] as String
+                        let surname = user["surname"] as String
+                        let username = user["username"] as String
+                        var b1 = name.rangeOfString(searchBar.text) != nil
+                        var b2 = surname.rangeOfString(searchBar.text) != nil
+                        var b3 = username.rangeOfString(searchBar.text) != nil
+                        if  b1 || b2 || b3{
+                            list.append(user)
+                        }
+                        self.searchedList = list
+                    }
+                }else if self.searchBar.text == ""{
+                    self.searchedList = self.friends
+                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.tabelView.reloadData()
+                })
+                
+            })
+        }else{
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+                var jsonData: NSDictionary!
+                var searched = false
+                if (searchBar.text != nil && searchBar.text != "") {
+                    
+                    let username: NSString = self.userDefaults.valueForKey("USERNAME") as NSString
+                    
+                    var post:NSString = "username=\(username)"
+                    NSLog(post)
+                    var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)/")!
+                    
+                    var request = self.apiMethod.getRequest(url, post: post)
+                    
+                    
+                    var reponseError: NSError?
+                    var response: NSURLResponse?
+                    
+                    var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
+                    
+                    if ( urlData != nil ) {
+                        let res = response as NSHTTPURLResponse!;
+                        
+                        NSLog("Response code: %ld", res.statusCode);
+                        
+                        if (res.statusCode >= 200 && res.statusCode < 300){
+                            
+                            var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
+                            
+                            NSLog("Response ==> %@", responseData);
+                            
+                            var error: NSError?
+                            jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                            
+                            let status:NSString = jsonData.valueForKey("status") as NSString
+                            
+                            //[jsonData[@"success"] integerValue];
+                            
+                            println("Status: " + status)
+                            
+                            if(status == "success")
+                            {
+                                NSLog("Search SUCCESS");
+                                searched = true
+                                println(jsonData)
+                            }
+                        }
+                    }
+                    
+                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    if searched == true {
+                        if jsonData["users"] != nil {
+                            self.searchedList = jsonData["users"] as NSArray
+                            self.tabelView.reloadData()
+                        }
+                    }else{
+                        self.searchedList = []
+                        self.tabelView.reloadData()
+                    }
+                })
+            })
+        }
+    
+    }
+
+    func getFriendList(vc: UIViewController){
+        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
         
         var post:NSString = "username=\(username)"
         
@@ -78,109 +176,24 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if(status == "success")
                 {
                     NSLog("Friends SUCCESS");
-                    friends = jsonData["friends"] as NSArray
-                    searchedList = friends
+                    if vc == self {
+                        friends = jsonData["friends"] as NSArray
+                        searchedList = friends
+                        tabelView.reloadData()
+                    }
+                    let data = jsonData["friends"] as NSArray
                     userDefaults.setObject(friends, forKey: "Friends")
                     println(jsonData)
-                    
                 } else {
-                    alert.getSuccesError(jsonData, str:"Friend Search Failed!", vc: self)
+                    alert.getSuccesError(jsonData, str:"Friend Search Failed!", vc: vc)
                 }
             } else {
-                alert.getStatusCodeError("Friend Search Failed!", vc:self)
+                alert.getStatusCodeError("Friend Search Failed!", vc:vc)
             }
         } else {
-            alert.getUrlDataError(responseError, str:"Friend Search Failed!", vc: self)
+            alert.getUrlDataError(responseError, str:"Friend Search Failed!", vc: vc)
         }
 
-    }
-
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        var searched = false
-        var jsonData: NSDictionary!
-        if !findFriendChosen {
-            if (searchBar.text != nil && searchBar.text != "") {
-                var list = [AnyObject]()
-                for user in friends{
-                    let name = user["name"] as String
-                    let surname = user["surname"] as String
-                    let username = user["username"] as String
-                    var b1 = name.rangeOfString(searchBar.text) != nil
-                    var b2 = surname.rangeOfString(searchBar.text) != nil
-                    var b3 = username.rangeOfString(searchBar.text) != nil
-                    if  b1 || b2 || b3{
-                        list.append(user)
-                    }
-                }
-                searchedList = list
-                self.tabelView.reloadData()
-            }else if searchBar.text == ""{
-                searchedList = friends
-                self.tabelView.reloadData()
-            }
-        }else{
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-            if (searchBar.text != nil && searchBar.text != "") {
-                
-                let username: NSString = self.userDefaults.valueForKey("USERNAME") as NSString
-                
-                var post:NSString = "username=\(username)"
-                NSLog(post)
-                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)/")!
-                
-                var request = self.apiMethod.getRequest(url, post: post)
-
-                
-                var reponseError: NSError?
-                var response: NSURLResponse?
-                
-                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
-                
-                if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
-                    
-                    NSLog("Response code: %ld", res.statusCode);
-                    
-                    if (res.statusCode >= 200 && res.statusCode < 300){
-                        
-                        var responseData:NSString  = NSString(data:urlData!, encoding:NSUTF8StringEncoding)!
-                        
-                        NSLog("Response ==> %@", responseData);
-                        
-                        var error: NSError?
-                        jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
-                        
-                        let status:NSString = jsonData.valueForKey("status") as NSString
-                        
-                        //[jsonData[@"success"] integerValue];
-                        
-                        println("Status: " + status)
-                        
-                        if(status == "success")
-                        {
-                            NSLog("Search SUCCESS");
-                            searched = true
-                            println(jsonData)
-                        }
-                    }
-                }
-                
-            }
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                if searched == true {
-                    if jsonData["users"] != nil {
-                        self.searchedList = jsonData["users"] as NSArray
-                        self.tabelView.reloadData()
-                    }
-                }else{
-                    self.searchedList = []
-                    self.tabelView.reloadData()
-                }
-            })
-        })
-        
-    }
-        self.view.endEditing(true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
@@ -189,8 +202,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         return 0
     }
-    
-    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("friendCell") as UITableViewCell

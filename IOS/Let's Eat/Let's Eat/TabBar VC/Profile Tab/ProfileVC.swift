@@ -39,13 +39,6 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
         }
     }
     
-    override func viewDidLoad() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let user = userDefaults.objectForKey("userInfo") as [String: NSString]
-    }
-    
-    
-    
     func loginButton(fLogOutView: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
         println("User Logged In")
     }

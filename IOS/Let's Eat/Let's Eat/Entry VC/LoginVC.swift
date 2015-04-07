@@ -40,7 +40,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
     
     override func viewDidLoad() {
         if (FBSDKAccessToken.currentAccessToken() != nil){
-            //loginWithFaceB()
+            apiMethod.loginWithFaceB(self)
             //returnUserData()
         }else{
             fbButtonView.readPermissions = ["public_profile", "email"]
@@ -56,8 +56,8 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
             // Handle cancellations
         }else {
             if result.grantedPermissions.containsObject("email"){
-                self.returnUserData()
-                loginWithFaceB()
+                //self.returnUserData()
+                apiMethod.loginWithFaceB(self)
             }
         }
     }
@@ -66,7 +66,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         println("User Logged Out")
     }
     
-    func returnUserData(){
+    /*func returnUserData(){
         let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
         graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
             
@@ -87,15 +87,10 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                 
                 let userInfo = ["name": result.valueForKey("first_name")!, "surname": result.valueForKey("last_name")!, "username": username, "email": result.valueForKey("email")!]
                 println("Test: \(userInfo)")
-                /*var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-
-                prefs.setObject(userInfo["username"], forKey: "USERNAME")
-                prefs.setInteger(1, forKey: "ISLOGGEDIN")
-                prefs.setObject(userInfo, forKey: "userInfo")
-                self.dismissViewControllerAnimated(true, completion: nil)*/
+ 
             }
         })
-    }
+    }*/
 
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
         self.view.endEditing(true)
@@ -134,16 +129,6 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                 let userEmail : NSString = result.valueForKey("email") as NSString
                 let id: NSString = result.valueForKey("id") as NSString
                 
-                /*var username = "\(userName).\(userSurname)"
-                var num:Int = random() % 10000;
-                username = "\(username)\(num)"*/
-                
-                /*var password = 0
-                while(password < 1000000000){
-                    password = random() % 10000000000;
-                }
-                let passText = "\(password)"*/
-                
                 userInfo = ["name": userName, "surname": userSurname, "email": userEmail, "id": id]
             }
         })
@@ -152,142 +137,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         }
         return userInfo
     }
-    
-    func loginWithFaceB(){
-        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
-        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-            
-            if ((error) != nil){
-                // Process error
-                println("Error: \(error)")
-            }else{
-                var id:NSString = result.valueForKey("id") as NSString
-                
-                
-                var post:NSString = "facebook_id=\(id)"
-                
-                NSLog("PostData: %@",post);
-                
-                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/login_with_facebook/")!
-                
-                var request = self.apiMethod.getRequest(url, post: post)
-                
-                var responseError: NSError?
-                var response: NSURLResponse?
-                
-                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
-                if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
-                    
-                    NSLog("Response code: %ld", res.statusCode);
-                    
-                    if (res.statusCode >= 200 && res.statusCode < 300)
-                    {
-                        
-                        let jsonData:NSDictionary = self.apiMethod.getJsonData(urlData!)
-                        
-                        let status:NSString = jsonData.valueForKey("status") as NSString
-                        
-                        //[jsonData[@"success"] integerValue];
-                        
-                        println("Success: " + status)
-                        
-                        if(status == "success")
-                        {
-                            NSLog("Login SUCCESS");
-                            
-                            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-                            
-                            prefs.setInteger(1, forKey: "ISLOGGEDIN")
-                            let userInfo: [String: AnyObject] = jsonData.valueForKey("user") as [String: AnyObject]
-                            prefs.setObject(userInfo, forKey: "userInfo")
-                            prefs.setObject(userInfo["username"], forKey: "USERNAME")
-                            prefs.synchronize()
-                            println("Test: \(userInfo)")
-                            self.dismissViewControllerAnimated(true, completion: nil)
-                            
-                        } else {
-                            self.registerWithFaceB()
-                        }
-                    } else {
-                        self.alert.getStatusCodeError("Loginin Failed!", vc:self)
-                    }
-                } else {
-                    self.alert.getUrlDataError(responseError, str:"Login Failed!", vc: self)
-                }
-                
-            }
-        })
-    
-
-    }
-    
-    func registerWithFaceB(){
-        println("Girdi-Login")
-        let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
-        graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
-            
-            if ((error) != nil){
-                // Process error
-                println("Error: \(error)")
-            }else{
-                var name = result.valueForKey("first_name") as NSString
-                var surname:NSString = result.valueForKey("last_name") as NSString
-                if result.valueForKey("middle_name") != nil {
-                    let middleName = result.valueForKey("middle_name") as NSString
-                    name = "\(name) \(middleName)"
-                }
-                var email:NSString = result.valueForKey("email") as NSString
-                var id:NSString = result.valueForKey("id") as NSString
-                
-                
-                var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&facebook_id=\(id)"
-                
-                NSLog("PostData: %@",post);
-                
-                var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/register_with_facebook/")!
-                
-                var request = self.apiMethod.getRequest(url, post: post)
-                
-                var responseError: NSError?
-                var response: NSURLResponse?
-                
-                var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
-                if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
-                    
-                    NSLog("Response code: %ld", res.statusCode);
-                    
-                    if (res.statusCode >= 200 && res.statusCode < 300)
-                    {
-                        
-                        let jsonData:NSDictionary = self.apiMethod.getJsonData(urlData!)
-                        
-                        let status:NSString = jsonData.valueForKey("status") as NSString
-                        
-                        //[jsonData[@"success"] integerValue];
-                        
-                        println("Success: " + status)
-                        
-                        if(status == "success")
-                        {
-                            NSLog("Signin SUCCESS")
-                            self.loginWithFaceB()
-                            
-                        } else {
-                            self.alert.getSuccesError(jsonData, str:"Sign in Failed!", vc: self)
-                        }
-                    } else {
-                        self.alert.getStatusCodeError("Sign in Failed!", vc:self)
-                    }
-                } else {
-                    self.alert.getUrlDataError(responseError, str:"Sign in Failed!", vc: self)
-                }
-
-            }
-        })
-    }
-    
+        
     @IBAction func loginTapped() {
         var username:NSString = textUsername.text
         var password:NSString = textPassword.text
@@ -334,6 +184,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                         prefs.setInteger(1, forKey: "ISLOGGEDIN")
                         let userInfo: AnyObject? = jsonData.valueForKey("container")
                         prefs.setObject(userInfo, forKey: "userInfo")
+                        apiMethod.getFriends(self)
                         prefs.synchronize()
                         if saveSwitch.on == true{
                             prefs.setObject(username, forKey: "savedUsername")

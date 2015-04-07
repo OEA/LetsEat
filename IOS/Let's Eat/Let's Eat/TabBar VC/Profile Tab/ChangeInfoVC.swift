@@ -28,13 +28,6 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         surnameField.text = user["surname"]
         usernameField.text = user["username"]
         emailField.text = user["email"]
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
-                //load image from server
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                //userImageView.image = userImage
-            })
-        })
-
     }
     
     
