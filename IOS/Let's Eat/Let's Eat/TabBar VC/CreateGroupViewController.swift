@@ -192,10 +192,7 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
     func addFriends(){
         for friend in addedFriends{
             if friend.1{
-                let friendJson = getFriendObject(friend.0)
-                if friendJson.count != 1 {
-                    apiMethod.addGroupMember("", member: friendJson, vc: self, errorText: "", group_id: groupID)
-                }
+                apiMethod.addGroupMember("", member: friend.0, vc: self, errorText: "", group_id: groupID)
             }
         }
     }

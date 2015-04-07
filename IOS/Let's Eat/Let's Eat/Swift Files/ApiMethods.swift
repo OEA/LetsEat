@@ -131,7 +131,7 @@ class ApiMethods {
             }
     }
     
-    func addGroupMember(url: NSString, member: NSDictionary, vc: UIViewController, errorText: NSString, group_id: Int){
+    func addGroupMember(url: NSString, member: NSString, vc: UIViewController, errorText: NSString, group_id: Int){
         let urll2 = "http://127.0.0.1:8000/api/add_group_member/"
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
