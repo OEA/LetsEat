@@ -18,7 +18,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     let apiMethod = ApiMethods()
     let alert = Alerts()
     var searchedList = []
-    var olustur = true
+    var olustur = false
     
     @IBOutlet weak var naviItem: UINavigationItem!
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -93,6 +93,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     func sendReqests(friend: NSString, username: NSString){
 
         apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: friend, vc: self, errorText: "Add Friend Failed!", sender: username)
+        sleep(2)
         apiMethod.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: friend, vc: self, errorText: "Accept Friend Failed!", sender: username)
     }
     
@@ -205,9 +206,12 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
             setSignUp("burak", surname: "atalay", email: "abc@ab.ab", password: "Vidal1", username: "burak1")
             setSignUp("hasan", surname: "sozer", email: "abcd@ab.ab", password: "Vidal1", username: "hasan1")
             setSignUp("hakan", surname: "uyumaz", email: "abcde@ab.ab", password: "Vidal1", username: "hakan1")
-            /*sendReqests("hasan1", username: "vidal1")
+            sendReqests("hasan1", username: "vidal1")
             sendReqests("hakan1", username: "vidal1")
-            sendReqests("burak1", username: "vidal1")*/
+            sendReqests("burak1", username: "vidal1")
+            sendReqests("hasan1", username: "burak1")
+            sendReqests("hakan1", username: "burak1")
+            sendReqests("vidal1", username: "burak1")
             olustur = false
         }
                 

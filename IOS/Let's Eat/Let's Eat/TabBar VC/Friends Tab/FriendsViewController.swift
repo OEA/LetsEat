@@ -249,8 +249,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 apiMethod.removeFriend(username, vc: self)
             }
         }
+    
     }
-
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UITableViewCell{

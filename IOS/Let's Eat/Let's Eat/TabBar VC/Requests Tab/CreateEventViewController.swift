@@ -22,9 +22,10 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     var participants = [String: Bool]()
     
-    var types = ["Drink", "Food"]
+    var types = ["Meal"]
     let apiMethod = ApiMethods()
     var eventID: Int!
+    var joinable = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +100,7 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let restText = restButton.titleLabel?.text
         let eventTime = getDate()
         
-        apiMethod.createEvent(eventName.text, time: eventTime, type: "Meal", restaurant: restText!, errorText: "Faild", vc: self)
+        apiMethod.createEvent(eventName.text, time: eventTime, type: typeText!, restaurant: restText!, errorText: "Faild", joinable: joinable, vc: self)
         if eventID != nil {
             if participants.count > 0 {
                 for friend in participants{
@@ -112,6 +113,18 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let helloStr = eventTime.substringWithRange(rangeOfHello)*/
     }
     
+    @IBAction func checkBoxTapped(sender: UIButton) {
+        joinable = !joinable
+        if joinable{
+            if let image = UIImage(named: "checked-box"){
+                sender.setImage(image, forState: UIControlState.Normal)
+            }
+        }else {
+            if let image = UIImage(named: "empty-checkbox"){
+                sender.setImage(image, forState: UIControlState.Normal)
+            }
+        }
+    }
     func getDate() -> String{
         var dateFormatter = NSDateFormatter()
 

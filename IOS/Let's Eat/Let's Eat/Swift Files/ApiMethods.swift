@@ -119,6 +119,7 @@ class ApiMethods {
                                 let viewC = vc as CreateGroupViewController
                                 let group = jsonData.valueForKey("group") as [String: AnyObject]
                                 viewC.groupID = group["id"] as Int
+                                goBack(vc)
                             }
                     } else {
                             self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
@@ -192,17 +193,17 @@ class ApiMethods {
     }
     
     func removeFriend(friend: NSString, vc: UIViewController){
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             
             let username = prefs.valueForKey("USERNAME") as NSString
-            println("Username: ", username)
+            println("Username: -\(username)-")
+            println("Friend: -\(friend)-")
             var post:NSString = "username=\(username)&friend=\(friend)"
             let errorText = "Remove Friend Fail"
             
             NSLog("PostData: %@",post);
             
-            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/remove_friend/")!
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/remove_friend/")!
             
             var request = self.getRequest(url, post: post)
             
@@ -229,7 +230,6 @@ class ApiMethods {
                     if(status == "success")
                     {
                         NSLog("Remove SUCCESS");
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is FriendsViewController{
                                 let viewC = vc as FriendsViewController
                                 //let fVC = FriendsViewController()
@@ -237,26 +237,15 @@ class ApiMethods {
                             }else{
                                 self.goBack(vc)
                             }
-                        })
-                        
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
                             self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
-                        })
                     }
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.alert.getStatusCodeError(errorText, vc: vc)
-                    })
                 }
             } else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
-                })
+                self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
             }
-        })
-        
     }
 
     
@@ -441,11 +430,14 @@ class ApiMethods {
         getUserRequest("http://127.0.0.1:8000/api/get_friend_requests/", vc: vc, errorText: "Get Friend Failed!", type: 2)
     }
     
-    func createEvent(eventName: NSString, time: NSString, type: NSString, restaurant: NSString, errorText: NSString, vc: UIViewController){
+    func createEvent(eventName: NSString, time: NSString, type: NSString, restaurant: NSString, errorText: NSString, joinable: Bool, vc: UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
         let username = prefs.valueForKey("USERNAME") as NSString
-        
-        var post:NSString = "name=\(eventName)&restaurant=\(restaurant)&owner=\(username)&type=\(type)&start_time=\(time)&joinable=\(1)"
+        var joinableNum = 0
+        if joinable {
+            joinableNum = 1
+        }
+        var post:NSString = "name=\(eventName)&restaurant=\(restaurant)&owner=\(username)&type=\(type)&start_time=\(time)&joinable=\(joinableNum)"
         
         NSLog("PostData: %@",post);
         
