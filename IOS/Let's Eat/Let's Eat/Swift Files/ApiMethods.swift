@@ -394,7 +394,7 @@ class ApiMethods {
                 
                 let jsonData:NSDictionary = getJsonData(urlData!)
                 
-                let status:NSString = "success"/*jsonData.valueForKey("status") as NSString*/
+                let status:NSString = jsonData.valueForKey("status") as NSString
                 
                 //[jsonData[@"success"] integerValue];
                 
