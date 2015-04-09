@@ -1,1 +1,60 @@
 {% include 'header.html' with user=user username=username title='Events' %}
+<div class="col-md-6">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object"
+                             src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+                             alt="..." width="64" height="64">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            I will be eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i
+                                class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
+                            <br>
+                            <br>
+                            <br>
+                            <body>
+                            <div id="map-canvas"></div>
+                            </body>
+                        </div>
+                        <div class="panel-footer">
+                            <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i>
+                            Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> .
+                            <span class='st_facebook' displayText='Facebook'></span>
+                            <span class='st_twitter' displayText='Tweet'></span>
+                            <i class="fa fa-clock-o" data-toggle="popover"
+                                   data-content="23 Mar. 2015 16:20"></i> <span style="color:red">13 hours left</span>
+
+                            <div class="pull-right">
+                                <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small>
+                                <a href="#" data-toggle="popover"
+                                   data-content="<small>Burak Atalay</small><br><small>Yunus Yılmaz</small><br>and 4.998 more...">5k
+                                    likes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    <head>
+    <style>
+      #map-canvas {
+        width: 500px;
+        height: 400px;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script>
+      function initialize() {
+        var mapCanvas = document.getElementById('map-canvas');
+        var mapOptions = {
+          center: new google.maps.LatLng(44.5403, -78.5463),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions)
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>

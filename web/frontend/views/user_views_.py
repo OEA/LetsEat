@@ -86,12 +86,12 @@ def profile(request, username):
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
-def events(request, username, event_id):
+def events(request, username):
     user = None
     if request.user.is_authenticated():
     #It will be replaced by web service when it runs
         user = get_object_or_404(User, username=username)
-        context = {'user': user, 'username': request.user.username, 'event_id': event_id}
+        context = {'user': user, 'username': request.user.username}
         return render(request, 'events.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
