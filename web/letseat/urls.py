@@ -50,5 +50,6 @@ urlpatterns = patterns('',
     url(r'^notifications/$', user_views_.notifications_view, name='notifications'),
     url(r'^profile/(?P<username>[^/]+)/friends/$', user_views_.friends_view, name='friends'),
     url(r'^create_event/$', event_views.create_event, name='api.create_event'),
+    url(r'^(?P<username>[^/]+)/events/(?P<event_id>[^/]+)$', user_views_.events, name='events'),
     url(r'^admin/', include(admin.site.urls)),
 )
