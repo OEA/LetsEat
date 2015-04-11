@@ -38,7 +38,7 @@ def create_comment_JSON(comment):
     commentJSON = {}
     commentJSON["id"] = comment.id
     commentJSON["owner"] = create_user_JSON(comment.owner)
-    commentJSON["time"] = comment.time
+    commentJSON["time"] = str(comment.time)
     commentJSON["likes"] = []
     for like in comment.likes.all():
         commentJSON["likes"].append(create_user_JSON(like))

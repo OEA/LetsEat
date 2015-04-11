@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..forms import EventCreationForm
-from ..models import User, Event, EventRequest, Group
+from ..models import User, Event, EventRequest, Group, Comment
 
 responseJSON = {}
 
@@ -199,7 +199,35 @@ def create_event_json(event):
     eventJSON["type"] = Event.TYPE_LABELS_REVERSE.get(event.type, None)
     eventJSON["participants"] = create_participants_JSON(event)
     eventJSON["joinable"] = event.joinable
+    eventJSON["comments"] = []
+    for comment in Comment.objects.filter(event=event):
+        eventJSON["comments"].append(create_comment_JSON(comment))
     return eventJSON
+
+
+def create_user_JSON(user):
+    userJSON = {}
+    userJSON["username"] = user.username
+    userJSON["name"] = user.name
+    userJSON["surname"] = user.surname
+    userJSON["email"] = user.email
+    return userJSON
+
+
+def create_comment_JSON(comment):
+    commentJSON = {}
+    commentJSON["id"] = comment.id
+    commentJSON["owner"] = create_user_JSON(comment.owner)
+    commentJSON["time"] = str(comment.time)
+    commentJSON["likes"] = []
+    for like in comment.likes.all():
+        commentJSON["likes"].append(create_user_JSON(like))
+    commentJSON["comments"] = []
+    sub_comments = Comment.objects.filter(comment=comment)
+    for sub_comment in sub_comments:
+        commentJSON["comments"].append(create_comment_JSON(comment))
+    commentJSON["content"] = comment.content
+    return commentJSON
 
 
 def create_events_json(events):

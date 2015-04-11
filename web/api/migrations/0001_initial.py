@@ -5,6 +5,8 @@ from django.db import models, migrations
 import django.utils.timezone
 from django.conf import settings
 
+from . import create_base_database, delete_base_database
+
 
 class Migration(migrations.Migration):
     dependencies = [
@@ -138,4 +140,5 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='Comment Owner', to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
+        migrations.RunPython(create_base_database, reverse_code=delete_base_database),
     ]
