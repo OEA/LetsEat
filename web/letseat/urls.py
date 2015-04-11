@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
-from api.views import user_views, friendship_views, event_views, restaurant_views, group_views
+from api.views import user_views, friendship_views, event_views, restaurant_views, group_views, comment_views
 from frontend.views import user_views_, home_view
 
 
@@ -34,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^api/invite_group_event/$', event_views.invite_group_event, name='api_invite_group_event'),
     url(r'^api/accept_event/$', event_views.accept_event, name='api_accept_event'),
     url(r'^api/reject_event/$', event_views.reject_event, name='api_reject_event'),
+    url(r'^api/comment_on_event/$', comment_views.comment_on_event, name='api_comment_on_event'),
     url(r'^api/profile/$', user_views.user_profile, name='api_user_profile'),
     url(r'^api/profile/(?P<username>[^/]+)/$', user_views.profile, name='api_profile'),
     url(r'^api/profile/(?P<username>[^/]+)/edit/$', user_views.edit, name='api_edit'),
