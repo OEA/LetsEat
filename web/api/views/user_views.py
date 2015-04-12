@@ -70,6 +70,8 @@ def registration_view(request):
 
         success_response(responseJSON)
         responseJSON["message"] = "Successfully registered."
+
+    file.create_file(request, responseJSON, "registration_view", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -108,6 +110,8 @@ def registration_from_facebook(request):
             responseJSON["message"] = "Successfully registered from facebook."
 
         success_response(responseJSON)
+
+    file.create_file(request, responseJSON, "registration_from_facebook", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -123,6 +127,8 @@ def login_with_facebook(request):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "No user found with given id"
+
+    file.create_file(request, responseJSON, "login_with_facebook", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -176,7 +182,6 @@ def login_view(request):
 
 
     file.create_file(request, responseJSON, "login_view", request.method)
-
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
@@ -185,6 +190,7 @@ def user_profile(request):
     responseJSON = {}
     success_response(responseJSON)
     responseJSON["container"] = create_user_JSON(request.user)
+    file.create_file(request, responseJSON, "user_profile", request.method)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                         content_type="application/json")
 
@@ -198,15 +204,16 @@ def profile(request, username):
     responseJSON["container"]["name"] = user.name
     responseJSON["container"]["surname"] = user.surname
     responseJSON["container"]["email"] = user.email
+    file.create_file(request, responseJSON, "profile", request.method)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
 
 def logout(request):
-
     auth.logout(request)
     success_response(responseJSON)
     responseJSON["message"] = "You logout successfully"
+    file.create_file(request, responseJSON, "logout", request.method)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
@@ -236,6 +243,8 @@ def edit(request, username):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "Current password is invalid."
+
+    file.create_file(request, responseJSON, "edit", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
