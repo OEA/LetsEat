@@ -5,6 +5,7 @@ import json
 from django.http import HttpResponse
 
 from ..models import User, Event, Comment
+from ..views import file
 
 responseJSON = {}
 
@@ -62,14 +63,18 @@ def comment_on_event(request):
         if event is None:
             fail_response(responseJSON)
             responseJSON["message"] = "Event not found."
+            file.create_file(request, responseJSON, "comment_on_event", request.method)
             return HttpResponse(json.dumps(responseJSON))
         if user is None:
             fail_response(responseJSON)
             responseJSON["message"] = "User not found."
+            file.create_file(request, responseJSON, "comment_on_event", request.method)
             return HttpResponse(json.dumps(responseJSON))
         comment = Comment(event=event, owner=user, content=content, is_event_comment=True)
         comment.save()
         success_response(responseJSON)
         responseJSON["message"] = "Comment created."
         responseJSON["comment"] = create_comment_JSON(comment)
+
+    file.create_file(request, responseJSON, "comment_on_event", request.method)
     return HttpResponse(json.dumps(responseJSON))
