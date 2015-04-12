@@ -13,30 +13,14 @@ from django.core.mail import EmailMessage
 
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
+from ..views import file
 
-import datetime
 
 
 
 responseJSON = {}
 
-def create_file(requestJSON, responseJSON, method_name, request_method):
 
-    logJSON = {}
-    logJSON["RESPONSE"] = responseJSON
-
-    if os.path.exists("log.txt"):
-        log_file = open("log.txt", "a+")
-    else:
-        log_file = open("log.txt", "w")
-
-    log_file.write("\n\n--------------------------\n")
-    log_file.write("METHOD NAME: " + method_name + "\n")
-    log_file.write("REQUEST METHOD: " + request_method + "\n")
-    log_file.write("REQUEST DATE: " + str(datetime.datetime.now()) + "\n")
-    json.dump(logJSON, log_file, indent=4)
-
-    log_file.close()
 
 
 
@@ -174,7 +158,6 @@ def create_user_JSON(user):
 def login_view(request):
     responseJSON = {}
 
-
     if is_POST(request):
         username = request.POST['username']
         password = request.POST['password']
@@ -192,8 +175,7 @@ def login_view(request):
             responseJSON["message"] = "User credentials are not correct."
 
 
-    create_file(request, responseJSON, "login_view", request.method)
-
+    file.create_file(request, responseJSON, "login_view", request.method)
 
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
