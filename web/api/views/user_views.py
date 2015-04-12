@@ -14,8 +14,30 @@ from django.core.mail import EmailMessage
 from ..forms import UserCreationForm, UserUpdateForm
 from ..models import User
 
+import datetime
+
+
 
 responseJSON = {}
+
+def create_file(requestJSON, responseJSON, method_name, request_method):
+
+    logJSON = {}
+    logJSON["RESPONSE"] = responseJSON
+
+    if os.path.exists("log.txt"):
+        log_file = open("log.txt", "a+")
+    else:
+        log_file = open("log.txt", "w")
+
+    log_file.write("\n\n--------------------------\n")
+    log_file.write("METHOD NAME: " + method_name + "\n")
+    log_file.write("REQUEST METHOD: " + request_method + "\n")
+    #log_file.write("REQUEST DATE: " + datetime.datetime.now().time() + "\n")
+    json.dump(logJSON, log_file, indent=4)
+
+    log_file.close()
+
 
 
 def is_POST(request):
@@ -170,22 +192,7 @@ def login_view(request):
             responseJSON["message"] = "User credentials are not correct."
 
 
-    print(responseJSON)
-
-    if os.path.exists("log.txt"):
-        log_file = open("log.txt", "a+")
-
-        json.dump(responseJSON, log_file, indent=4)
-
-
-    else:
-        log_file = open("log.txt", "w")
-        log_file.write(responseJSON + "Hello2\n")
-
-        json.dump(responseJSON, log_file, indent=4)
-
-
-    log_file.close()
+    create_file(request, responseJSON, "login_view", request.method)
 
 
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
