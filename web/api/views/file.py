@@ -16,7 +16,7 @@ def create_file(requestJSON, responseJSON, method_name, request_method):
     log_file.write("METHOD NAME: " + method_name + "\n")
     log_file.write("REQUEST METHOD: " + request_method + "\n")
     log_file.write("REQUEST DATE: " + str(datetime.datetime.now()) + "\n")
-    log_file.write("RESPONSE: \n")
+    log_file.write("RESPONSE JSON: \n")
     json.dump(responseJSON, log_file, indent=4)
 
     log_file.close()

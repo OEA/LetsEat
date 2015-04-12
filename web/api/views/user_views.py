@@ -210,10 +210,10 @@ def profile(request, username):
 
 
 def logout(request):
+    responseJSON = {}
     auth.logout(request)
     success_response(responseJSON)
-    responseJSON["message"] = "You logout successfully"
-    file.create_file(request, responseJSON, "logout", request.method)
+    file.create_file("", responseJSON, "logout", request.method)
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
