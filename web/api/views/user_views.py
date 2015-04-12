@@ -170,15 +170,20 @@ def login_view(request):
             responseJSON["message"] = "User credentials are not correct."
 
 
+    print(responseJSON)
+
     if os.path.exists("log.txt"):
         log_file = open("log.txt", "a+")
-        log_file.write("Hello2\n")
-        print("Exist")
+
+        json.dump(responseJSON, log_file, indent=4)
+
 
     else:
         log_file = open("log.txt", "w")
-        log_file.write("Hello2\n")
-        print("Not Exist")
+        log_file.write(responseJSON + "Hello2\n")
+
+        json.dump(responseJSON, log_file, indent=4)
+
 
     log_file.close()
 
@@ -209,11 +214,6 @@ def profile(request, username):
 
 
 def logout(request):
-    log_file = open("logAPI.txt", "w+")
-    log_file.write("Yaw işte oldu")
-    log_file.close()
-
-    print(log_file.name)
 
     auth.logout(request)
     success_response(responseJSON)
