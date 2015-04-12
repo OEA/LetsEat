@@ -1,5 +1,7 @@
 __author__ = 'Hakan Uyumaz & Burak Atalay & Omer Aslan'
 
+
+import os
 import json
 from random import randint
 
@@ -149,6 +151,8 @@ def create_user_JSON(user):
 
 def login_view(request):
     responseJSON = {}
+
+
     if is_POST(request):
         username = request.POST['username']
         password = request.POST['password']
@@ -164,6 +168,21 @@ def login_view(request):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "User credentials are not correct."
+
+
+    if os.path.exists("log.txt"):
+        log_file = open("log.txt", "a+")
+        log_file.write("Hello2\n")
+        print("Exist")
+
+    else:
+        log_file = open("log.txt", "w")
+        log_file.write("Hello2\n")
+        print("Not Exist")
+
+    log_file.close()
+
+
     return HttpResponse(json.dumps(responseJSON, ensure_ascii=False).encode('utf8'),
                             content_type="application/json")
 
@@ -190,6 +209,12 @@ def profile(request, username):
 
 
 def logout(request):
+    log_file = open("logAPI.txt", "w+")
+    log_file.write("Yaw işte oldu")
+    log_file.close()
+
+    print(log_file.name)
+
     auth.logout(request)
     success_response(responseJSON)
     responseJSON["message"] = "You logout successfully"
