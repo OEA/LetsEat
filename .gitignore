@@ -1,6 +1,7 @@
 ### Pycharm
 web/.idea/
 .idea/
+web/log.txt
 
 ### Mac OS X
 .DS_Store
