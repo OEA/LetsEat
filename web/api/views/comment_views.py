@@ -73,3 +73,28 @@ def comment_on_event(request):
         responseJSON["message"] = "Comment created."
         responseJSON["comment"] = create_comment_JSON(comment)
     return HttpResponse(json.dumps(responseJSON))
+
+
+def comment_on_comment(request):
+    responseJSON = {}
+
+    if is_POST(request):
+        comment_id = request.POST["comment"]
+        username = request.POST["username"]
+        content = request.POST["content"]
+        comment = Event.objects.filter(pk=comment)[0]
+        user = User.objects.filter(username=username)[0]
+        if comment is None:
+            fail_response(responseJSON)
+            responseJSON["message"] = "Comment not found."
+            return HttpResponse(json.dumps(responseJSON))
+        if user is None:
+            fail_response(responseJSON)
+            responseJSON["message"] = "User not found."
+            return HttpResponse(json.dumps(responseJSON))
+        new_comment = Comment(comment=comment, owner=user, content=content, is_event_comment=False)
+        new_comment.save()
+        success_response(responseJSON)
+        responseJSON["message"] = "Comment created."
+        responseJSON["comment"] = create_comment_JSON(new_comment)
+    return HttpResponse(json.dumps(responseJSON))
