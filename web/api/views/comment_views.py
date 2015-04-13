@@ -88,7 +88,7 @@ def comment_on_comment(request):
         comment_id = request.POST["comment"]
         username = request.POST["username"]
         content = request.POST["content"]
-        comment = Event.objects.filter(pk=comment_id)[0]
+        comment = Comment.objects.filter(pk=comment_id)[0]
         user = User.objects.filter(username=username)[0]
         if comment is None:
             fail_response(responseJSON)
@@ -112,7 +112,7 @@ def like_comment(request):
     if is_POST(request):
         comment_id = request.POST["comment"]
         username = request.POST["username"]
-        comment = Event.objects.filter(pk=comment_id)[0]
+        comment = Comment.objects.filter(pk=comment_id)[0]
         user = User.objects.filter(username=username)[0]
         if comment is None:
             fail_response(responseJSON)
@@ -135,7 +135,7 @@ def get_comment(request):
 
     if is_POST(request):
         comment_id = request.POST["comment"]
-        comment = Event.objects.filter(pk=comment_id)[0]
+        comment = Comment.objects.filter(pk=comment_id)[0]
         if comment is None:
             fail_response(responseJSON)
             responseJSON["message"] = "Comment not found."

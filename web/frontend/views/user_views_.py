@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
 from api.models import User
-from ..views import file
+from api.views import file
 
 
 def registration_view(request):
