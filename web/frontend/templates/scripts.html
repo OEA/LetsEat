@@ -190,16 +190,15 @@
     });
 
     $(".create-event").click(function () {
-        var event_name = $(".event-name").val();
+        var event_name = $(".event_name").val();
         var start_time = $(".start_time").val();
         var owner = $(".owner").val();
         var restaurant = $(".restaurant").val();
 
-        $(this).parent().parent().html("<h1>Event created!</h1>");
         $.ajax({
             url: "{% url 'api_create_event' %}",
             type: "POST",
-            data: 'name=' + event_name + "&start_time=" + start_time + "&owner=" + owner + "&restaurant=" + restaurant,
+            data: 'name=' + event_name + "&start_time=" + start_time + "&type=null&&joinable=1&owner=" + owner + "&restaurant=" + restaurant,
             dataType: "JSON",
             success: function (data) {
 
@@ -210,6 +209,7 @@
 
         });
 
+        generate("success", "Your event is successfully created.");
 
     });
 
@@ -257,13 +257,12 @@
         var lng = document.getElementById("lng");
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo("bounds", map);
-
         var marker = new google.maps.Marker({map: map});
 
 
         google.maps.event.addListener(autocomplete, "place_changed", function () {
             var place = autocomplete.getPlace();
-
+            input.value = place.name;
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport);
             } else {
@@ -359,6 +358,25 @@ $('.group-participant').tagsinput({
   }
 });
 
+function generate(type, text) {
+        var n = noty({
+            text        : text,
+            type        : type,
+            dismissQueue: true,
+            animation: {
+                open: 'animated flipInX', // Animate.css class names
+                close: 'animated flipOutX', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 1500 // unavailable - no need
+            },
+            timeout     : 10000,
+            modal       : true,
+            closeWith   : ['click'],
+            layout      : 'topCenter',
+            theme       : 'relax',
+            maxVisible  : 10
+        });
+    }
     function loginFacebook() {
     FB.api('/me', function(response) {
         var name = response.first_name;
