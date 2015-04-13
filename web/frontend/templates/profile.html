@@ -20,6 +20,7 @@
             <div class="list-group">
                 <a href="#" class="list-group-item" data-toggle="modal" data-target="#myMapModal"> Create Event <i class="fa fa-external-link"></i></a>
               <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">1</span></a>
+                <a href="{% url 'notifications' %}" class="list-group-item"> Notifications</a>
               <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
               <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
             </div>
@@ -136,7 +137,26 @@
                     </div>
                 </div>
             </div>
+
+                <h5> Ads</h5>
+        <div class="well">
+                <div class="content">
+                    <div class="media">
+                        <div class="media-body">
+                            <a href="#">
+                                <img class="media-object"
+                                     src="http://t1.gstatic.com/images?q=tbn:ANd9GcR5VAWqXoh0qeRoEBAO5m3krZPfmR-JXIwBiC9Q7Y8KuOEkykS_"
+                                     alt="..." >
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+
+
         </div>
     <div class="modal fade" id="myMapModal">
                 <div class="modal-dialog">
