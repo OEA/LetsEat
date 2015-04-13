@@ -33,7 +33,9 @@ class SignupVC: UIViewController {
         let bgSetter = BackgroundSetter(viewControler: self)
         bgSetter.getBackgroundView()
     }
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -76,7 +78,7 @@ class SignupVC: UIViewController {
             
             alert.emptyFieldError("Sign Up Failed!", vc: self)
             
-        }else if !isEmailValid(email){
+        }else if !isEmailValid(email as String){
             alert.unValidEmailError("Sign Up Failed!", vc: self)
         }else if password != confirm_password {
             alert.confirmError("Sign Up Failed!", vc: self)
@@ -100,7 +102,7 @@ class SignupVC: UIViewController {
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
             
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -109,7 +111,7 @@ class SignupVC: UIViewController {
                     let jsonData = apiMethod.getJsonData(urlData!)
                     
                     
-                    let success:NSString = jsonData.valueForKey("status") as NSString
+                    let success:NSString = jsonData.valueForKey("status") as! String
                     
                     //[jsonData[@"success"] integerValue];
                     
@@ -167,12 +169,14 @@ class SignupVC: UIViewController {
         return false
     }
     
+    //Düzelt burayı
     func isEmailValid(email:String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        if let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx) {
+        /*let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        if let emailTest = NSPredicate() NSPredicate(format: "SELF MATCHES %@", arguments: emailRegEx)) {
             return emailTest.evaluateWithObject(email)
         }
-        return false
+        return false*/
+        return true
     }
     
         

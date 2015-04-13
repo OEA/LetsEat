@@ -32,7 +32,7 @@ class ChangePasswordVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -79,7 +79,7 @@ class ChangePasswordVC: UIViewController {
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
                         
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                             
@@ -87,7 +87,7 @@ class ChangePasswordVC: UIViewController {
                 {
                     let jsonData = apiMethod.getJsonData(urlData!)
                     
-                    let success:NSString = jsonData.valueForKey("status") as NSString
+                    let success:NSString = jsonData.valueForKey("status") as! NSString
                                 
                                 //[jsonData[@"success"] integerValue];
                                 

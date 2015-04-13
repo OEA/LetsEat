@@ -29,14 +29,14 @@ class FriendInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        nameField.text = friend["name"]
-        surnameField.text = friend["surname"]
-        userNameField.text = friend["username"]
-        emailField.text = friend["email"]
+        nameField.text = friend["name"] as? String
+        surnameField.text = friend["surname"] as? String
+        userNameField.text = friend["username"] as? String
+        emailField.text = friend["email"] as? String
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let friendList = userDefaults.arrayForKey("Friends"){
-            let existList = friendList.filter{(($0["username"]) as String) == self.friend["username"]!}
+            let existList = friendList.filter{(($0["username"]) as! String) == self.friend["username"]!}
             if existList.count > 0 {
                 findFriendChosen = false
                 isRequestView = false
@@ -65,7 +65,7 @@ class FriendInfoViewController: UIViewController {
     
     @IBAction func addFriendTapped() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        let username: NSString = userDefaults.valueForKey("USERNAME") as! NSString
         
         apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: userNameField.text!, vc: self, errorText: "Add Friend Failed!", sender: username)
     }

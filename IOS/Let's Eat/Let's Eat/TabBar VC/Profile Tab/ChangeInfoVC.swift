@@ -24,10 +24,10 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     override func viewDidAppear(animated: Bool) {
         
-        nameField.text = user["name"]
-        surnameField.text = user["surname"]
-        usernameField.text = user["username"]
-        emailField.text = user["email"]
+        nameField.text = user["name"] as! String
+        surnameField.text = user["surname"] as! String
+        usernameField.text = user["username"] as! String
+        emailField.text = user["email"] as! String
     }
     
     
@@ -54,7 +54,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
         
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -62,7 +62,7 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             {
                 let jsonData = apiMethod.getJsonData(urlData!)
                 
-                let success:NSString = jsonData.valueForKey("status") as NSString
+                let success:NSString = jsonData.valueForKey("status") as! String
                 
                 //[jsonData[@"success"] integerValue];
                 
@@ -119,17 +119,17 @@ class ChangeInfoVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        nameField.text = user["name"]
-        surnameField.text = user["surname"]
-        usernameField.text = user["username"]
-        emailField.text = user["email"]
+        nameField.text = user["name"] as! String
+        surnameField.text = user["surname"] as! String
+        usernameField.text = user["username"] as! String
+        emailField.text = user["email"] as! String
     }
     
 }

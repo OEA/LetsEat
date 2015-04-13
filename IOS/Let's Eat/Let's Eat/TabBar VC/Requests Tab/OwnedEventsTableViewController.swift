@@ -30,14 +30,14 @@ class OwnedEventsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("ownedEventCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("ownedEventCell", forIndexPath: indexPath) as! UITableViewCell
         if ownedEventList.count > 0{
             let event = ownedEventList[indexPath.item] as [String: AnyObject]
-            let locationLabel = cell.viewWithTag(1) as UILabel
-            let dateLabel = cell.viewWithTag(2) as UILabel
-            let restaurant = event["restaurant"] as String
+            let locationLabel = cell.viewWithTag(1) as! UILabel
+            let dateLabel = cell.viewWithTag(2) as! UILabel
+            let restaurant = event["restaurant"] as! String
             locationLabel.text = restaurant
-            let date = event["time"] as String
+            let date = event["time"] as! String
             
             dateLabel.text = dateSetter.getDate(date)
             let dateText = "\(dateLabel.text!)"

@@ -36,9 +36,9 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
             friends = list
                 for index in 0...friends.count-1{
                     let friend = friends[index]
-                    let friendUserName = friend["username"] as String
+                    let friendUserName = friend["username"] as! String
                     if addedFriends[friendUserName] == nil{
-                        addedFriends.updateValue(false, forKey: friend["username"] as String)
+                        addedFriends.updateValue(false, forKey: friend["username"] as! String)
                     }
                 }
         }
@@ -69,9 +69,9 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
             if (searchBar.text != nil && searchBar.text != "") {
                 var list = [AnyObject]()
                 for user in friends{
-                    let name = user["name"] as String
-                    let surname = user["surname"] as String
-                    let username = user["username"] as String
+                    let name = user["name"] as! String
+                    let surname = user["surname"] as! String
+                    let username = user["username"] as! String
                     var b1 = name.rangeOfString(searchBar.text) != nil
                     var b2 = surname.rangeOfString(searchBar.text) != nil
                     var b3 = username.rangeOfString(searchBar.text) != nil
@@ -95,16 +95,16 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("addFriendCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("addFriendCell") as! UITableViewCell
         if searchedList.count > 0 {
             
-            let nameLabel = cell.viewWithTag(1) as UILabel
-            let name = searchedList[indexPath.item]["name"] as NSString
-            let surname = searchedList[indexPath.item]["surname"] as NSString
-            let userNameLabel = cell.viewWithTag(2) as UILabel
-            userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
+            let nameLabel = cell.viewWithTag(1) as! UILabel
+            let name = searchedList[indexPath.item]["name"] as! String
+            let surname = searchedList[indexPath.item]["surname"] as! String
+            let userNameLabel = cell.viewWithTag(2) as! UILabel
+            userNameLabel.text = searchedList[indexPath.item]["username"] as? String
             nameLabel.text = name + " " + surname
-            let cellCheck = cell.viewWithTag(4) as UIButton
+            let cellCheck = cell.viewWithTag(4) as! UIButton
             cellCheck.addTarget(self, action: "checkCheckbox:", forControlEvents: UIControlEvents.TouchUpInside)
             if (addedFriends[userNameLabel.text!] == true){
                 cellCheck.backgroundColor = UIColor(patternImage: image)
@@ -131,7 +131,7 @@ class AddParticipantViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     func setCheckBox(cell: UITableViewCell){
-        let userNameLabel = cell.viewWithTag(2) as UILabel
+        let userNameLabel = cell.viewWithTag(2) as! UILabel
         if (addedFriends[userNameLabel.text!] == true){
             addedFriends[userNameLabel.text!] = false
         }else if (addedFriends[userNameLabel.text!] == false){
