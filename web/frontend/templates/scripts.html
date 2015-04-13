@@ -214,6 +214,11 @@
     });
 
 
+
+    $(".toggle-comment").click(function () {
+            $(this).parent().children('.comment').toggle();
+    });
+
     $('#myMapModal').on('shown.bs.modal', function (e) {
         var map_options = {
             center: new google.maps.LatLng(41.048, 29.023),
