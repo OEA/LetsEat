@@ -128,3 +128,19 @@ def like_comment(request):
         responseJSON["message"] = "Comment updated."
         responseJSON["comment"] = create_comment_JSON(comment)
     return HttpResponse(json.dumps(responseJSON))
+
+
+def get_comment(request):
+    responseJSON = {}
+
+    if is_POST(request):
+        comment_id = request.POST["comment"]
+        comment = Event.objects.filter(pk=comment_id)[0]
+        if comment is None:
+            fail_response(responseJSON)
+            responseJSON["message"] = "Comment not found."
+            return HttpResponse(json.dumps(responseJSON))
+        success_response(responseJSON)
+        responseJSON["message"] = "Comment updated."
+        responseJSON["comment"] = create_comment_JSON(comment)
+    return HttpResponse(json.dumps(responseJSON))
