@@ -8,7 +8,6 @@ from frontend.views import user_views_, home_view
 urlpatterns = patterns('',
 
     #Just for testing urls
-    url(r'^test/$', user_views.test, name='test'),
     url(r'^$', user_views_.login_view, name='login'),
     url(r'^api/register/$', user_views.registration_view, name='api_register'),
     url(r'^api/register_with_facebook/$', user_views.registration_from_facebook, name='api_registration_from_facebook'),
