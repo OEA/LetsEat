@@ -1,4 +1,4 @@
-{% include 'header.html' with user=user title='Profile' %}
+{% include 'header.html' with user=user username=username title='Profile' %}
 <div class="container">
     {% if user %}
         <div class="row">
@@ -19,7 +19,7 @@
 
             <div class="list-group">
 
-              <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">237</span></a>
+              <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">1</span></a>
               <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
               <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
             </div>
