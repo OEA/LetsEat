@@ -17,7 +17,7 @@ class ApiMethods {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             let errorText = "Get Owned Events Failed"
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-            let username = prefs.valueForKey("USERNAME") as NSString
+            let username = prefs.valueForKey("USERNAME") as! NSString
             var post:NSString = "username=\(username)"
             
             NSLog("PostData: %@",post);
@@ -31,16 +31,15 @@ class ApiMethods {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
-                if (res.statusCode >= 200 && res.statusCode < 300)
-                {
+                if (res.statusCode >= 200 && res.statusCode < 300){
                     
                     let jsonData:NSDictionary = self.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:String = jsonData.valueForKey("status") as! String
                     
                     //[jsonData[@"success"] integerValue];
                     
@@ -51,8 +50,8 @@ class ApiMethods {
                         NSLog("Get Owned SUCCESS");
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is OwnedEventsTableViewController{
-                                let viewC = vc as OwnedEventsTableViewController
-                                viewC.ownedEventList = jsonData.valueForKey("events") as [[String: AnyObject]]
+                                let viewC = vc as! OwnedEventsTableViewController
+                                viewC.ownedEventList = jsonData.valueForKey("events") as! [[String: AnyObject]]
                                 viewC.eventTBV.reloadData()
                             }else{
                                 self.goBack(vc)
@@ -81,7 +80,7 @@ class ApiMethods {
     func createGroup(groupName: NSString, vc: UIViewController){
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             let errorText = "Create Group Failed"
-            let user = prefs.valueForKey("USERNAME") as NSString
+            let user = prefs.valueForKey("USERNAME") as! NSString
             
             
             var post:NSString = "username=\(user)&group_name=\(groupName)"
@@ -97,7 +96,7 @@ class ApiMethods {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -106,19 +105,19 @@ class ApiMethods {
                     
                     let jsonData:NSDictionary = self.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:NSString = jsonData.valueForKey("status") as! NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
-                    println("Success: " + status)
+                    println("Success: " + (status as String))
                     
                     if(status == "success")
                     {
                         NSLog("Create Group SUCCESS");
                             if vc is CreateGroupViewController{
-                                let viewC = vc as CreateGroupViewController
-                                let group = jsonData.valueForKey("group") as [String: AnyObject]
-                                viewC.groupID = group["id"] as Int
+                                let viewC = vc as! CreateGroupViewController
+                                let group = jsonData.valueForKey("group") as! [String: AnyObject]
+                                viewC.groupID = group["id"] as! Int
                                 goBack(vc)
                             }
                     } else {
@@ -137,7 +136,7 @@ class ApiMethods {
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             
-            let user = prefs.valueForKey("USERNAME") as NSString
+            let user = prefs.valueForKey("USERNAME") as! NSString
             var post:NSString = "username=\(user)&member=\(member)&group_id=\(group_id)"
             
             NSLog("PostData: %@",post);
@@ -151,7 +150,7 @@ class ApiMethods {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -160,11 +159,11 @@ class ApiMethods {
                     
                     let jsonData:NSDictionary = self.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:NSString = jsonData.valueForKey("status") as! NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
-                    println("Success: " + status)
+                    println("Success: " + (status as String))
                     
                     if(status == "success")
                     {
@@ -195,7 +194,7 @@ class ApiMethods {
     func removeFriend(friend: NSString, vc: UIViewController){
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             
-            let username = prefs.valueForKey("USERNAME") as NSString
+            let username = prefs.valueForKey("USERNAME") as! NSString
             println("Username: -\(username)-")
             println("Friend: -\(friend)-")
             var post:NSString = "username=\(username)&friend=\(friend)"
@@ -212,7 +211,7 @@ class ApiMethods {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -221,17 +220,17 @@ class ApiMethods {
                     
                     let jsonData:NSDictionary = self.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:NSString = jsonData.valueForKey("status") as! NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
-                    println("Success: " + status)
+                    println("Success: " + (status as String))
                     
                     if(status == "success")
                     {
                         NSLog("Remove SUCCESS");
                             if vc is FriendsViewController{
-                                let viewC = vc as FriendsViewController
+                                let viewC = vc as! FriendsViewController
                                 //let fVC = FriendsViewController()
                                 viewC.getFriendList(vc)
                             }else{
@@ -258,7 +257,7 @@ class ApiMethods {
             
             NSLog("PostData: %@",post);
             
-            var url:NSURL = NSURL(string: url)!
+            var url:NSURL = NSURL(string: url as String)!
             
             var request = self.getRequest(url, post: post)
             
@@ -267,7 +266,7 @@ class ApiMethods {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -276,18 +275,18 @@ class ApiMethods {
                     
                     let jsonData:NSDictionary = self.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:NSString = jsonData.valueForKey("status") as! NSString
                     
                     //[jsonData[@"success"] integerValue];
                     
-                    println("Success: " + status)
+                    println("Success: " + (status as String))
                     
                     if(status == "success")
                     {
                         NSLog("ADD SUCCESS");
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is RequestsTableViewController{
-                                let viewC = vc as RequestsTableViewController
+                                let viewC = vc as! RequestsTableViewController
                                 let fVC = FriendsViewController()
                                 fVC.getFriendList(vc)
                                 self.getUserRequests(viewC)
@@ -319,7 +318,7 @@ class ApiMethods {
     
     func getFriends(vc : UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        let username: NSString = prefs.valueForKey("USERNAME") as! NSString
         
         var post:NSString = "username=\(username)"
         
@@ -334,7 +333,7 @@ class ApiMethods {
         
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -343,16 +342,16 @@ class ApiMethods {
                 
                 let jsonData:NSDictionary = getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as NSString
+                let status:NSString = jsonData.valueForKey("status") as! NSString
                 
                 
-                println("Success: " + status)
+                println("Success: " + (status as String))
                 
                 if(status == "success")
                 {
                     NSLog("Friends SUCCESS");
                     var userDefaults:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-                    let data = jsonData["friends"] as NSArray
+                    let data = jsonData["friends"] as! NSArray
                     userDefaults.setObject(data, forKey: "Friends")
                     println(jsonData)
                 } else {
@@ -370,13 +369,13 @@ class ApiMethods {
     
     func getUserRequest(urlStr: NSString, vc: RequestsTableViewController, errorText: NSString, type: Int){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = prefs.valueForKey("USERNAME") as NSString
+        let username: NSString = prefs.valueForKey("USERNAME") as! NSString
         
         var post:NSString = "username=\(username)"
         
         NSLog("PostData: %@",post);
         
-        var url:NSURL = NSURL(string: urlStr)!
+        var url:NSURL = NSURL(string: urlStr as String)!
         
         var request = getRequest(url, post: post)
         
@@ -385,7 +384,7 @@ class ApiMethods {
         
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -394,7 +393,7 @@ class ApiMethods {
                 
                 let jsonData:NSDictionary = getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as NSString
+                let status:String = jsonData.valueForKey("status") as! String
                 
                 //[jsonData[@"success"] integerValue];
                 
@@ -406,10 +405,10 @@ class ApiMethods {
                     
                     println(jsonData)
                     if type == 1{
-                        vc.eventReqList = jsonData["events_requests"] as NSArray
+                        vc.eventReqList = jsonData["events_requests"] as! NSArray
                         vc.friendReqtTV.reloadData()
                     }else if type == 2{
-                        vc.friendRequestList = jsonData["senders"] as NSArray
+                        vc.friendRequestList = jsonData["senders"] as! NSArray
                         vc.friendReqtTV.reloadData()
                     }
                     
@@ -432,7 +431,7 @@ class ApiMethods {
     
     func createEvent(eventName: NSString, time: NSString, type: NSString, restaurant: NSString, errorText: NSString, joinable: Bool, vc: UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username = prefs.valueForKey("USERNAME") as NSString
+        let username = prefs.valueForKey("USERNAME") as! NSString
         var joinableNum = 0
         if joinable {
             joinableNum = 1
@@ -450,7 +449,7 @@ class ApiMethods {
         
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -459,18 +458,18 @@ class ApiMethods {
                 
                 let jsonData:NSDictionary = self.getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as NSString
+                let status:NSString = jsonData.valueForKey("status") as! NSString
                 
                 //[jsonData[@"success"] integerValue];
                 
-                println("Success: " + status)
+                println("Success: " + (status as String))
                 
                 if(status == "success")
                 {
                     NSLog("ADD SUCCESS");
-                    let event = jsonData.valueForKey("event") as [String: AnyObject]
-                    let viewC = vc as CreateEventViewController
-                    viewC.eventID = event["id"] as Int
+                    let event = jsonData.valueForKey("event") as! [String: AnyObject]
+                    let viewC = vc as! CreateEventViewController
+                    viewC.eventID = event["id"] as! Int
                     println(jsonData)
                 } else {
                         self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
@@ -496,7 +495,7 @@ class ApiMethods {
         
         NSLog("PostData: %@",post);
         
-        var url:NSURL = NSURL(string: url)!
+        var url:NSURL = NSURL(string: url as String)!
         
         var request = self.getRequest(url, post: post)
         
@@ -505,7 +504,7 @@ class ApiMethods {
         
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -514,18 +513,18 @@ class ApiMethods {
                 
                 let jsonData:NSDictionary = self.getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as NSString
+                let status:NSString = jsonData.valueForKey("status") as! NSString
                 
                 //[jsonData[@"success"] integerValue];
                 
-                println("Success: " + status)
+                println("Success: " + (status as String))
                 
                 if(status == "success")
                 {
                     NSLog("SUCCESS");
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         if vc is RequestsTableViewController{
-                            let viewC = vc as RequestsTableViewController
+                            let viewC = vc as! RequestsTableViewController
                             self.getOwnedEvent(vc)
                         }else{
                             self.goBack(vc)
@@ -560,13 +559,13 @@ class ApiMethods {
     
     func acceptEvent(event: Int, vc: UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username = prefs.valueForKey("USERNAME") as NSString
+        let username = prefs.valueForKey("USERNAME") as! NSString
         eventRqst("http://127.0.0.1:8000/api/accept_event/", event: event, vc: vc, errorText: "Accept Event Failed", username: username)
     }
     
     func rejectEvent(event: Int, vc: UIViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let username = prefs.valueForKey("USERNAME") as NSString
+        let username = prefs.valueForKey("USERNAME") as! NSString
         eventRqst("http://127.0.0.1:8000/api/reject_event/", event: event, vc: vc, errorText: "Reject Event Failed", username: username)
     }
     
@@ -576,14 +575,14 @@ class ApiMethods {
     
     func acceptFriend(sender: NSString, vc: UIViewController){
             let userDefaults = NSUserDefaults.standardUserDefaults()
-            let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+            let username: NSString = userDefaults.valueForKey("USERNAME") as! NSString
             
             self.addFriend("http://127.0.0.1:8000/api/accept_friend/", receiver: username, vc: vc, errorText: "Accept Friend Failed!", sender: sender)
     }
     
     func rejectFriend(sender: NSString, vc: UIViewController){
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        let username: NSString = userDefaults.valueForKey("USERNAME") as! NSString
         
         addFriend("http://127.0.0.1:8000/api/reject_friend/", receiver: username, vc: vc, errorText: "Reject Friend Failed!", sender: sender)
     }
@@ -596,14 +595,14 @@ class ApiMethods {
                 // Process error
                 println("Error: \(error)")
             }else{
-                var name = result.valueForKey("first_name") as NSString
-                var surname:NSString = result.valueForKey("last_name") as NSString
+                var name = result.valueForKey("first_name") as! NSString
+                var surname:NSString = result.valueForKey("last_name") as! NSString
                 if result.valueForKey("middle_name") != nil {
-                    let middleName = result.valueForKey("middle_name") as NSString
+                    let middleName = result.valueForKey("middle_name") as! NSString
                     name = "\(name) \(middleName)"
                 }
-                var email:NSString = result.valueForKey("email") as NSString
-                var id:NSString = result.valueForKey("id") as NSString
+                var email:NSString = result.valueForKey("email") as! NSString
+                var id:NSString = result.valueForKey("id") as! NSString
                 
                 
                 var post:NSString = "name=\(name)&surname=\(surname)&email=\(email)&facebook_id=\(id)"
@@ -619,7 +618,7 @@ class ApiMethods {
                 
                 var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
                 if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
+                    let res = response as! NSHTTPURLResponse!;
                     
                     NSLog("Response code: %ld", res.statusCode);
                     
@@ -628,11 +627,11 @@ class ApiMethods {
                         
                         let jsonData:NSDictionary = self.getJsonData(urlData!)
                         
-                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        let status:NSString = jsonData.valueForKey("status") as! NSString
                         
                         //[jsonData[@"success"] integerValue];
                         
-                        println("Success: " + status)
+                        println("Success: " + (status as String))
                         
                         if(status == "success")
                         {
@@ -661,7 +660,7 @@ class ApiMethods {
                 // Process error
                 println("Error: \(error)")
             }else{
-                var id:NSString = result.valueForKey("id") as NSString
+                var id:NSString = result.valueForKey("id") as! NSString
                 
                 
                 var post:NSString = "facebook_id=\(id)"
@@ -677,7 +676,7 @@ class ApiMethods {
                 
                 var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
                 if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
+                    let res = response as! NSHTTPURLResponse!;
                     
                     NSLog("Response code: %ld", res.statusCode);
                     
@@ -686,11 +685,11 @@ class ApiMethods {
                         
                         let jsonData:NSDictionary = self.getJsonData(urlData!)
                         
-                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        let status:NSString = jsonData.valueForKey("status") as! NSString
                         
                         //[jsonData[@"success"] integerValue];
                         
-                        println("Success: " + status)
+                        println("Success: " + (status as String))
                         
                         if(status == "success")
                         {
@@ -699,7 +698,7 @@ class ApiMethods {
                             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
                             
                             prefs.setInteger(1, forKey: "ISLOGGEDIN")
-                            let userInfo: [String: AnyObject] = jsonData.valueForKey("user") as [String: AnyObject]
+                            let userInfo: [String: AnyObject] = jsonData.valueForKey("user") as! [String: AnyObject]
                             prefs.setObject(userInfo, forKey: "userInfo")
                             prefs.setObject(userInfo["username"], forKey: "USERNAME")
                             prefs.synchronize()
@@ -730,7 +729,7 @@ class ApiMethods {
         var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "POST"
         request.HTTPBody = postData
-        request.setValue(postLength, forHTTPHeaderField: "Content-Length")
+        request.setValue(postLength as String, forHTTPHeaderField: "Content-Length")
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
@@ -743,7 +742,7 @@ class ApiMethods {
         println("Response ==>  \(responseData)");
         
         var error: NSError?
-        return NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+        return NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as! NSDictionary
     }
     
     func requestLogout(vc: UIViewController){
@@ -757,7 +756,7 @@ class ApiMethods {
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
         
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -777,13 +776,13 @@ class ApiMethods {
             NSLog("Response ==> %@", responseData);
             
             var error: NSError?
-            let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+            let jsonData:NSDictionary = NSJSONSerialization.JSONObjectWithData(urlData, options:NSJSONReadingOptions.MutableContainers , error: &error) as! NSDictionary
             
-            let status:NSString = jsonData.valueForKey("status") as NSString
+            let status:NSString = jsonData.valueForKey("status") as! NSString
             
             //[jsonData[@"success"] integerValue];
             
-            println("Status: " + status)
+            println("Status: " + (status as String))
             
             checkStatus(status, jsonData: jsonData, vc: vc)
             

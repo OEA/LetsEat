@@ -36,7 +36,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
                 var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
                 
                 if ( urlData != nil ) {
-                    let res = response as NSHTTPURLResponse!;
+                    let res = response as! NSHTTPURLResponse!;
                     
                     NSLog("Response code: %ld", res.statusCode);
                     
@@ -47,13 +47,13 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
                         NSLog("Response ==> %@", responseData);
                         
                         var error: NSError?
-                        jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                        jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as! NSDictionary
                         
-                        let status:NSString = jsonData.valueForKey("status") as NSString
+                        let status:NSString = jsonData.valueForKey("status") as! NSString
                         
                         //[jsonData[@"success"] integerValue];
                         
-                        println("Status: " + status)
+                        println("Status: " + (status as String))
                         
                         if(status == "success")
                         {
@@ -67,7 +67,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
             }
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if searched == true {
-                    self.searchedList = jsonData["users"] as NSArray
+                    self.searchedList = jsonData["users"] as! NSArray
                     self.tabelView.reloadData()
                 }else{
                     self.searchedList = []
@@ -90,6 +90,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
             self.deneme.reloadData()
         }*/
     }
+    
     func sendReqests(friend: NSString, username: NSString){
 
         apiMethod.addFriend("http://127.0.0.1:8000/api/add_friend/", receiver: friend, vc: self, errorText: "Add Friend Failed!", sender: username)
@@ -113,7 +114,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
         
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse!;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -122,7 +123,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
                 let jsonData = apiMethod.getJsonData(urlData!)
                 
                 
-                let success:NSString = jsonData.valueForKey("status") as NSString
+                let success:NSString = jsonData.valueForKey("status") as! NSString
                 
                 //[jsonData[@"success"] integerValue];
                 
@@ -159,10 +160,10 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as UITableViewCell
-        let userNameLabel = cell.viewWithTag(1) as UILabel
+        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell") as! UITableViewCell
+        let userNameLabel = cell.viewWithTag(1) as! UILabel
         if searchedList.count > 0 {
-            userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
+            userNameLabel.text = searchedList[indexPath.item]["username"] as? String
         }
         
         return cell
@@ -171,7 +172,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
-        let label = cell?.viewWithTag(10) as UILabel
+        let label = cell?.viewWithTag(10) as! UILabel
         label.text = "1"
         tableView.reloadData()
     }

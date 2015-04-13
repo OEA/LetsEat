@@ -33,11 +33,10 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
         if let friendList: [[String: AnyObject]] = userDefaults.valueForKey("Friends") as? [[String: AnyObject]]{
             friends = friendList
             searchedList = friends
-            for index in 0...friends.count-1{
-                let friend = friends[index]
-                let friendUserName = friend["username"] as String
+            for friend in friends{
+                let friendUserName = friend["username"] as! String
                 if addedFriends[friendUserName] == nil{
-                    addedFriends.updateValue(false, forKey: friend["username"] as String)
+                    addedFriends.updateValue(false, forKey: friend["username"] as! String)
                 }
             }
         }
@@ -73,9 +72,8 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
         searchBar.text = ""
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
-        
     }
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar){
@@ -91,9 +89,9 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
             if (searchBar.text != nil && searchBar.text != "") {
                 var list = [AnyObject]()
                 for user in self.friends{
-                    let name = user["name"] as String
-                    let surname = user["surname"] as String
-                    let username = user["username"] as String
+                    let name = user["name"] as! String
+                    let surname = user["surname"] as! String
+                    let username = user["username"] as! String
                     var b1 = name.rangeOfString(searchBar.text) != nil
                     var b2 = surname.rangeOfString(searchBar.text) != nil
                     var b3 = username.rangeOfString(searchBar.text) != nil
@@ -113,13 +111,13 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func setFriendList(cell: UITableViewCell, indexPath: NSIndexPath){
-        let nameLabel = cell.viewWithTag(1) as UILabel
-        let name = searchedList[indexPath.item]["name"] as NSString
-        let surname = searchedList[indexPath.item]["surname"] as NSString
-        let userNameLabel = cell.viewWithTag(2) as UILabel
-        userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
+        let nameLabel = cell.viewWithTag(1) as! UILabel
+        let name = searchedList[indexPath.item]["name"] as! String
+        let surname = searchedList[indexPath.item]["surname"] as! String
+        let userNameLabel = cell.viewWithTag(2) as! UILabel
+        userNameLabel.text = searchedList[indexPath.item]["username"] as? String
         nameLabel.text = name + " " + surname
-        let cellCheck = cell.viewWithTag(4) as UIButton
+        let cellCheck = cell.viewWithTag(4) as! UIButton
         cellCheck.addTarget(self, action: "checkCheckbox:", forControlEvents: UIControlEvents.TouchUpInside)
         if (addedFriends[userNameLabel.text!] == true){
             cellCheck.backgroundColor = UIColor(patternImage: image)
@@ -144,7 +142,7 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func setCheckBox(cell: UITableViewCell){
-        let userNameLabel = cell.viewWithTag(2) as UILabel
+        let userNameLabel = cell.viewWithTag(2) as! UILabel
         if (addedFriends[userNameLabel.text!] == true){
             addedFriends[userNameLabel.text!] = false
             addedFriendsNum--
@@ -174,7 +172,7 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("addFriendToGroupCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("addFriendToGroupCell") as! UITableViewCell
         
         if searchedList.count > 0 {
             setFriendList(cell, indexPath: indexPath)
@@ -199,7 +197,7 @@ class CreateGroupViewController: UIViewController, UITableViewDelegate, UITableV
     
     func getFriendObject(friend: NSString) -> NSDictionary{
         for user in friends{
-            if user["username"] as NSString == friend {
+            if user["username"] as! NSString == friend {
                 return user as NSDictionary
             }
         }

@@ -15,13 +15,13 @@ class Alerts {
         var error_msg:NSString
         
         if jsonData["message"] as? NSString != nil {
-            error_msg = jsonData["message"] as NSString
+            error_msg = jsonData["message"] as! NSString
         } else {
             error_msg = "Unknown Error"
         }
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
-        alertView.message = error_msg
+        alertView.title = str as String
+        alertView.message = error_msg as String
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
         alertView.show()
@@ -29,7 +29,7 @@ class Alerts {
     
     func getStatusCodeError(str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "Connection Failed"
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
@@ -38,7 +38,7 @@ class Alerts {
     
     func getUrlDataError(reponseError: NSError?, str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "Connection Failure"
         if let error = reponseError {
             alertView.message = (error.localizedDescription)
@@ -61,13 +61,13 @@ class Alerts {
     func getSuccesLogoutAleart(jsonData: NSDictionary, vc: UIViewController){
         var message:NSString
         if jsonData["message"] as? NSString != nil {
-            message = jsonData["message"] as NSString
+            message = jsonData["message"] as! NSString
         } else {
             message = "You logout successfuly"
         }
         var alertView:UIAlertView = UIAlertView()
         alertView.title = "Perfect!"
-        alertView.message = message
+        alertView.message = message as String
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
         alertView.show()
@@ -76,7 +76,7 @@ class Alerts {
     
     func emptyFieldError(str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "Please fill empty fields"
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
@@ -85,7 +85,7 @@ class Alerts {
     
     func confirmError(str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "Passwords doesn't Match!"
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
@@ -94,7 +94,7 @@ class Alerts {
     
     func unValidEmailError(str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "E-mail is not valid! \nPlease check your e-mail."
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")
@@ -103,7 +103,7 @@ class Alerts {
     
     func unValidPasswordError(str: NSString, vc: UIViewController){
         var alertView:UIAlertView = UIAlertView()
-        alertView.title = str
+        alertView.title = str as String
         alertView.message = "Your password needs minimum 6 characters and at least one upper case character, one lower case character and one numeric character"
         alertView.delegate = vc
         alertView.addButtonWithTitle("OK")

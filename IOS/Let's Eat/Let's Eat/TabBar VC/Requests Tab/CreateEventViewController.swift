@@ -82,9 +82,9 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UIButton{
-            let button = sender as UIButton
+            let button = sender as! UIButton
             if button.buttonType == UIButtonType.ContactAdd {
-                let addPariciantVC = segue.destinationViewController as AddParticipantViewController
+                let addPariciantVC = segue.destinationViewController as! AddParticipantViewController
                
                 addPariciantVC.addedFriends = participants
                 addPariciantVC.backUIVC = self

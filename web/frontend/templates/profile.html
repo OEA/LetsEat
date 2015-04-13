@@ -1,4 +1,4 @@
-{% include 'header.html' with user=user title='Profile' %}
+{% include 'header.html' with user=user username=username title='Profile' %}
 <div class="container">
     {% if user %}
         <div class="row">
@@ -19,7 +19,7 @@
 
             <div class="list-group">
 
-              <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">237</span></a>
+              <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">1</span></a>
               <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
               <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
             </div>
@@ -38,7 +38,9 @@
                     I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
                 </div>
                 <div class="panel-footer">
-                     <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i> Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i class="fa fa-share-alt"></i> Share</a>
+                     <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i> Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a>
+                            <span class='st_facebook' displayText='Facebook'></span>
+                            <span class='st_twitter' displayText='Tweet'></span>
                     <div class="pull-right">
                         <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small> You and <a>5k likes</a>
                     </div>
@@ -51,7 +53,7 @@
  <div class="media">
           <div class="media-left">
             <a href="#">
-              <img class="media-object" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..." width="64" height="64">
+              <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
             </a>
           </div>
           <div class="media-body">
@@ -60,7 +62,9 @@
                     I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i class="fa fa-map-marker"></i> Nusr-Et
                 </div>
                 <div class="panel-footer">
-                     <a><i class="fa fa-thumbs-o-up"></i> Like</a> .  <a disabled><i class="fa fa-unlock"></i> Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <i class="fa fa-share-alt"></i> Share</a>
+                     <a><i class="fa fa-thumbs-o-up"></i> Like</a> .  <a disabled><i class="fa fa-unlock"></i> Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a>
+                    <span class='st_facebook' displayText='Facebook'></span>
+                            <span class='st_twitter' displayText='Tweet'></span>
                     <div class="pull-right">
                         <small><i class="fa fa-thumbs-o-up"></i></small> <a>5m likes</a>
                     </div>

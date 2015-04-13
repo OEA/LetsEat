@@ -27,15 +27,19 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let userInfo = userDefaults.objectForKey("userInfo") as? [String: NSString]{
             user = userInfo
-            nameField.text = user["name"]
-            surnameField.text = user["surname"]
-            userNameField.text = user["username"]
-            emailField.text = user["email"]
+            nameField.text = user["name"] as? String
+            surnameField.text = user["surname"] as? String
+            userNameField.text = user["username"] as? String
+            emailField.text = user["email"] as? String
         }
         if (FBSDKAccessToken.currentAccessToken() != nil){
             changePasswordButton.hidden = true
             logOutButton.hidden = true
             fLogOutView.hidden = false
+        }else{
+            changePasswordButton.hidden = false
+            logOutButton.hidden = false
+            fLogOutView.hidden = true
         }
     }
     
@@ -62,13 +66,13 @@ class ProfileVC: UIViewController, FBSDKLoginButtonDelegate  {
         
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
       if sender is UIButton{
-        if sender as UIButton == infoButton{
-            let infoVC = segue.destinationViewController as ChangeInfoVC
+        if sender as! UIButton == infoButton{
+            let infoVC = segue.destinationViewController as! ChangeInfoVC
             if user != nil {
                 infoVC.user = user
             }
-        }else if sender as UIButton == changePasswordButton{
-            let passwordVC = segue.destinationViewController as ChangePasswordVC
+        }else if sender as! UIButton == changePasswordButton{
+            let passwordVC = segue.destinationViewController as! ChangePasswordVC
             if user != nil {
                 passwordVC.user = user
             }

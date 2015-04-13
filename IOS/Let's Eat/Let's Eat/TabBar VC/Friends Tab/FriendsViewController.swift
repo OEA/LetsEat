@@ -38,10 +38,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         searchBar.text = ""
         //tabelView.reloadData()
     }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
-        
     }
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar){
@@ -58,9 +57,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 if (searchBar.text != nil && searchBar.text != "") {
                     var list = [AnyObject]()
                     for user in self.friends{
-                        let name = user["name"] as String
-                        let surname = user["surname"] as String
-                        let username = user["username"] as String
+                        let name = user["name"] as! String
+                        let surname = user["surname"] as! String
+                        let username = user["username"] as! String
                         var b1 = name.rangeOfString(searchBar.text) != nil
                         var b2 = surname.rangeOfString(searchBar.text) != nil
                         var b3 = username.rangeOfString(searchBar.text) != nil
@@ -83,9 +82,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 var searched = false
                 if (searchBar.text != nil && searchBar.text != "") {
                     
-                    let username: NSString = self.userDefaults.valueForKey("USERNAME") as NSString
+                    let username: String = self.userDefaults.valueForKey("USERNAME") as! String
                     
-                    var post:NSString = "username=\(username)"
+                    var post:String = "username=\(username)"
                     NSLog(post)
                     var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/search/\(searchBar.text)/")!
                     
@@ -98,7 +97,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&reponseError)
                     
                     if ( urlData != nil ) {
-                        let res = response as NSHTTPURLResponse!;
+                        let res = response as! NSHTTPURLResponse!;
                         
                         NSLog("Response code: %ld", res.statusCode);
                         
@@ -109,9 +108,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                             NSLog("Response ==> %@", responseData);
                             
                             var error: NSError?
-                            jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as NSDictionary
+                            jsonData = NSJSONSerialization.JSONObjectWithData(urlData!, options:NSJSONReadingOptions.MutableContainers , error: &error) as! NSDictionary
                             
-                            let status:NSString = jsonData.valueForKey("status") as NSString
+                            let status:String = jsonData.valueForKey("status") as! String
                             
                             //[jsonData[@"success"] integerValue];
                             
@@ -130,7 +129,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     if searched == true {
                         if jsonData["users"] != nil {
-                            self.searchedList = jsonData["users"] as NSArray
+                            self.searchedList = jsonData["users"] as! NSArray
                             self.tabelView.reloadData()
                         }
                     }else{
@@ -144,7 +143,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     func getFriendList(vc: UIViewController){
-        let username: NSString = userDefaults.valueForKey("USERNAME") as NSString
+        let username: NSString = userDefaults.valueForKey("USERNAME") as! NSString
         
         var post:NSString = "username=\(username)"
         
@@ -159,7 +158,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
         if ( urlData != nil ) {
-            let res = response as NSHTTPURLResponse!;
+            let res = response as! NSHTTPURLResponse;
             
             NSLog("Response code: %ld", res.statusCode);
             
@@ -168,7 +167,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as NSString
+                let status:String = jsonData.valueForKey("status") as! String
                 
                 
                 println("Success: " + status)
@@ -177,11 +176,11 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 {
                     NSLog("Friends SUCCESS");
                     if vc == self {
-                        friends = jsonData["friends"] as NSArray
+                        friends = jsonData["friends"] as! NSArray
                         searchedList = friends
                         tabelView.reloadData()
                     }
-                    let data = jsonData["friends"] as NSArray
+                    let data = jsonData["friends"] as! NSArray
                     userDefaults.setObject(friends, forKey: "Friends")
                     println(jsonData)
                 } else {
@@ -204,14 +203,14 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("friendCell") as! UITableViewCell
         if searchedList.count > 0 {
             
-                let nameLabel = cell.viewWithTag(1) as UILabel
-                let name = searchedList[indexPath.item]["name"] as NSString
-                let surname = searchedList[indexPath.item]["surname"] as NSString
-                let userNameLabel = cell.viewWithTag(2) as UILabel
-                userNameLabel.text = searchedList[indexPath.item]["username"] as? NSString
+                let nameLabel = cell.viewWithTag(1) as! UILabel
+                let name = searchedList[indexPath.item]["name"] as! String
+                let surname = searchedList[indexPath.item]["surname"] as! String
+                let userNameLabel = cell.viewWithTag(2) as! UILabel
+                userNameLabel.text = searchedList[indexPath.item]["username"] as? String
                 nameLabel.text = name + " " + surname
             
             
@@ -243,7 +242,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath){
         if findFriendChosen == false {
             let cell = tabelView.cellForRowAtIndexPath(indexPath)
-            let usernameLabel = cell?.viewWithTag(2) as UILabel
+            let usernameLabel = cell?.viewWithTag(2) as! UILabel
             if let username = usernameLabel.text{
                 NSLog(username)
                 apiMethod.removeFriend(username, vc: self)
@@ -254,10 +253,9 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UITableViewCell{
-        
-        let friendInfoVC = segue.destinationViewController as FriendInfoViewController
+            let friendInfoVC = segue.destinationViewController as! FriendInfoViewController
             let friendNum = tabelView.indexPathForSelectedRow()?.item
-            friendInfoVC.friend = searchedList[friendNum!] as [String: NSString]
+            friendInfoVC.friend = searchedList[friendNum!] as! [String: NSString]
             if findFriendChosen {
                 friendInfoVC.findFriendChosen = findFriendChosen
             }

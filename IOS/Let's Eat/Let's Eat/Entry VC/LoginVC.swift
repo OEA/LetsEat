@@ -28,8 +28,8 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         }
         
         if let username: AnyObject = userDefaults.valueForKey("savedUsername") {
-            textUsername.text = username as NSString
-            textPassword.text = userDefaults.valueForKey("savedPass") as NSString
+            textUsername.text = username as! String
+            textPassword.text = userDefaults.valueForKey("savedPass") as! String
         }
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background.jpg")!)
@@ -55,7 +55,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         }else if result.isCancelled {
             // Handle cancellations
         }else {
-            if result.grantedPermissions.containsObject("email"){
+            if result.grantedPermissions.contains("email"){
                 //self.returnUserData()
                 apiMethod.loginWithFaceB(self)
             }
@@ -92,7 +92,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
         })
     }*/
 
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent){
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -124,10 +124,10 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                 // Process error
                 println("Error: \(error)")
             }else{
-                let userName : NSString = result.valueForKey("first_name") as NSString
-                let userSurname : NSString = result.valueForKey("last_name") as NSString
-                let userEmail : NSString = result.valueForKey("email") as NSString
-                let id: NSString = result.valueForKey("id") as NSString
+                let userName : NSString = result.valueForKey("first_name") as! NSString
+                let userSurname : NSString = result.valueForKey("last_name") as! NSString
+                let userEmail : NSString = result.valueForKey("email") as! NSString
+                let id: NSString = result.valueForKey("id") as! NSString
                 
                 userInfo = ["name": userName, "surname": userSurname, "email": userEmail, "id": id]
             }
@@ -159,7 +159,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
             
             var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
             if ( urlData != nil ) {
-                let res = response as NSHTTPURLResponse!;
+                let res = response as! NSHTTPURLResponse!;
                 
                 NSLog("Response code: %ld", res.statusCode);
                 
@@ -168,7 +168,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
                     
                     let jsonData:NSDictionary = apiMethod.getJsonData(urlData!)
                     
-                    let status:NSString = jsonData.valueForKey("status") as NSString
+                    let status:String = jsonData.valueForKey("status") as! String
                     
                     //[jsonData[@"success"] integerValue];
                     
@@ -207,7 +207,7 @@ class LoginVC: UIViewController, FBSDKLoginButtonDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "signUpSegue"{
-            let signUpVC = segue.destinationViewController as SignupVC
+            let signUpVC = segue.destinationViewController as! SignupVC
             signUpVC.view.backgroundColor = self.view.backgroundColor
         }
     }

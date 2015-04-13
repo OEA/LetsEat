@@ -20,7 +20,7 @@ class SideBar: NSObject, SideBarTableViewControllerDelegate {
     let sideBarTableViewTopInset:CGFloat = 64.0
     let sideBarContainerView:UIView = UIView()
     let sideBarTableViewController:SideBarTableViewController = SideBarTableViewController()
-    let originView:UIView!
+    var originView:UIView!
     let searchBarH = CGFloat(44)
    
     var animator:UIDynamicAnimator!

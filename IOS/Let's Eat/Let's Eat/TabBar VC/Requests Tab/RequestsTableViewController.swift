@@ -76,51 +76,51 @@ class RequestsTableViewController: UITableViewController {
         //var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
         if friendRequestList.count > 0 && eventReqList.count > 0{
             if indexPath.section == 0{
-                var cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as! UITableViewCell
                 setEventList(cell, indexPath: indexPath)
                 return cell
             }else{
-                var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
+                var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as! UITableViewCell
                 setFriendList(cell, indexPath: indexPath)
                 return cell
             }
         }else if eventReqList.count > 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("eventRequestCell", forIndexPath: indexPath) as! UITableViewCell
             setEventList(cell, indexPath: indexPath)
             return cell
         }else if friendRequestList.count > 0 {
-            var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
+            var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as! UITableViewCell
             setFriendList(cell, indexPath: indexPath)
             return cell
         }
-        var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("friendRequestCell", forIndexPath: indexPath) as! UITableViewCell
         return cell
     }
     
     func setFriendList(cell: UITableViewCell, indexPath: NSIndexPath){
-        let nameLabel = cell.viewWithTag(1) as UILabel
-        let name = friendRequestList[indexPath.item]["name"] as NSString
-        let surname = friendRequestList[indexPath.item]["surname"] as NSString
-        let userNameLabel = cell.viewWithTag(2) as UILabel
-        userNameLabel.text = friendRequestList[indexPath.item]["username"] as? NSString
+        let nameLabel = cell.viewWithTag(1) as! UILabel
+        let name = friendRequestList[indexPath.item]["name"] as! String
+        let surname = friendRequestList[indexPath.item]["surname"] as! String
+        let userNameLabel = cell.viewWithTag(2) as! UILabel
+        userNameLabel.text = friendRequestList[indexPath.item]["username"] as? String
         nameLabel.text = name + " " + surname
-        let check = cell.viewWithTag(3) as UIButton
-        let cross = cell.viewWithTag(4) as UIButton
+        let check = cell.viewWithTag(3) as! UIButton
+        let cross = cell.viewWithTag(4) as! UIButton
         check.addTarget(self, action: "requestFriendChoice:", forControlEvents: UIControlEvents.TouchUpInside)
         cross.addTarget(self, action: "requestFriendChoice:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     func setEventList(cell: UITableViewCell, indexPath: NSIndexPath){
-        let ownerField = cell.viewWithTag(1) as UILabel
-        let owner = eventReqList[indexPath.item]["owner"] as [String: AnyObject]
-        ownerField.text = owner["username"] as NSString
+        let ownerField = cell.viewWithTag(1) as! UILabel
+        let owner = eventReqList[indexPath.item]["owner"] as! [String: AnyObject]
+        ownerField.text = owner["username"] as? String
         
-        let eventLocName = cell.viewWithTag(2) as UILabel
-        let restaurant = eventReqList[indexPath.item]["restaurant"] as String
+        let eventLocName = cell.viewWithTag(2) as! UILabel
+        let restaurant = eventReqList[indexPath.item]["restaurant"] as! String
         eventLocName.text = restaurant
         
-        let timeField = cell.viewWithTag(5) as UILabel
-        let time = eventReqList[indexPath.item]["time"] as NSString
+        let timeField = cell.viewWithTag(5) as! UILabel
+        let time = eventReqList[indexPath.item]["time"] as! String
         timeField.text = dateSetter.getDate(time)
         
         let dateText = "\(timeField.text)"
@@ -134,16 +134,16 @@ class RequestsTableViewController: UITableViewController {
 
 
         
-        let check = cell.viewWithTag(3) as UIButton
-        let cross = cell.viewWithTag(4) as UIButton
+        let check = cell.viewWithTag(3) as! UIButton
+        let cross = cell.viewWithTag(4) as! UIButton
         check.addTarget(self, action: "requestEventChoice:", forControlEvents: UIControlEvents.TouchUpInside)
         cross.addTarget(self, action: "requestEventChoice:", forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     func requestFriendChoice(sender: UIButton) {
-        let cell = sender.superview?.superview as UITableViewCell
+        let cell = sender.superview?.superview as! UITableViewCell
         if let index = friendReqtTV.indexPathForCell(cell)?.item{
-            let username = friendRequestList[index]["username"] as NSString
+            let username = friendRequestList[index]["username"] as! String
             if sender.tag == 3 {
                 apiMethod.acceptFriend(username, vc: self)
             }else if sender.tag == 4 {
@@ -155,13 +155,13 @@ class RequestsTableViewController: UITableViewController {
     }
     
     func requestEventChoice(sender: UIButton){
-        let cell = sender.superview?.superview as UITableViewCell
+        let cell = sender.superview?.superview as! UITableViewCell
         if let index = friendReqtTV.indexPathForCell(cell)?.item{
-            let event = eventReqList[index] as [String: AnyObject]
+            let event = eventReqList[index] as! [String: AnyObject]
             if sender.tag == 3 {
-                apiMethod.acceptEvent(event["id"] as Int, vc: self)
+                apiMethod.acceptEvent(event["id"] as! Int, vc: self)
             }else if sender.tag == 4 {
-                apiMethod.rejectEvent(event["id"] as Int, vc: self)
+                apiMethod.rejectEvent(event["id"] as! Int, vc: self)
             }
         }
         apiMethod.getUserRequests(self)
@@ -170,9 +170,9 @@ class RequestsTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if sender is UITableViewCell{
             if segue.destinationViewController is FriendInfoViewController{
-                let friendInfoVC = segue.destinationViewController as FriendInfoViewController
+                let friendInfoVC = segue.destinationViewController as! FriendInfoViewController
                 let friendNum = friendReqtTV.indexPathForSelectedRow()?.item
-                friendInfoVC.friend = friendRequestList[friendNum!] as [String: NSString]
+                friendInfoVC.friend = friendRequestList[friendNum!] as! [String: NSString]
                 friendInfoVC.isRequestView = true
             }
         }

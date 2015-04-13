@@ -169,6 +169,7 @@ def get_event_requests(request):
         for event_request in event_requests:
             event = event_request.event
             responseJSON["events_requests"].append(create_event_json(event))
+        success_response(responseJSON)
     return HttpResponse(json.dumps(responseJSON))
 
 

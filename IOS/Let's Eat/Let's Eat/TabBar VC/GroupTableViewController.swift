@@ -42,7 +42,7 @@ class GroupTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier("ownedGroupCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ownedGroupCell") as! UITableViewCell
         return cell
     }
 
