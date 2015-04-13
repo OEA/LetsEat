@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..models import User, Group
+from ..views import file
 
 responseJSON = {}
 
@@ -57,6 +58,7 @@ def create_group(request):
         group.save()
         success_response(responseJSON)
         responseJSON["group"] = create_group_JSON(group)
+    file.create_file(request, responseJSON, "create_group", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -77,6 +79,8 @@ def add_member(request):
             fail_response(responseJSON)
             responseJSON["message"] = "User is not owner of the group."
         responseJSON["group"] = create_group_JSON(group)
+
+    file.create_file(request, responseJSON, "add_member", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -91,4 +95,6 @@ def remove_member(request):
         success_response(responseJSON)
         responseJSON["message"] = "Group member removed."
         responseJSON["group"] = create_group_JSON(group)
+
+    file.create_file(request, responseJSON, "remove_member", request.method)
     return HttpResponse(json.dumps(responseJSON))

@@ -6,6 +6,7 @@ from .models.friendship_request import FriendshipRequest
 from .models.restaurant import Restaurant
 from .models.event import Event
 from .models.event_request import EventRequest
+from .models.comment import Comment
 from .models.group import Group
 import urllib.parse
 import http.client
@@ -110,7 +111,15 @@ class modelTest(TestCase):
         agile_group.save()
 
 
+        #Add Comments
+        comment = Comment(omer, datetime.datetime.now().time())
+        comment.likes.add(bilal)
+        comment.event.add(subway_request)
+        comment.is_event_comment = True
+        comment.content = "Yemek çok güzeldi"
+        comment.comment.add(comment)
 
+        comment.save()
 
 
 

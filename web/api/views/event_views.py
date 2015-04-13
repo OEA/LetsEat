@@ -7,6 +7,7 @@ from django.http import HttpResponse
 
 from ..forms import EventCreationForm
 from ..models import User, Event, EventRequest, Group, Comment
+from ..views import file
 
 responseJSON = {}
 
@@ -39,6 +40,7 @@ def create_event(request):
             fail_response(responseJSON)
             responseJSON["message"] = "Errors occurred."
             responseJSON["error"] = str(form.errors) + " Requested Type:" + request.POST["type"] + " Type:" + str(type)
+            file.create_file(request, responseJSON, "create_event", request.method)
             return HttpResponse(json.dumps(responseJSON), content_type="application/json")
         event = form.save(commit=False)
         event.owner = owner
@@ -54,6 +56,8 @@ def create_event(request):
         success_response(responseJSON)
         responseJSON["event"] = create_event_json(event)
         responseJSON["message"] = "Successfully registered."
+
+    file.create_file(request, responseJSON, "create_event", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -73,6 +77,7 @@ def invite_event(request):
             event_request.save()
             success_response(responseJSON)
             responseJSON["message"] = "Event request created."
+    file.create_file(request, responseJSON, "invite_event", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -91,6 +96,7 @@ def invite_group_event(request):
                 event_request.save()
             success_response(responseJSON)
             responseJSON["message"] = "Event requests have been sent."
+    file.create_file(request, responseJSON, "invite_group_event", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -110,6 +116,7 @@ def accept_event(request):
         else:
             success_response(responseJSON)
             responseJSON["message"] = "Pending event request cannot be found."
+    file.create_file(request, responseJSON, "accept_event", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -127,6 +134,8 @@ def reject_event(request):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "Pending event request cannot be found."
+
+    file.create_file(request, responseJSON, "reject_event", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 

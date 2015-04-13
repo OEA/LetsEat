@@ -6,6 +6,7 @@ from django.http import HttpResponse
 
 from ..models import Restaurant
 from ..forms import RestaurantCreationForm
+from ..views import file
 
 responseJSON = {}
 
@@ -37,6 +38,7 @@ def create_restaurant(request):
         restaurant.save()
         responseJSON["status"] = "success"
         responseJSON["message"] = "Successfully registered."
+    file.create_file(request, responseJSON, "create_restaurant", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")
 
 
@@ -57,4 +59,5 @@ def get_restaurant_list(request):
     create_restaurants_json(responseJSON)
     success_response(responseJSON)
     responseJSON["message"] = "Successfully returned."
+    file.create_file(request, responseJSON, "get_restaurant_list", request.method)
     return HttpResponse(json.dumps(responseJSON), content_type="application/json")

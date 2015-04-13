@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import auth
 
 from api.models import User
+from ..views import file
 
 
 def registration_view(request):
@@ -209,7 +210,12 @@ def test(request):
     return HttpResponse("Successful")
 
 def logout(request):
+    responseJSON = {}
     auth.logout(request)
+    responseJSON["message"] = "You logout successfully"
+    responseJSON["status"] = "success"
+    print(responseJSON)
+    file.create_file(request, responseJSON, "logout", request.method)
     return redirect("../login")
 
 def notifications_view(request):

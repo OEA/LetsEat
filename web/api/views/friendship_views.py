@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
 from ..models import User, FriendshipRequest
+from ..views import file
 
 responseJSON = {}
 
@@ -63,6 +64,7 @@ def search_user(request, search_field):
         fail_response(responseJSON)
         responseJSON["message"] = "No search field found."
     #print(json.dumps(responseJSON))
+    file.create_file(request, responseJSON, "search_user", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -84,6 +86,8 @@ def send_friend_request(request):
             friend_request.save()
             success_response(responseJSON)
             responseJSON["message"] = "Friend request created."
+
+    file.create_file(request, responseJSON, "send_friend_request", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 def accept_friend_request(request):
@@ -103,6 +107,8 @@ def accept_friend_request(request):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "Pending friend request cannot be found."
+
+    file.create_file(request, responseJSON, "accept_friend_request", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -122,6 +128,8 @@ def reject_friend_request(request):
         else:
             fail_response(responseJSON)
             responseJSON["message"] = "Pending friend request cannot be found."
+
+    file.create_file(request, responseJSON, "reject_friend_request", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -143,6 +151,8 @@ def get_friendship_request_situation(request):
         else:
             fail_response()
             responseJSON["message"] = "Pending friend request cannot be found."
+
+    file.create_file(request, responseJSON, "get_friendship_request_situation", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -157,6 +167,8 @@ def get_friend_list(request):
         responseJSON["friends"] = []
         for friend in friend_list:
             responseJSON["friends"].append(create_user_JSON(friend))
+
+    file.create_file(request, responseJSON, "get_friend_list", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -180,6 +192,8 @@ def get_friend_requests(request):
 
         for sender in sender_list:
             responseJSON["senders"].append(create_user_JSON(sender))
+
+    file.create_file(request, responseJSON, "get_friend_requests", request.method)
     return HttpResponse(json.dumps(responseJSON))
 
 
@@ -193,4 +207,6 @@ def remove_friend(request):
         user.friends.remove(friend)
         success_response(responseJSON)
         responseJSON["message"] = "Friend removed"
+
+    file.create_file(request, responseJSON, "remove_friend", request.method)
     return HttpResponse(json.dumps(responseJSON))
