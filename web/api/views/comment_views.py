@@ -141,6 +141,6 @@ def get_comment(request):
             responseJSON["message"] = "Comment not found."
             return HttpResponse(json.dumps(responseJSON))
         success_response(responseJSON)
-        responseJSON["message"] = "Comment updated."
+        responseJSON["message"] = "Comment found."
         responseJSON["comment"] = create_comment_JSON(comment)
     return HttpResponse(json.dumps(responseJSON))
