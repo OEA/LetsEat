@@ -234,7 +234,7 @@ def create_comment_JSON(comment):
     commentJSON["comments"] = []
     sub_comments = Comment.objects.filter(comment=comment)
     for sub_comment in sub_comments:
-        commentJSON["comments"].append(create_comment_JSON(comment))
+        commentJSON["comments"].append(create_comment_JSON(sub_comment))
     commentJSON["content"] = comment.content
     return commentJSON
 
