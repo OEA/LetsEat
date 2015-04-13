@@ -143,7 +143,7 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 {% if user %}
                     <li class="dropdown">
                         <a href="{% url 'notifications' %}" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="fa fa-bell"></i> Notifications {% if friend_request %} <label
+                                class="fa fa-bell"></i> Requests {% if friend_request %} <label
                                 class="label label-danger">{{ friend_request|length }}</label> {% endif %}</a>
                         <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
                             <div class="col-md-12">
@@ -323,6 +323,8 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 </div>
 
             </div> -->
+
+
                 {% endif %}
                 <li class="dropdown">
                     {% if user %}
