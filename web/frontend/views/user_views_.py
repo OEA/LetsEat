@@ -229,16 +229,6 @@ def notifications_view(request):
         return redirect("http://127.0.0.1:8000/login/")
 
 
-def create_group(request):
-    owner = request.user
-    if request.user.is_authenticated():
-        if request.method == "POST":
-            group_name = request.POST["group_name"]
-            group_members = request.POST["group_members"]
-        else:
-            return redirect("http://127.0.0.1:8000/homepage")
-
-
 def get_friends_count(user):
     params = urllib.parse.urlencode({'username': user.username})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
