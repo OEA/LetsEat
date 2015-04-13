@@ -46,7 +46,7 @@ class DateSetter {
         let eventDate = calendar.dateFromComponents(components)!
         
         let difCal = NSCalendar.currentCalendar()
-        let unit:NSCalendarUnit = .DayCalendarUnit | .HourCalendarUnit
+        let unit:NSCalendarUnit = .CalendarUnitDay | .CalendarUnitHour
         let differance = difCal.components(unit, fromDate: NSDate(), toDate: eventDate, options: nil)
         
         let todayCalendar = NSCalendar.currentCalendar()

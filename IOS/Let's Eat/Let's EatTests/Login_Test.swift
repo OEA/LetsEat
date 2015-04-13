@@ -16,7 +16,7 @@ class Login_Test: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        calendar = NSCalendar(identifier: NSGregorianCalendar)
+        calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)
         locale = NSLocale(localeIdentifier: "en_US")
     }
     

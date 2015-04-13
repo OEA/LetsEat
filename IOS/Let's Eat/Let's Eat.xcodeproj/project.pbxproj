@@ -10,6 +10,10 @@
 		461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A15521AB78535009DA34E /* FriendsViewController.swift */; };
 		462F58821AB864560053DD37 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58811AB864560053DD37 /* Alerts.swift */; };
 		462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58831AB86E660053DD37 /* ApiMethods.swift */; };
+		463D7AC11ADBB89B007297C9 /* RestaurantLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */; };
+		463D7AC31ADBB8C5007297C9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463D7AC21ADBB8C5007297C9 /* MapKit.framework */; };
+		463D7AC51ADBB8D0007297C9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */; };
+		463D7AFA1ADBD48D007297C9 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D7AF91ADBD48D007297C9 /* CommentsViewController.swift */; };
 		4642F9861AC9841D0000E7A4 /* OwnedEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4642F9851AC9841D0000E7A4 /* OwnedEventsTableViewController.swift */; };
 		464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */; };
 		464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D681A92594000396EE8 /* AppDelegate.swift */; };
@@ -21,6 +25,7 @@
 		464E9D901A925A3300396EE8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464E9D8F1A925A3300396EE8 /* ViewController.swift */; };
 		46784B321AD2A657008D242F /* CreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46784B311AD2A657008D242F /* CreateGroupViewController.swift */; };
 		468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468DC3751AD265530045A06A /* GroupTableViewController.swift */; };
+		4693A69F1ADBB50500250B71 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4693A69E1ADBB50500250B71 /* EventViewController.swift */; };
 		469691131AC966BA0068062D /* passwordCheck.png in Resources */ = {isa = PBXBuildFile; fileRef = 469691121AC966BA0068062D /* passwordCheck.png */; };
 		46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B01AB787C700333E5F /* SideBar.swift */; };
 		46C3B7B31AB787C700333E5F /* SideBarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3B7B11AB787C700333E5F /* SideBarTableViewController.swift */; };
@@ -54,6 +59,10 @@
 		461A15521AB78535009DA34E /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsViewController.swift; path = "Friends Tab/FriendsViewController.swift"; sourceTree = "<group>"; };
 		462F58811AB864560053DD37 /* Alerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alerts.swift; path = "Swift Files/Alerts.swift"; sourceTree = "<group>"; };
 		462F58831AB86E660053DD37 /* ApiMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApiMethods.swift; path = "Swift Files/ApiMethods.swift"; sourceTree = "<group>"; };
+		463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantLocationViewController.swift; sourceTree = "<group>"; };
+		463D7AC21ADBB8C5007297C9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		463D7AF91ADBD48D007297C9 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		4642F9851AC9841D0000E7A4 /* OwnedEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OwnedEventsTableViewController.swift; path = "Requests Tab/OwnedEventsTableViewController.swift"; sourceTree = "<group>"; };
 		464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		464E9D631A92594000396EE8 /* Let's Eat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Let's Eat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +78,7 @@
 		464E9D8F1A925A3300396EE8 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		46784B311AD2A657008D242F /* CreateGroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupViewController.swift; sourceTree = "<group>"; };
 		468DC3751AD265530045A06A /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
+		4693A69E1ADBB50500250B71 /* EventViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		469691121AC966BA0068062D /* passwordCheck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = passwordCheck.png; sourceTree = "<group>"; };
 		46C1E0BD1ACD6B020068F5F4 /* Bridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridge-Header.h"; sourceTree = "<group>"; };
 		46C3B7B01AB787C700333E5F /* SideBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SideBar.swift; path = SideBar/SideBar.swift; sourceTree = "<group>"; };
@@ -94,6 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463D7AC51ADBB8D0007297C9 /* CoreLocation.framework in Frameworks */,
+				463D7AC31ADBB8C5007297C9 /* MapKit.framework in Frameworks */,
 				46D507B51AD1FFC3003EBC68 /* FBSDKLoginKit.framework in Frameworks */,
 				46D507B41AD1FFC3003EBC68 /* FBSDKCoreKit.framework in Frameworks */,
 				46D507B61AD1FFC3003EBC68 /* FBSDKShareKit.framework in Frameworks */,
@@ -162,6 +174,8 @@
 		464E9D5A1A92594000396EE8 = {
 			isa = PBXGroup;
 			children = (
+				463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */,
+				463D7AC21ADBB8C5007297C9 /* MapKit.framework */,
 				46D507B11AD1FFC2003EBC68 /* FBSDKCoreKit.framework */,
 				46D507B21AD1FFC2003EBC68 /* FBSDKLoginKit.framework */,
 				46D507B31AD1FFC3003EBC68 /* FBSDKShareKit.framework */,
@@ -190,6 +204,9 @@
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
 				464E9D6F1A92594000396EE8 /* Main.storyboard */,
 				464E9D8F1A925A3300396EE8 /* ViewController.swift */,
+				463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */,
+				4693A69E1ADBB50500250B71 /* EventViewController.swift */,
+				463D7AF91ADBD48D007297C9 /* CommentsViewController.swift */,
 				464E9D721A92594000396EE8 /* Images.xcassets */,
 				464E9D741A92594000396EE8 /* LaunchScreen.xib */,
 				464E9D6A1A92594000396EE8 /* Let_s_Eat.xcdatamodeld */,
@@ -358,6 +375,7 @@
 				464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */,
 				464E9D901A925A3300396EE8 /* ViewController.swift in Sources */,
 				46784B321AD2A657008D242F /* CreateGroupViewController.swift in Sources */,
+				4693A69F1ADBB50500250B71 /* EventViewController.swift in Sources */,
 				462F58821AB864560053DD37 /* Alerts.swift in Sources */,
 				46C3B7B21AB787C700333E5F /* SideBar.swift in Sources */,
 				46C738201AC5B7FF00826621 /* AddParticipantViewController.swift in Sources */,
@@ -366,10 +384,12 @@
 				4642F9861AC9841D0000E7A4 /* OwnedEventsTableViewController.swift in Sources */,
 				468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
+				463D7AC11ADBB89B007297C9 /* RestaurantLocationViewController.swift in Sources */,
 				46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
 				B9A4E9D31ABF359C00B1967C /* RequestsTableViewController.swift in Sources */,
 				46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */,
+				463D7AFA1ADBD48D007297C9 /* CommentsViewController.swift in Sources */,
 				464E9D691A92594000396EE8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
