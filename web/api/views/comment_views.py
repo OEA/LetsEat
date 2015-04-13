@@ -104,3 +104,27 @@ def comment_on_comment(request):
         responseJSON["message"] = "Comment created."
         responseJSON["comment"] = create_comment_JSON(new_comment)
     return HttpResponse(json.dumps(responseJSON))
+
+
+def like_comment(request):
+    responseJSON = {}
+
+    if is_POST(request):
+        comment_id = request.POST["comment"]
+        username = request.POST["username"]
+        comment = Event.objects.filter(pk=comment_id)[0]
+        user = User.objects.filter(username=username)[0]
+        if comment is None:
+            fail_response(responseJSON)
+            responseJSON["message"] = "Comment not found."
+            return HttpResponse(json.dumps(responseJSON))
+        if user is None:
+            fail_response(responseJSON)
+            responseJSON["message"] = "User not found."
+            return HttpResponse(json.dumps(responseJSON))
+        comment.likes.add(user)
+        comment.save()
+        success_response(responseJSON)
+        responseJSON["message"] = "Comment updated."
+        responseJSON["comment"] = create_comment_JSON(comment)
+    return HttpResponse(json.dumps(responseJSON))
