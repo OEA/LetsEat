@@ -48,6 +48,7 @@ class FriendInfoViewController: UIViewController {
         }else{
             addFriendButton.hidden = true
         }
+        
         if isRequestView == true {
             acceptFriendButton.hidden = false
             rejectFriendButton.hidden = false
