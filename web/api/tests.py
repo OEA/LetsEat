@@ -19,12 +19,12 @@ class modelTest(TestCase):
     def setUp(self):
 
         #Add Users
-        omer = User.objects.create_superuser("kalaomer", "Ömer", "Kala", "kalaomer@hotmail.com", "123456")
-        taha = User.objects.create_user("tdgunes", "Taha Doğan", "Güneş", "tdgunes@gmail.com", "123456")
-        bilal = User.objects.create_user("aby", "Ahmet Bilal", "Yıldız", "aby@hotmail.com", "123456")
-        didem = User.objects.create_user("didi", "Didem", "Kayıkçı", "didemk@gmail.com", "123456")
-        zeynep = User.objects.create_user("zeyno", "Zeynep", "Özfıçı", "zeynepozfici@gmail.com", "123456")
-        simge = User.objects.create_user("simge", "Simge", "Sayın", "simgesayin@yahoo.com", "123456")
+        omer = User.objects.create_superuser(username="kalaomer", name="Omer", surname="Kala", email="kalaomer@hotmail.com", password="123456")
+        taha = User.objects.create_user(username="tdgunes", name="Taha Dogan", surname="Gunes", email="tdgunes@gmail.com", password="123456")
+        bilal = User.objects.create_user(username="aby", name="Ahmet Bilal", surname="Yildiz", email="aby@hotmail.com", password="123456")
+        didem = User.objects.create_user(username="didi", name="Didem", surname="Kayikci", email="didemk@gmail.com", password="123456")
+        zeynep = User.objects.create_user(username="zeyno", name="Zeynep", surname="Ozfici", email="zeynepozfici@gmail.com", password="123456")
+        simge = User.objects.create_user(username="simge", name="Simge", surname="Sayin", email="simgesayin@yahoo.com", password="123456")
 
         omer.save()
         taha.save()
@@ -50,76 +50,70 @@ class modelTest(TestCase):
 
 
         #Add Restaurants
-        subway = Restaurant('Subway', '41.086840', '29.006916')
-        capitol = Restaurant('Capitol', '41.034564', '29.098324')
-        metro_city = Restaurant('Metro City', '41.014599', '29.032563')
-
+        subway = Restaurant(name='Subway', latitude='41.086840', longitude='29.006916')
         subway.save()
+
+        capitol = Restaurant(name='Capitol', latitude='41.034564', longitude='29.098324')
         capitol.save()
+
+        metro_city = Restaurant(name='Metro City', latitude='41.014599', longitude='29.032563')
         metro_city.save()
 
 
-
-
         #Add Events
-        subway_meal = Event(omer, 'Subway de öğle yemeği', 'M', subway)
+        subway_meal = Event(owner=omer, name='Subway de ogle yemegi', type='M', restaurant=subway, joinable=True)
+        subway_meal.save()
         subway_meal.participants.add(taha)
         subway_meal.participants.add(simge)
-        subway_meal.joinable = True
 
 
-        metro_city_dinning = Event(zeynep, 'Metro City de akşam yemeği', 'D', metro_city)
+        metro_city_dinning = Event(owner=zeynep, name='Metro City de aksam yemegi', type='D', restaurant=metro_city, joinable=True)
+        metro_city_dinning.save()
         metro_city_dinning.participants.add(simge)
         metro_city_dinning.participants.add(didem)
-        metro_city_dinning.joinable = True
 
 
-        capitol_meal = Event(simge, "Capitolde mevzu var", 'M', capitol)
+        capitol_meal = Event(owner=simge, name="Capitolde mevzu var", type='M', restaurant=capitol, joinable=False)
+        capitol_meal.save()
         capitol_meal.participants.add(bilal)
         capitol_meal.participants.add(omer)
-        capitol_meal.joinable = False
-
-
-        subway_meal.save()
-        metro_city_dinning.save()
-        capitol_meal.save()
 
 
 
         #Add Event Requests
-        subway_request = EventRequest('P', subway, bilal)
-        metro_city_request = EventRequest('A', metro_city, didem)
-        capitol_request = EventRequest('D', capitol, omer)
-
+        subway_request = EventRequest(status='P', event=subway_meal, guest=bilal)
         subway_request.save()
+
+        metro_city_request = EventRequest(status='A', event=metro_city_dinning, guest=didem)
         metro_city_request.save()
+
+        capitol_request = EventRequest(status='D', event=capitol_meal, guest=omer)
         capitol_request.save()
 
 
         #Add Group
-        ozu_group = Group('Özyegin Grubu', omer)
+        ozu_group = Group(name='Ozyegin Grubu', owner=omer)
+        ozu_group.save()
         ozu_group.members.add(taha)
         ozu_group.members.add(bilal)
 
-        ozu_group.save()
 
 
-        agile_group = Group('CS 476 | Agile', didem)
+
+        agile_group = Group(name='CS 476 | Agile', owner=didem)
+        agile_group.save()
         agile_group.members.add(simge)
         agile_group.members.add(bilal)
 
-        agile_group.save()
+
 
 
         #Add Comments
-        comment = Comment(omer, datetime.datetime.now().time())
-        comment.likes.add(bilal)
-        comment.event.add(subway_request)
-        comment.is_event_comment = True
-        comment.content = "Yemek çok güzeldi"
-        comment.comment.add(comment)
-
+        comment = Comment(owner=omer, time=datetime.datetime.now().time(), event=subway_meal, is_event_comment=True, content="Yemek cok guzeldi")
         comment.save()
+        comment.likes.add(bilal)
+
+
 
 
 
@@ -475,7 +469,7 @@ class modelTest(TestCase):
 
     def test_superuser_has_name(self):
         superuser = User.objects.get(username="kalaomer")
-        self.assertEqual(superuser.name, "Ömer")
+        self.assertEqual(superuser.name, "Omer")
 
     def test_superuser_has_username(self):
         superuser = User.objects.get(email="kalaomer@hotmail.com")
@@ -491,11 +485,11 @@ class modelTest(TestCase):
 
     def test_user_has_name(self):
         user = User.objects.get(username="tdgunes")
-        self.assertEqual(user.name, "Taha Doğan")
+        self.assertEqual(user.name, "Taha Dogan")
 
     def test_user_has_surname(self):
         user = User.objects.get(username="tdgunes")
-        self.assertEqual(user.surname, "Güneş")
+        self.assertEqual(user.surname, "Gunes")
 
     def test_user_has_email(self):
         user = User.objects.get(username="tdgunes")
@@ -559,7 +553,7 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
     def invite_event_test(self):
-        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+        metro_city_event = Event.objects.get(name="Metro City de aksam yemegi")
 
         # Missing event
         params = urllib.parse.urlencode(
@@ -585,7 +579,7 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
     def accept_event_test(self):
-        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+        metro_city_event = Event.objects.get(name="Metro City de aksam yemegi")
 
         # Missing event
         params = urllib.parse.urlencode(
@@ -611,7 +605,7 @@ class modelTest(TestCase):
         self.assertEqual(response["status"], "success")
 
     def reject_event_test(self):
-        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+        metro_city_event = Event.objects.get(name="Metro City de aksam yemegi")
 
         # Missing event
         params = urllib.parse.urlencode(
@@ -654,7 +648,7 @@ class modelTest(TestCase):
 
     def get_event_test(self):
 
-        metro_city_event = Event.objects.get(name="Metro City de akşam yemeği")
+        metro_city_event = Event.objects.get(name="Metro City de aksam yemegi")
 
         # Missing event
         params = urllib.parse.urlencode(
