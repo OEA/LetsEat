@@ -33,8 +33,8 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         let vidal = ["name": "vidal", "surname": "hara", "email": "ab@ab.ab", "username": "vidal1"] as [String: AnyObject]
         let burak = ["name": "burak", "surname": "atalay", "email": "abc@ab.ab", "username": "burak1"] as [String: AnyObject]
         var participants = [vidal, burak]
-        
-        let event = ["owner": owner, "restaurant": "Aras Et", "participants": participants, "comments": [],"time": "2015-04-30 12:40:00+00:00"] as [String: AnyObject]
+        let comment = ["owner": vidal, "content": "Hello World!"]
+        let event = ["owner": owner, "restaurant": "Aras Et", "participants": participants, "comments": [comment],"time": "2015-04-13 15:58:00+00:00"] as [String: AnyObject]
         eventList.append(event)
         
         if olustur {

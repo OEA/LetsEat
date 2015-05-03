@@ -70,12 +70,15 @@ class EventViewController: UIViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if sender is UINavigationItem {
-            let button = sender as! UINavigationItem
+        if sender is UIBarButtonItem {
+            println("girdi")
+            let button = sender as! UIBarButtonItem
             if button.title == "Comments" {
                 let commentsVC = segue.destinationViewController as! CommentsViewController
-                let comments: AnyObject? = event["comments"]
+                let comments = event["comments"] as! [[String: AnyObject]]
                 commentsVC.comments = comments
+            }else if button.title == "Map" {
+                
             }
         }
     }

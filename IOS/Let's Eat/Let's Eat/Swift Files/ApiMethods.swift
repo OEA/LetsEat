@@ -58,7 +58,7 @@ class ApiMethods {
                             }
                         })
                         
-                    } else {
+                    }else {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
                         })
@@ -720,6 +720,58 @@ class ApiMethods {
         
         
     }
+    
+    func getGoogleAutoComp(searched: NSString, vc : LocationChooseViewController){
+        
+        var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/place/search/json?&types=cafe&language=tr&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
+        //var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?&types=address&language=tr&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
+        //var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(searched)&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as! NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as! NSString
+                
+                
+                println("Success: " + (status as String))
+                
+                if(status == "OK")
+                {
+                    //vc.result = jsonData.valueForKey("predictions") as! [[String: AnyObject]]
+                    //vc.result = jsonData.valueForKey("result") as! [String: AnyObject]
+                    /*NSLog("Friends SUCCESS");
+                    var userDefaults:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+                    let data = jsonData["friends"] as! NSArray
+                    userDefaults.setObject(data, forKey: "Friends")*/
+                    //println(jsonData.valueForKey("result"))
+                    
+                }else if status == "ZERO_RESULTS" {
+                    jsonData.setValue("", forKey: "message")
+                    alert.getSuccesError(jsonData, str: "There is no result", vc:vc)
+                }else {
+                    alert.getSuccesError(jsonData, str:"Location Search Failed!", vc: vc)
+                }
+            } else {
+                alert.getStatusCodeError("Location Search Failed!", vc:vc)
+            }
+        } else {
+            alert.getUrlDataError(responseError, str:"Location Search Failed!", vc: vc)
+        }
+        
+    }
+
     
     func getRequest(url: NSURL, post: NSString) -> NSMutableURLRequest{
         var postData:NSData = post.dataUsingEncoding(NSASCIIStringEncoding)!

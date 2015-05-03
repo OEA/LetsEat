@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class RestaurantLocationViewController: UIViewController {
+class RestaurantLocationViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     override func viewDidLoad() {

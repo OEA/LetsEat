@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4600811D1AF3545C00030594 /* LocationChooseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4600811C1AF3545C00030594 /* LocationChooseViewController.swift */; };
 		461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461A15521AB78535009DA34E /* FriendsViewController.swift */; };
 		462F58821AB864560053DD37 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58811AB864560053DD37 /* Alerts.swift */; };
 		462F58841AB86E660053DD37 /* ApiMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F58831AB86E660053DD37 /* ApiMethods.swift */; };
 		463D7AC11ADBB89B007297C9 /* RestaurantLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */; };
 		463D7AC31ADBB8C5007297C9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463D7AC21ADBB8C5007297C9 /* MapKit.framework */; };
-		463D7AC51ADBB8D0007297C9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */; };
 		463D7AFA1ADBD48D007297C9 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463D7AF91ADBD48D007297C9 /* CommentsViewController.swift */; };
 		4642F9861AC9841D0000E7A4 /* OwnedEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4642F9851AC9841D0000E7A4 /* OwnedEventsTableViewController.swift */; };
 		464CCD6E1A9BDFCA00F7CE31 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */; };
@@ -56,12 +56,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4600811C1AF3545C00030594 /* LocationChooseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationChooseViewController.swift; sourceTree = "<group>"; };
 		461A15521AB78535009DA34E /* FriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsViewController.swift; path = "Friends Tab/FriendsViewController.swift"; sourceTree = "<group>"; };
 		462F58811AB864560053DD37 /* Alerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Alerts.swift; path = "Swift Files/Alerts.swift"; sourceTree = "<group>"; };
 		462F58831AB86E660053DD37 /* ApiMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApiMethods.swift; path = "Swift Files/ApiMethods.swift"; sourceTree = "<group>"; };
 		463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantLocationViewController.swift; sourceTree = "<group>"; };
 		463D7AC21ADBB8C5007297C9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		463D7AF91ADBD48D007297C9 /* CommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		4642F9851AC9841D0000E7A4 /* OwnedEventsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OwnedEventsTableViewController.swift; path = "Requests Tab/OwnedEventsTableViewController.swift"; sourceTree = "<group>"; };
 		464CCD6D1A9BDFCA00F7CE31 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
@@ -104,7 +104,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				463D7AC51ADBB8D0007297C9 /* CoreLocation.framework in Frameworks */,
 				463D7AC31ADBB8C5007297C9 /* MapKit.framework in Frameworks */,
 				46D507B51AD1FFC3003EBC68 /* FBSDKLoginKit.framework in Frameworks */,
 				46D507B41AD1FFC3003EBC68 /* FBSDKCoreKit.framework in Frameworks */,
@@ -122,6 +121,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460081031AF2424600030594 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				463D7AC21ADBB8C5007297C9 /* MapKit.framework */,
+				46D507B11AD1FFC2003EBC68 /* FBSDKCoreKit.framework */,
+				46D507B21AD1FFC2003EBC68 /* FBSDKLoginKit.framework */,
+				46D507B31AD1FFC3003EBC68 /* FBSDKShareKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		46146BB41A93389300C35A02 /* Entry VC */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,14 +184,10 @@
 		464E9D5A1A92594000396EE8 = {
 			isa = PBXGroup;
 			children = (
-				463D7AC41ADBB8D0007297C9 /* CoreLocation.framework */,
-				463D7AC21ADBB8C5007297C9 /* MapKit.framework */,
-				46D507B11AD1FFC2003EBC68 /* FBSDKCoreKit.framework */,
-				46D507B21AD1FFC2003EBC68 /* FBSDKLoginKit.framework */,
-				46D507B31AD1FFC3003EBC68 /* FBSDKShareKit.framework */,
 				464E9D651A92594000396EE8 /* Let's Eat */,
 				464E9D7E1A92594000396EE8 /* Let's EatTests */,
 				464E9D641A92594000396EE8 /* Products */,
+				460081031AF2424600030594 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -203,6 +209,7 @@
 				46146BB41A93389300C35A02 /* Entry VC */,
 				464E9D681A92594000396EE8 /* AppDelegate.swift */,
 				464E9D6F1A92594000396EE8 /* Main.storyboard */,
+				4600811C1AF3545C00030594 /* LocationChooseViewController.swift */,
 				464E9D8F1A925A3300396EE8 /* ViewController.swift */,
 				463D7AC01ADBB89B007297C9 /* RestaurantLocationViewController.swift */,
 				4693A69E1ADBB50500250B71 /* EventViewController.swift */,
@@ -233,7 +240,7 @@
 				46DBF7751AAED2E6009E72F2 /* Login_Test.swift */,
 			);
 			path = "Let's EatTests";
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		464E9D7F1A92594000396EE8 /* Supporting Files */ = {
 			isa = PBXGroup;
@@ -384,6 +391,7 @@
 				4642F9861AC9841D0000E7A4 /* OwnedEventsTableViewController.swift in Sources */,
 				468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
+				4600811D1AF3545C00030594 /* LocationChooseViewController.swift in Sources */,
 				463D7AC11ADBB89B007297C9 /* RestaurantLocationViewController.swift in Sources */,
 				46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,
@@ -522,7 +530,9 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Let's Eat/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Let's Eat/Bridge-Header.h";
 			};
@@ -538,7 +548,9 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = "Let's Eat/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Let's Eat/Bridge-Header.h";
 			};
