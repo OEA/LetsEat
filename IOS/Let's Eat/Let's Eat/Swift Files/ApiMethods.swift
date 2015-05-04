@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EventKit
 
 class ApiMethods {
     let alert = Alerts()

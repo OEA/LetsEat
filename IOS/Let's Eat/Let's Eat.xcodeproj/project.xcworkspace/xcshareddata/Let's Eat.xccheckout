@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>E3B7C4BE-3B34-420F-B6CA-5C30CD64FE75</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Let's Eat</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>E508B23D2FA04E4A03800229FEC7474CE35F32DD</key>
 		<string>https://github.com/OEASLAN/LetsEat.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>IOS/Let's Eat/Let's Eat.xcodeproj/project.xcworkspace</string>
+	<string>IOS/Let's Eat/Let's Eat.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>E508B23D2FA04E4A03800229FEC7474CE35F32DD</key>

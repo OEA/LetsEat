@@ -22,6 +22,8 @@ class LocationChooseViewController: UIViewController, UISearchBarDelegate, MKMap
     var currountLocation: MKAnnotation!
     var backUIVC: CreateEventViewController!
     
+    
+    
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         
         let geocoder = CLGeocoder();
@@ -44,8 +46,8 @@ class LocationChooseViewController: UIViewController, UISearchBarDelegate, MKMap
             self.list.append(annotation)
             self.myMapView.addAnnotation(annotation)
             //self.get()
-            if placemarks.count == 1{
-                self.myMapView.selectAnnotation(annotation, animated: true)
+            if self.list.count == 1{
+                self.myMapView.selectAnnotation(self.list[0], animated: true)
             }
             
             self.myMapView.showAnnotations(self.list, animated: true)
@@ -115,7 +117,6 @@ class LocationChooseViewController: UIViewController, UISearchBarDelegate, MKMap
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
 
         // Do any additional setup after loading the view.
     }

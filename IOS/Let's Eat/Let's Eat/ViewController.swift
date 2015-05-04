@@ -18,6 +18,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
     let dateSetter = DateSetter()
     let apiMethod = ApiMethods()
     let alert = Alerts()
+    
     var searchedList = []
     var eventList = [] as [[String: AnyObject]]
     var olustur = false

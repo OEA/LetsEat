@@ -23,7 +23,7 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     var participants = [String: Bool]()
     
-    var types = ["Meal"]
+    var types = ["Meal", "Dinning"]
     let apiMethod = ApiMethods()
     var eventID: Int!
     var joinable = false
@@ -91,7 +91,6 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
             let button = sender as! UIButton
             if button.buttonType == UIButtonType.ContactAdd {
                 let addPariciantVC = segue.destinationViewController as! AddParticipantViewController
-               
                 addPariciantVC.addedFriends = participants
                 addPariciantVC.backUIVC = self
             }else if button == restButton{
@@ -108,9 +107,11 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let typeText = typeButton.titleLabel?.text
         let restText = restButton.titleLabel?.text?.lowercaseString
         let eventTime = getDate()
-        if (!eventName.text.isEmpty) && currountLocation  != nil && typeText != "Edit"{
+        if (!eventName.text.isEmpty) && currountLocation  != nil && typeText != "Edit" && participants.count > 0{
             apiMethod.createEvent(eventName.text, time: eventTime, type: typeText!, restaurant: restText!, errorText: "Faild", joinable: joinable, vc: self)
             if eventID != nil {
+                let ec = EventCreator()
+                ec.createEvent(eventName.text, location: restText!, eventDate: datePV.date )
                 if participants.count > 0 {
                     for friend in participants{
                         apiMethod.inviteEvent(eventID, vc: self, username: friend.0)
