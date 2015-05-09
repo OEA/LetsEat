@@ -7,3 +7,4 @@ from .event_views import create_event, get_event, get_owned_events, invite_event
 from .restaurant_views import create_restaurant, get_restaurant_list
 from .group_views import create_group, add_member
 from .comment_views import comment_on_event
+from .news_views import get_personal_news
