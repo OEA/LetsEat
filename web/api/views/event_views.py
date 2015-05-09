@@ -47,7 +47,7 @@ def create_event(request):
         event.save()
         event.participants.add(owner)
         event.restaurant = restaurant
-        if request.POST["joinable"] == 1:
+        if request.POST["joinable"] == "1":
             event.joinable = True
         else:
             event.joinable = False
