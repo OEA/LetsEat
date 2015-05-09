@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
@@ -22,10 +23,11 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     var participants = [String: Bool]()
     
-    var types = ["Meal"]
+    var types = ["Meal", "Dinning"]
     let apiMethod = ApiMethods()
     var eventID: Int!
     var joinable = false
+    var currountLocation: MKAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +55,10 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func locationTapped() {
+        restButton.setTitle(currountLocation.title, forState: .Normal)
     }
     
     @IBAction func typeTapped(sender: UIButton) {
@@ -85,9 +91,11 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
             let button = sender as! UIButton
             if button.buttonType == UIButtonType.ContactAdd {
                 let addPariciantVC = segue.destinationViewController as! AddParticipantViewController
-               
                 addPariciantVC.addedFriends = participants
                 addPariciantVC.backUIVC = self
+            }else if button == restButton{
+                let chooseLocationVC = segue.destinationViewController as! LocationChooseViewController
+                chooseLocationVC.backUIVC = self
             }
             
         }
@@ -97,17 +105,20 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
     
     @IBAction func doneTapped(sender: UIBarButtonItem) {
         let typeText = typeButton.titleLabel?.text
-        let restText = restButton.titleLabel?.text
+        let restText = restButton.titleLabel?.text?.lowercaseString
         let eventTime = getDate()
-        
-        apiMethod.createEvent(eventName.text, time: eventTime, type: typeText!, restaurant: restText!, errorText: "Faild", joinable: joinable, vc: self)
-        if eventID != nil {
-            if participants.count > 0 {
-                for friend in participants{
-                    apiMethod.inviteEvent(eventID, vc: self, username: friend.0)
+        if (!eventName.text.isEmpty) && currountLocation  != nil && typeText != "Edit" && participants.count > 0{
+            apiMethod.createEvent(eventName.text, time: eventTime, type: typeText!, restaurant: restText!, errorText: "Faild", joinable: joinable, vc: self)
+            if eventID != nil {
+                let ec = EventCreator()
+                ec.createEvent(eventName.text, location: restText!, eventDate: datePV.date )
+                if participants.count > 0 {
+                    for friend in participants{
+                        apiMethod.inviteEvent(eventID, vc: self, username: friend.0)
+                    }
                 }
+                self.navigationController?.popViewControllerAnimated(true)
             }
-            self.navigationController?.popViewControllerAnimated(true)
         }
         /*let rangeOfHello = Range(start: advance(eventTime.startIndex, 5), end: advance(eventTime.startIndex, 5))
         let helloStr = eventTime.substringWithRange(rangeOfHello)*/
@@ -125,6 +136,7 @@ class CreateEventViewController: UIViewController, UIPickerViewDelegate, UIPicke
             }
         }
     }
+    
     func getDate() -> String{
         var dateFormatter = NSDateFormatter()
 

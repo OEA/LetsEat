@@ -167,6 +167,50 @@
 
     });
 
+$(".accept-event").click(function () {
+        var event_id = $(this).attr('data-id');
+        var participant = $(this).attr('data-participant');
+        $(this).removeClass("btn-primary");
+        $(this).addClass("btn-default");
+        $(this).parent().parent().text("Request is accepted");
+        $.ajax({
+            url: "{% url 'api_accept_event' %}",
+            type: "POST",
+            data: 'event=' + event_id + "&participant=" + participant,
+            dataType: "JSON",
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+    });
+
+
+$(".reject-event").click(function () {
+        var event_id = $(this).attr('data-id');
+        var participant = $(this).attr('data-participant');
+        $(this).removeClass("btn-primary");
+        $(this).addClass("btn-default");
+        $(this).parent().parent().text("Request is rejected");
+        $.ajax({
+            url: "{% url 'api_reject_event' %}",
+            type: "POST",
+            data: 'event=' + event_id + "&participant=" + participant,
+            dataType: "JSON",
+            success: function (data) {
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+    });
  $(".reject-friend").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
@@ -190,18 +234,49 @@
     });
 
     $(".create-event").click(function () {
-        var event_name = $(".event-name").val();
+        var event_name = $(".event_name").val();
         var start_time = $(".start_time").val();
         var owner = $(".owner").val();
         var restaurant = $(".restaurant").val();
-
-        $(this).parent().parent().html("<h1>Event created!</h1>");
+        var participants = $(".participant").val();
         $.ajax({
             url: "{% url 'api_create_event' %}",
             type: "POST",
-            data: 'name=' + event_name + "&start_time=" + start_time + "&owner=" + owner + "&restaurant=" + restaurant,
+            data: 'name=' + event_name + "&start_time=" + start_time + "&type=null&&joinable=1&owner=" + owner + "&restaurant=" + restaurant,
             dataType: "JSON",
             success: function (data) {
+                var participantsArray = participants.split(",");
+                var event_id = data.event.id;
+                if(participantsArray.length>0) {
+                    for(var i = 0; i < participantsArray.length; i++) {
+                    $.ajax({
+                        url: "{% url 'api_invite_event' %}",
+                        type: "POST",
+                        data: 'participant=' + participantsArray[i] + "&event=" + event_id,
+                        dataType: "JSON",
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                 }
+                } else {
+                    $.ajax({
+                        url: "{% url 'api_invite_event' %}",
+                        type: "POST",
+                        data: 'participant=' + participants + "&event=" + event_id,
+                        dataType: "JSON",
+                        success: function (data) {
+
+                            console.log("part: " + participants + ", " + data);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }
 
             },
             error: function (data) {
@@ -210,9 +285,15 @@
 
         });
 
+        generate("success", "Your event is successfully created.");
 
     });
 
+
+
+    $(".toggle-comment").click(function () {
+            $(this).parent().children('.comment').toggle();
+    });
 
     $('#myMapModal').on('shown.bs.modal', function (e) {
         var map_options = {
@@ -257,13 +338,12 @@
         var lng = document.getElementById("lng");
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo("bounds", map);
-
         var marker = new google.maps.Marker({map: map});
 
 
         google.maps.event.addListener(autocomplete, "place_changed", function () {
             var place = autocomplete.getPlace();
-
+            input.value = place.name;
             if (place.geometry.viewport) {
                 map.fitBounds(place.geometry.viewport);
             } else {
@@ -317,13 +397,13 @@ $('.toggle-event-name').click(function () {
 var citynames = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: "{% static 'js/citynames.json' %}",
-    filter: function(list) {
-      return $.map(list, function(cityname) {
-        return { name: cityname }; });
-    }
-  }
+    prefetch: {
+        url: "{% static 'js/citynames.json' %}",
+        filter: function(list) {
+          return $.map(list, function(groups) {
+            return { name: groups }; });
+        }
+      }
 });
 citynames.initialize();
 
@@ -359,6 +439,25 @@ $('.group-participant').tagsinput({
   }
 });
 
+function generate(type, text) {
+        var n = noty({
+            text        : text,
+            type        : type,
+            dismissQueue: true,
+            animation: {
+                open: 'animated flipInX', // Animate.css class names
+                close: 'animated flipOutX', // Animate.css class names
+                easing: 'swing', // unavailable - no need
+                speed: 1500 // unavailable - no need
+            },
+            timeout     : 10000,
+            modal       : true,
+            closeWith   : ['click'],
+            layout      : 'topCenter',
+            theme       : 'relax',
+            maxVisible  : 10
+        });
+    }
     function loginFacebook() {
     FB.api('/me', function(response) {
         var name = response.first_name;

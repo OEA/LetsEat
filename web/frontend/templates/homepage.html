@@ -9,10 +9,6 @@
 
         <div class="col-md-6">
 
-            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#myMapModal"
-               style="margin-left: 75px;">
-                Create Event
-            </a>
 
             <div class="modal fade" id="myMapModal">
                 <div class="modal-dialog">
@@ -30,7 +26,7 @@
                                 </div>
                                 <div class="panel-body event-name">
                                     <input type="hidden" class="owner" name="owner" value="{{ user.username }}">
-                                    <input class="form-control event-name" type="text" placeholder="Event Name" name="event-name">
+                                    <input class="form-control event_name" type="text" placeholder="Event Name" name="event_name">
                                 </div>
                             </div>
                             <div class="panel panel-default ">
@@ -101,7 +97,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary create-event">Save changes</button>
+                            <button type="button" class="btn btn-primary create-event" data-dismiss="modal">Save changes</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -110,12 +106,12 @@
             </div>
 
 
-            <!-- /.modal -->
 
 
+            {% if events %}
+                {% for event in events %}
 
-
-            <div class="media">
+                    <div class="media">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object"
@@ -126,57 +122,70 @@
                 <div class="media-body">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            I will be eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i
-                                class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
+                            I will be eating {% if event.participants|length > 1 %} with {% endif %}
+                            {% for participant in event.participants %}
+                                {% if event.participants|length > 1 %}
+                                    {% if participant.username != username %}
+                                    <a href="{% url 'profile' participant.username %}">{{ participant.name }} {{ participant.surname }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    alone.
+                                {% endif %}
+                            {% endfor %}
+                            <i class="fa fa-map-marker"></i> {{ event.restaurant }} <strong>—</strong> <a href="#">{{ event.name }}</a>
                         </div>
                         <div class="panel-footer">
-                            <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i>
-                            Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> .
+                            <a disabled> <i class="fa fa-lock"></i>
+                            Join</a> . <a class="toggle-comment"> <i class="fa fa-comments-o"></i> Comment</a> .
                             <span class='st_facebook' displayText='Facebook'></span>
                             <span class='st_twitter' displayText='Tweet'></span>
                             <i class="fa fa-clock-o" data-toggle="popover"
-                                   data-content="23 Mar. 2015 16:20"></i> <span style="color:red">13 hours left</span>
-
-                            <div class="pull-right">
-                                <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small>
-                                <a href="#" data-toggle="popover"
-                                   data-content="<small>Burak Atalay</small><br><small>Yunus Yılmaz</small><br>and 4.998 more...">5k
-                                    likes</a>
+                                   data-content="{{ event.time }}"></i> <span style="color:red">13 hours left</span>
+<div class="comment" style="display: none;">
+                            <hr>
+                            <div class="row">
+                            <div class="col-md-1">
+                               <img class="media-object" alt="Hakan Uyumaz" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
                             </div>
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" placeholder="Write a comment">
+                            </div>
+</div>
+                            <div class="media">
+      <div class="media-left">
+        <a href="#">
+          <img class="media-object" alt="Hakan Uyumaz" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
+        </a>
+      </div>
+      <div class="media-body">
+        <a href="#">Hakan Uyumaz</a> Cras sit amet nibh libero, in gravida nulla.<a href="#">See more</a>
+      </div>
+    </div>
+                             <div class="media">
+      <div class="media-left">
+        <a href="#">
+          <img class="media-object" alt="Burak Atalay" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
+        </a>
+      </div>
+      <div class="media-body">
+        <a href="#">Burak Atalay</a> Cras sit amet nibh libero, in gravida nulla.<a href="#">See more</a>
+      </div>
+    </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object"
-                             src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" alt="..."
-                             width="64" height="64">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            I will be eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i
-                                class="fa fa-map-marker"></i> Nusr-Et
-                        </div>
-                        <div class="panel-footer">
-                            <a><i class="fa fa-thumbs-o-up"></i> Like</a> . <a disabled><i class="fa fa-unlock"></i>
-                            Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a> . <a> <span class='st_facebook' displayText='Facebook'></span>
-                            <span class='st_twitter' displayText='Tweet'></span>
-                            <i class="fa fa-clock-o" data-toggle="popover" data-content="13 Mar. 2015 16:20"></i> <span style="color:green">5 days left</span>
-
-                            <div class="pull-right">
-                                <small><i class="fa fa-thumbs-o-up"></i></small>
-                                <a>5m likes</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="well">
+                    <h4>There is no event in your timeline :(</h4>
+                </div>
+            {% endif %}
+
 
         </div>
 
@@ -263,11 +272,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
-    </div>
-</div>
 </div>
 </div>
 

@@ -33,6 +33,7 @@ def create_event(request):
     if is_POST(request):
         owner_id = request.POST["owner"]
         restaurant = request.POST["restaurant"]
+        event_name = request.POST["name"]
         owner = get_object_or_404(User, username=owner_id)
         form = EventCreationForm(request.POST)
         type = Event.TYPE_LABELS_REVERSE.get(request.POST["type"], None)
@@ -47,6 +48,7 @@ def create_event(request):
         event.save()
         event.participants.add(owner)
         event.restaurant = restaurant
+        event.name = event_name
         if request.POST["joinable"] == "1":
             event.joinable = True
         else:

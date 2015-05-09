@@ -206,15 +206,11 @@ def friends_view(request, username):
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
-def test(request):
-    return HttpResponse("Successful")
-
 def logout(request):
     responseJSON = {}
     auth.logout(request)
     responseJSON["message"] = "You logout successfully"
     responseJSON["status"] = "success"
-    print(responseJSON)
     file.create_file(request, responseJSON, "logout", request.method)
     return redirect("../login")
 
@@ -227,30 +223,6 @@ def notifications_view(request):
         return render(request, 'notifications.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
-
-
-def create_event(request):
-    owner = request.user
-    if request.user.is_authenticated():
-        if request.method == "POST":
-            event_name = request.POST["event_name"]
-            event_place = request.POST["event_place"]
-            event_time = request.POST["event_time"]
-            event_type = request.POST["event_type"]
-            event_participants = request.POST["event_participants"]
-
-        else:
-            return redirect("http://127.0.0.1:8000/homepage")
-
-
-def create_group(request):
-    owner = request.user
-    if request.user.is_authenticated():
-        if request.method == "POST":
-            group_name = request.POST["group_name"]
-            group_members = request.POST["group_members"]
-        else:
-            return redirect("http://127.0.0.1:8000/homepage")
 
 
 def get_friends_count(user):

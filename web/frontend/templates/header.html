@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-social.css' %}">
     <style>
 
@@ -142,8 +143,8 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 {% if user %}
                     <li class="dropdown">
                         <a href="{% url 'notifications' %}" class="dropdown-toggle" data-toggle="dropdown"><i
-                                class="fa fa-bell"></i> Notifications {% if friend_request %} <label
-                                class="label label-danger">{{ friend_request|length }}</label> {% endif %}</a>
+                                class="fa fa-bell"></i> Requests {% if friend_request or event_request %} <label
+                                class="label label-danger">{{ friend_request_count|add:event_request_count }}</label> {% endif %}</a>
                         <ul class="dropdown-menu scrollable-menu" style="min-width:550px;">
                             <div class="col-md-12">
                                 <h5><i class="fa fa-user-plus"></i> Friend Requests</h5>
@@ -176,7 +177,28 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                         <li><h6>Nothing to show.</h6></li>
                      {% endif %}
                                 <h5><i class="fa fa-user-plus"></i> Event Requests</h5>
-                                <li><h6>Nothing to show.</h6></li>
+                                 {% if event_request %}
+
+                                    {% for req in event_request %}
+
+                                        <li>
+                                    <div class="media">
+
+                                        <div class="media-body" style="padding-bottom: 10px;padding-right: 10px;">
+                                            <small>{{ req.name }} @ {{ req.restaurant|slice:":20" }}</small>
+                                            <a class="btn btn-default pull-right reject-event" data-id="{{ req.id }}" data-participant="{{ username }}" style="margin-left: 10px;">Delete
+                                                Request</a>
+                                            <a class="btn btn-primary pull-right accept-event" data-id="{{ req.id }}" data-participant="{{ username }}">Accept</a>
+                                        </div>
+
+
+                                    </div>
+                                </li>
+
+                                    {% endfor %}
+                    {% else %}
+                        <li><h6>Nothing to show.</h6></li>
+                     {% endif %}
 
                             </div>
                         </ul>
@@ -322,6 +344,8 @@ span.twitter-typeahead .tt-suggestion.tt-cursor {
                 </div>
 
             </div> -->
+
+
                 {% endif %}
                 <li class="dropdown">
                     {% if user %}
