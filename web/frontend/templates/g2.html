@@ -1,0 +1,57 @@
+{% include 'header.html' with user=user username=username title='Groups' %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2><small>Group Name: Kebab loverz :)</small> </h2>
+  <p><a href="#" class="btn btn-primary " data-sender="yns" data-receiver="y"><i class="fa fa-search "></i> add-friend</a></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Username</th>
+        <th>Remove</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bahadır</td>
+        <td>Kırdan</td>
+        <td><a href="/profile/y" > bahadirk </td>
+        <td><a href="#" class="btn btn-danger remove-friend" data-sender="yns" data-receiver="y"><i class="fa fa-times "></i>remove</a></td>
+
+      </tr>
+      <tr>
+        <td>Burak</td>
+        <td>Atalay</td>
+        <td><a href="/profile/y" > buraka </td>
+        <td><a href="#" class="btn btn-danger remove-friend" data-sender="yns" data-receiver="y"><i class="fa fa-times "></i>remove</a></td>
+
+      </tr>
+      <tr>
+        <td>Vidal</td>
+        <td>Hara</td>
+        <td><a href="/profile/y" > vidalha </td>
+        <td><a href="#" class="btn btn-danger remove-friend" data-sender="yns" data-receiver="y"><i class="fa fa-times "></i>remove</a></td>
+      </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>
