@@ -97,6 +97,47 @@ def events(request, username):
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
+
+def groups(request, username):
+    user = None
+    if request.user.is_authenticated():
+    #It will be replaced by web service when it runs
+        user = get_object_or_404(User, username=username)
+        context = {'user': user, 'username': request.user.username}
+        return render(request, 'groups.html', context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")
+
+def g1(request, username):
+    user = None
+    if request.user.is_authenticated():
+    #It will be replaced by web service when it runs
+        user = get_object_or_404(User, username=username)
+        context = {'user': user, 'username': request.user.username}
+        return render(request, 'g1.html', context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")
+
+def g2(request, username):
+    user = None
+    if request.user.is_authenticated():
+    #It will be replaced by web service when it runs
+        user = get_object_or_404(User, username=username)
+        context = {'user': user, 'username': request.user.username}
+        return render(request, 'g2.html', context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")
+
+def g3(request, username):
+    user = None
+    if request.user.is_authenticated():
+    #It will be replaced by web service when it runs
+        user = get_object_or_404(User, username=username)
+        context = {'user': user, 'username': request.user.username}
+        return render(request, 'g3.html', context)
+    else:
+        return redirect("http://127.0.0.1:8000/login/")
+
 def edit(request, username):
     if request.user.is_authenticated():
         if request.method == "POST":
