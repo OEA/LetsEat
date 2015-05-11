@@ -1,12 +1,23 @@
-[ "Ömer Aslan",
-  "Test Username",
-  "Burak Atalay",
-  "Hakan Uyumaz",
-  "Yunus Yılmaz",
-  "Hasan Sözer",
-  "Vidal Hara",
-  "Zeynep Arslan",
-  "Gizem Atasoy",
-  "Simge Sağın",
-  "Berkay Cesur"
+[{
+  "name": "Ömer Aslan",
+  "username": "OEASLAN"
+  },{
+  "name": "Test Username",
+  "username": "test"
+  },{
+  "name": "Hakan Uyumaz",
+  "username": "hakanuyumaz"
+  },{
+  "name": "Burak Atalay",
+  "username": "buatalay"
+  },{
+  "name": "Hasan Sözer",
+  "username": "hsozer"
+  },{
+  "name": "Yunus Yılmaz",
+  "username": "ynsy"
+  },{
+  "name": "Vidal Hara",
+  "username": "vidalhara"
+  }
 ]

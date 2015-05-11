@@ -136,7 +136,7 @@
                         </div>
                         <div class="panel-footer">
                             <a disabled> <i class="fa fa-lock"></i>
-                            Join</a> . <a class="toggle-comment"> <i class="fa fa-comments-o"></i> Comment</a> .
+                            Join</a> . <a class="toggle-comment"> <i class="fa fa-comments-o"></i> Comment {% if event.comments|length > 0 %} ( {{ event.comments|length  }} ) {% endif %} </a> .
                             <span class='st_facebook' displayText='Facebook'></span>
                             <span class='st_twitter' displayText='Tweet'></span>
                             <i class="fa fa-clock-o" data-toggle="popover"
@@ -144,33 +144,43 @@
 <div class="comment" style="display: none;">
                             <hr>
                             <div class="row">
-                            <div class="col-md-1">
-                               <img class="media-object" alt="Hakan Uyumaz" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
+                                <form>
+                                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                                    <input type="hidden" name="username" value="{{ username }}">
+
+                            <div class="col-md-10">
+                                <textarea class="form-control comment-message" id="comment-message" placeholder="Write a comment" name="comment"></textarea>
                             </div>
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" placeholder="Write a comment">
-                            </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-primary submit-comment" type="button"><i class="fa fa-send"></i></button>
+                                </div>
+                                    </form>
 </div>
+    {% for comment in event.comments %}
+
+
                             <div class="media">
-      <div class="media-left">
-        <a href="#">
-          <img class="media-object" alt="Hakan Uyumaz" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
-        </a>
-      </div>
+
       <div class="media-body">
-        <a href="#">Hakan Uyumaz</a> Cras sit amet nibh libero, in gravida nulla.<a href="#">See more</a>
+        <a href="#">{{ comment.owner.username }}</a> {{ comment.content }}
+      <div class="comment-like">
+          {% if user in comment.likes.all %}
+          <div class="like-btn like-h">Liked</div>
+          {% else %}
+          <div class="like-btn" data-comment-id="{{ comment.id }}" data-username="{{ username }}">Like</div>
+          {% endif %}
+          <div class="stat-cnt">
+                <div class="stat-bar">
+                    <div class="bg-green" style="width:100%"></div>
+                </div><!-- stat-bar -->
+                <div class="like-count">{{ comment.likes|length }}</div>
+            </div>
       </div>
+      </div>
+
     </div>
-                             <div class="media">
-      <div class="media-left">
-        <a href="#">
-          <img class="media-object" alt="Burak Atalay" src="https://cdn0.iconfinder.com/data/icons/iconshock_guys/512/andrew.png" data-holder-rendered="true" style="width: 32px; height: 32px;">
-        </a>
-      </div>
-      <div class="media-body">
-        <a href="#">Burak Atalay</a> Cras sit amet nibh libero, in gravida nulla.<a href="#">See more</a>
-      </div>
-    </div>
+
+    {% endfor %}
                         </div>
                     </div>
                 </div>

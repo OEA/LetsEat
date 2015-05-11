@@ -211,6 +211,51 @@ $(".reject-event").click(function () {
         });
 
     });
+
+$(".like-btn").click(function() {
+    var button = $(this);
+    var comment_id = $(this).attr('data-comment-id');
+    var username = $(this).attr('data-username');
+    $.ajax({
+            url: "{% url 'api_like_comment' %}",
+            type: "POST",
+            data: 'comment=' + comment_id + "&username=" + username,
+            dataType: "JSON",
+            success: function (data) {
+                button.addClass("like-h");
+                button.text("Liked");
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+});
+
+
+$(".submit-comment").click(function() {
+    var parent = $(this).parent().parent();
+    var event_id = parent.find("input[name='event_id']").val();
+    var username = parent.find("input[name='username']").val();
+    var comment_area = parent.children(".col-md-9").children(".comment-message");
+    var message = comment_area.val();
+
+    $.ajax({
+            url: "{% url 'api_comment_on_event' %}",
+            type: "POST",
+            data: 'event=' + event_id + "&username=" + username + "&content=" + message,
+            dataType: "JSON",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+});
+
  $(".reject-friend").click(function () {
         var sender = $(this).attr('data-sender');
         var receiver = $(this).attr('data-receiver');
@@ -232,6 +277,60 @@ $(".reject-event").click(function () {
         });
 
     });
+
+$(".create-group").click(function (){
+    var group_name = $(".group-name").val();
+    var participants = $(".participant").val();
+    var username = $(".owner").val();
+    $.ajax({
+            url: "{% url 'api_create_group' %}",
+            type: "POST",
+            data: 'group_name=' + group_name + "&username=" + username,
+            dataType: "JSON",
+            success: function (data) {
+                var participantsArray = participants.split(",");
+                var group_id = data.group.id;
+                if(participantsArray.length>0) {
+                    for(var i = 0; i < participantsArray.length; i++) {
+                    $.ajax({
+                        url: "{% url 'api_add_group_member' %}",
+                        type: "POST",
+                        data: 'username=' + username + '&member=' + participantsArray[i] + "&group_id=" + group_id,
+                        dataType: "JSON",
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                 }
+                } else {
+                    $.ajax({
+                        url: "{% url 'api_add_group_member' %}",
+                        type: "POST",
+                        data: 'username=' + username + '&member=' + participants + "&group_id=" + group_id,
+                        dataType: "JSON",
+                        success: function (data) {
+
+                            console.log("part: " + participants + ", " + data);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+
+        });
+
+        generate("success", "Your event is successfully created.");
+
+});
 
     $(".create-event").click(function () {
         var event_name = $(".event_name").val();
@@ -395,13 +494,15 @@ $('.toggle-event-name').click(function () {
     });
 
 var citynames = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name', 'username'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
     prefetch: {
         url: "{% static 'js/citynames.json' %}",
         filter: function(list) {
+            console.log(list);
           return $.map(list, function(groups) {
-            return { name: groups }; });
+
+            return { name: groups.name, username: groups.username }; });
         }
       }
 });
@@ -414,9 +515,11 @@ var groups = new Bloodhound({
     url: "{% static 'js/groups.json' %}",
     filter: function(list) {
       return $.map(list, function(groups) {
-        return { name: groups }; });
+        return { name: groups }; }
+          );
     }
   }
+
 });
 groups.initialize();
 
@@ -424,7 +527,7 @@ $('.participant').tagsinput({
   typeaheadjs: {
     name: 'citynames',
     displayKey: 'name',
-    valueKey: 'name',
+    valueKey: 'username',
     source: citynames.ttAdapter()
   }
 });

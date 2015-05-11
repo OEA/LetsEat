@@ -97,13 +97,25 @@ def events(request, username):
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
+#SHOULD CHANGE
+def get_owned_groups(request):
+    params = urllib.parse.urlencode({'username': request.user.username})
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+    connection = http.client.HTTPConnection('127.0.0.1', 8000)
+    connection.request("POST", "/api/get_owned_events/", params, headers)
+    event_list_response = connection.getresponse()
+    event_list_json_data = event_list_response.read()
+    event_list_data = json.loads(event_list_json_data.decode("utf-8"))
+    event_list = event_list_data["events"]
+    return event_list
 
 def groups(request, username):
     user = None
     if request.user.is_authenticated():
+        groups = get_owned_groups(request)
     #It will be replaced by web service when it runs
         user = get_object_or_404(User, username=username)
-        context = {'user': user, 'username': request.user.username}
+        context = {'user': user, 'username': request.user.username, 'groups': groups}
         return render(request, 'groups.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")

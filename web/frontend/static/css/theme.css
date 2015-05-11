@@ -78,3 +78,47 @@ html { height: 100% }
 
     height:400px;
 }
+.bg-green{ background-color: #559900;}
+.bg-red{background-color: #c9231a;}
+.tab-cnt h1{font-size: 22px; font-family: arial; margin-bottom: 15px;}
+.tab-tr{
+	width: 100%; height: 55px;
+	border-bottom: #e6e6e6 1px solid; border-top: #e6e6e6 1px solid;
+}
+.like-btn, .dislike-btn{
+	width: auto; height: 30px; padding: 0 15px 0 30px;
+	float: left;
+	cursor: pointer; color: #333333; font-size: 13px; line-height: 30px;
+	border:#fff 1px solid;
+	-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px; /* border radius */
+}
+.dislike-btn {
+    margin-left: 15px;
+}
+.like-btn{background: url(../images/like-ico.png) 5px 50% no-repeat; }
+.like-btn:hover, .like-h{
+	background: url(../images/like-ico-h.png) 5px 50% no-repeat; color: #0c6502;
+	background-color: #f0f0f0;	border: #c6c6c6 1px solid;
+}
+.dislike-btn{background: url(../images/dislike-ico.png) 50% 50% no-repeat; }
+.dislike-btn:hover, .dislike-h{
+	background: url(../images/dislike-ico-h.png) 50% 50% no-repeat;
+	background-color: #f0f0f0;	border: #c6c6c6 1px solid;
+}
+
+.stat-cnt{ 	width: 120px; height: 60px; float: right;}
+.stat-bar{	width: 120px; height: 3px;	margin-bottom: 5px;}
+.rate-count{ font-size: 12px; color: #333; text-align: right; font-weight: bold; }
+.stat-bar div{height: 3px; float: left;}
+.like-count{background: url(../images/like-ico2.png) 0% 50% no-repeat;}
+.dislike-count{background: url(../images/dislike-ico2.png) 0% 50% no-repeat; margin-left: 15px;}
+.like-count, .dislike-count{
+	width: auto; height: 18px;
+	float: right;
+	font-size: 10px; line-height: 18px; color: #666;
+	padding-left: 15px;
+}
+
+.comment-like{
+    margin-top:10px;
+}
