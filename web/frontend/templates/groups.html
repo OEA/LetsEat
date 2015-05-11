@@ -61,7 +61,7 @@
     {% if groups %}
         {% for group in groups %}
       <tr>
-        <td><a href="{% url 'group_detail' group.id %}"> {{ group.name }}</a></td>
+        <td><a href="{% url 'group_detail' group.name %}"> {{ group.name }}</a></td>
         <td><a href="#" class="btn btn-danger remove-group" data-sender="yns" data-receiver="y"><i class="fa fa-times "></i>remove</a></td>
 
       </tr>

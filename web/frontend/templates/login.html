@@ -105,13 +105,12 @@
                                 {% if error %}
                                 <div class="alert alert-danger" role="alert">{{ error_message }}</div>
                                 {% endif %}
-                                {% if registration %}
-                                <div class="alert alert-success" role="alert">
-                                    Your registration is successful.
-                                </div>
-                                {% endif %}
+
                             
                       </div>
                   </div>
               </div>
 {% include 'footer.html' %}
+            {% if registration %}
+                                <script>generate("success", "Your registration is successful.");</script>
+                                {% endif %}

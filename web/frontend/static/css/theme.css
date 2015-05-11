@@ -106,7 +106,7 @@ html { height: 100% }
 	background-color: #f0f0f0;	border: #c6c6c6 1px solid;
 }
 
-.stat-cnt{ 	width: 120px; height: 60px; float: right;}
+.stat-cnt{ 	width: 120px; height: 35px; float: right;}
 .stat-bar{	width: 120px; height: 3px;	margin-bottom: 5px;}
 .rate-count{ font-size: 12px; color: #333; text-align: right; font-weight: bold; }
 .stat-bar div{height: 3px; float: left;}
@@ -121,4 +121,8 @@ html { height: 100% }
 
 .comment-like{
     margin-top:10px;
+}
+
+textarea.form-control {
+    height:30px;
 }

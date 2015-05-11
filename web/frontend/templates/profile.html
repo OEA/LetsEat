@@ -18,63 +18,102 @@
                 <br>
 
             <div class="list-group">
-                <a href="#" class="list-group-item" data-toggle="modal" data-target="#myMapModal"> Create Event <i class="fa fa-external-link"></i></a>
+                <a href="#" class="list-group-item list-group-item-success" data-toggle="modal" data-target="#myMapModal"> Create Event <i class="fa fa-external-link"></i></a>
                   <a href="{% url 'groups' user.username %}" class="list-group-item"> Groups</a>
                 <a href="{% url 'friends' user.username %}" class="list-group-item">Friends <span class="badge">1</span></a>
-                <a href="{% url 'notifications' %}" class="list-group-item"> Notifications</a>
               <a href="{% url 'edit' user.username %}" class="list-group-item">Update Settings</a>
               <a href="{% url 'logout' %}" class="list-group-item list-group-item-danger"><i class="fa fa-power-off"></i> Logout</a>
             </div>
 
             </div>
             <div class="col-md-6">
-            <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
-            </a>
-          </div>
-          <div class="media-body">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    I'm eating with <a href="#">Omer Aslan</a>, <a href="#">Burak Atalay </a> <i class="fa fa-map-marker"></i> Aras-Et Izgara - Yine yeniden..
+
+ {% if events %}
+                {% for event in events %}
+
+                    <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object"
+                             src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png"
+                             alt="..." width="64" height="64">
+                    </a>
                 </div>
-                <div class="panel-footer">
-                     <a> <i class="fa fa-thumbs-o-up"></i> Unlike</a> . <a disabled> <i class="fa fa-lock"></i> Join</a> . <a> <i class="fa fa-comments-o"></i> Comment</a>
+                <div class="media-body">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            I will be eating {% if event.participants|length > 1 %} with {% endif %}
+                            {% for participant in event.participants %}
+                                {% if event.participants|length > 1 %}
+                                    {% if participant.username != username %}
+                                    <a href="{% url 'profile' participant.username %}">{{ participant.name }} {{ participant.surname }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    alone.
+                                {% endif %}
+                            {% endfor %}
+                            <i class="fa fa-map-marker"></i> {{ event.restaurant }} <strong>—</strong> <a href="#">{{ event.name }}</a>
+                        </div>
+                        <div class="panel-footer">
+                            <a class="toggle-comment"> <i class="fa fa-comments-o"></i> Comment {% if event.comments|length > 0 %} ( {{ event.comments|length  }} ) {% endif %} </a> .
                             <span class='st_facebook' displayText='Facebook'></span>
                             <span class='st_twitter' displayText='Tweet'></span>
-                    <div class="pull-right">
-                        <small><i class="fa fa-thumbs-o-up" style="color:#3071a9;"></i></small> You and <a>5k likes</a>
+                            <i class="fa fa-clock-o" data-toggle="popover"
+                                   data-content="{{ event.time }}"></i> <span style="color:red">13 hours left</span>
+<div class="comment" style="display: none;">
+                            <hr>
+                            <div class="row">
+                                <form>
+                                    <input type="hidden" name="event_id" value="{{ event.id }}">
+                                    <input type="hidden" name="username" value="{{ username }}">
+
+                            <div class="col-md-10">
+                                <textarea class="form-control comment-message" id="comment-message" placeholder="Write a comment" name="comment"></textarea>
+                            </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-primary submit-comment" type="button"><i class="fa fa-send"></i></button>
+                                </div>
+                                    </form>
+</div>
+    {% for comment in event.comments %}
+
+
+                            <div class="media">
+
+      <div class="media-body">
+        <a href="#">{{ comment.owner.username }}</a> {{ comment.content }}
+      <div class="comment-like">
+          {% if user in comment.likes.all %}
+          <div class="like-btn like-h">Liked</div>
+          {% else %}
+          <div class="like-btn" data-comment-id="{{ comment.id }}" data-username="{{ username }}">Like</div>
+          {% endif %}
+          <div class="stat-cnt">
+                <div class="stat-bar">
+                    <div class="bg-green" style="width:100%"></div>
+                </div><!-- stat-bar -->
+                <div class="like-count">{{ comment.likes|length }}</div>
+            </div>
+      </div>
+      </div>
+
+    </div>
+
+    {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
-          </div>
-        </div>
-
-
- <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="http://shawncreed.com/wp-content/uploads/2013/08/cropped-shawn_avatar_icon1.png" alt="..." width="64" height="64">
-            </a>
-          </div>
-          <div class="media-body">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    I'm eating with <a href="#">Burak Atalay</a>, <a href="#">Hakan Uyumaz</a> <i class="fa fa-map-marker"></i> Nusr-Et
-                </div>
-                <div class="panel-footer">
-                     <a><i class="fa fa-thumbs-o-up"></i> Like</a> .  <a disabled><i class="fa fa-unlock"></i> Joined</a> . <a> <i class="fa fa-comments-o"></i> Comment</a>
-                    <span class='st_facebook' displayText='Facebook'></span>
-                            <span class='st_twitter' displayText='Tweet'></span>
-                    <div class="pull-right">
-                        <small><i class="fa fa-thumbs-o-up"></i></small> <a>5m likes</a>
-                    </div>
                 </div>
             </div>
-          </div>
-        </div>
 
+                {% endfor %}
+
+            {% else %}
+
+                <div class="well">
+                    <h4>There is no event in your timeline :(</h4>
+                </div>
+            {% endif %}
             </div>
 
             <div class="col-md-3">
@@ -161,7 +200,7 @@
                                 </div>
                                 <div class="panel-body event-name">
                                     <input type="hidden" class="owner" name="owner" value="{{ user.username }}">
-                                    <input class="form-control event-name" type="text" placeholder="Event Name" name="event-name">
+                                    <input class="form-control event_name" type="text" placeholder="Event Name" name="event_name">
                                 </div>
                             </div>
                             <div class="panel panel-default ">
@@ -232,7 +271,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary create-event">Save changes</button>
+                            <button type="button" class="btn btn-primary create-event" data-dismiss="modal">Save changes</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->

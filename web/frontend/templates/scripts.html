@@ -238,7 +238,7 @@ $(".submit-comment").click(function() {
     var parent = $(this).parent().parent();
     var event_id = parent.find("input[name='event_id']").val();
     var username = parent.find("input[name='username']").val();
-    var comment_area = parent.children(".col-md-9").children(".comment-message");
+    var comment_area = parent.children(".col-md-10").children(".comment-message");
     var message = comment_area.val();
 
     $.ajax({
@@ -334,6 +334,7 @@ $(".create-group").click(function (){
 
     $(".create-event").click(function () {
         var event_name = $(".event_name").val();
+        alert(event_name);
         var start_time = $(".start_time").val();
         var owner = $(".owner").val();
         var restaurant = $(".restaurant").val();

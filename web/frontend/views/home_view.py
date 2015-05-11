@@ -35,7 +35,7 @@ def get_events(user):
     params = urllib.parse.urlencode({'username': user.username})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
     connection = http.client.HTTPConnection('127.0.0.1', 8000)
-    connection.request("POST", "/api/get_owned_events/", params, headers)
+    connection.request("POST", "/api/get_personal_news/", params, headers)
     event_list_response = connection.getresponse()
     event_list_json_data = event_list_response.read()
     event_list_data = json.loads(event_list_json_data.decode("utf-8"))
