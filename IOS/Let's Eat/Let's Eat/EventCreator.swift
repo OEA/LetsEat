@@ -52,7 +52,6 @@ class EventCreator {
             var cloudExist = false
             for s in sources{
                 if (s.sourceType.value == 2) {
-                    println("2!!!!!!!")
                     calendar.source = s;
                     cloudExist = true
                     break;
@@ -61,7 +60,6 @@ class EventCreator {
             if !cloudExist {
                 for s in sources{
                     if (s.sourceType.value == 0) {
-                        //println("0!!!!!!")
                         calendar.source = s;
                         break;
                     }

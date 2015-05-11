@@ -10,11 +10,32 @@ import UIKit
 
 class GroupTableViewController: UITableViewController {
     
+    var member1 = ["name":"burak", "surname": "atalay", "email": "abc@ab.ab", "password": "Vidal1", "username": "burak1"]
+    var member2 = ["name":"hasan", "surname": "sozer", "email": "abcd@ab.ab", "password": "Vidal1", "username": "hasan1"]
+    var members = [[String:AnyObject]]()
+    var group: [String: AnyObject] = ["name":"testGroup"]
+    
+    
+    
+    
     var participants = [String: Bool]()
-
+    var groupList = [[String:AnyObject]]()
+    let apiMethods = ApiMethods()
+    @IBOutlet var groupsTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+        members.append(member1)
+        members.append(member2)
+        group.updateValue(members, forKey: "members")
+        groupList.append(group)
+        groupsTable.reloadData()
+        
+        //apiMethods.getGroup(self)
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -38,67 +59,36 @@ class GroupTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 1
+        return groupList.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
         let cell = tableView.dequeueReusableCellWithIdentifier("ownedGroupCell") as! UITableViewCell
+        let nameLabel = cell.viewWithTag(1) as! UILabel
+        let name = groupList[indexPath.item]["name"] as! String
+        nameLabel.text = name
+        let numLabel = cell.viewWithTag(2) as! UILabel
+        let members = groupList[indexPath.item]["members"] as! [[String:AnyObject]]
+        let num = members.count
+        if num == 1 {
+            numLabel.text = "One Friend"
+        }else{
+            numLabel.text = "\(num) Friends"
+        }
         return cell
     }
+    
+    
 
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        if sender is UITableViewCell{
+            let gVC = segue.destinationViewController as! GroupViewController
+            if let item = groupsTable.indexPathForSelectedRow()?.item {
+                gVC.groupData = groupList[item]
+            }
+        }
     }
-    */
 
 }

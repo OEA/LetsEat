@@ -38,6 +38,7 @@
 		46D507B61AD1FFC3003EBC68 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D507B31AD1FFC3003EBC68 /* FBSDKShareKit.framework */; };
 		46DBF7761AAED2E6009E72F2 /* Login_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7751AAED2E6009E72F2 /* Login_Test.swift */; };
 		46DBF7781AAF0A12009E72F2 /* BackgroundSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */; };
+		46E7AA3E1B00AFFC00E928EF /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E7AA3D1B00AFFC00E928EF /* GroupViewController.swift */; };
 		46FE77651A9911B8003BDD80 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77631A9911B8003BDD80 /* LoginVC.swift */; };
 		46FE77661A9911B8003BDD80 /* SignupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77641A9911B8003BDD80 /* SignupVC.swift */; };
 		46FE776A1A9911DA003BDD80 /* ChangeInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */; };
@@ -93,6 +94,7 @@
 		46D507B31AD1FFC3003EBC68 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		46DBF7751AAED2E6009E72F2 /* Login_Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login_Test.swift; sourceTree = "<group>"; };
 		46DBF7771AAF0A12009E72F2 /* BackgroundSetter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackgroundSetter.swift; path = "Swift Files/BackgroundSetter.swift"; sourceTree = "<group>"; };
+		46E7AA3D1B00AFFC00E928EF /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		46FE77631A9911B8003BDD80 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		46FE77641A9911B8003BDD80 /* SignupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupVC.swift; sourceTree = "<group>"; };
 		46FE77681A9911DA003BDD80 /* ChangeInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeInfoVC.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				46FE77671A9911DA003BDD80 /* Profile Tab */,
 				468DC3751AD265530045A06A /* GroupTableViewController.swift */,
 				46784B311AD2A657008D242F /* CreateGroupViewController.swift */,
+				46E7AA3D1B00AFFC00E928EF /* GroupViewController.swift */,
 			);
 			path = "TabBar VC";
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 				468DC3761AD265530045A06A /* GroupTableViewController.swift in Sources */,
 				461A15531AB78535009DA34E /* FriendsViewController.swift in Sources */,
 				4600811D1AF3545C00030594 /* LocationChooseViewController.swift in Sources */,
+				46E7AA3E1B00AFFC00E928EF /* GroupViewController.swift in Sources */,
 				463D7AC11ADBB89B007297C9 /* RestaurantLocationViewController.swift in Sources */,
 				46C7381E1AC5A6E500826621 /* CreateEventViewController.swift in Sources */,
 				464E9D6C1A92594000396EE8 /* Let_s_Eat.xcdatamodeld in Sources */,

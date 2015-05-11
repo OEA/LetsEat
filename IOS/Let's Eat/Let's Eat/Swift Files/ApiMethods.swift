@@ -78,6 +78,49 @@ class ApiMethods {
         
     }
     
+    func getGroups(vc : GroupTableViewController){
+        var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+        let user = prefs.valueForKey("USERNAME") as! NSString
+        let errorText = "Get Groups Failed"
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/\(user)/groups/")!
+        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        
+        var responseError: NSError?
+        var response: NSURLResponse?
+        
+        var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+        if ( urlData != nil ) {
+            let res = response as! NSHTTPURLResponse!;
+            
+            NSLog("Response code: %ld", res.statusCode);
+            
+            if (res.statusCode >= 200 && res.statusCode < 300)
+            {
+                
+                let jsonData:NSDictionary = getJsonData(urlData!)
+                
+                let status:NSString = jsonData.valueForKey("status") as! NSString
+                
+                
+                println("Success: " + (status as String))
+                
+                if(status == "success")
+                {
+                    NSLog("Create Group SUCCESS");
+                    
+                } else {
+                    self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                }
+            } else {
+                self.alert.getStatusCodeError(errorText, vc: vc)
+            }
+        } else {
+            self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+        }
+    }
+
+    
     func createGroup(groupName: NSString, vc: UIViewController){
             var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
             let errorText = "Create Group Failed"
@@ -725,8 +768,6 @@ class ApiMethods {
     func getGoogleAutoComp(searched: NSString, vc : LocationChooseViewController){
         
         var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/place/search/json?&types=cafe&language=tr&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
-        //var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/place/autocomplete/json?&types=address&language=tr&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
-        //var url:NSURL = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(searched)&key=AIzaSyDvGKTyCLXnkyjOYYMmjqg_V2HRXNuKUVI")!
         var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
         
         var responseError: NSError?
