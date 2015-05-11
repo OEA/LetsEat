@@ -98,6 +98,7 @@ def create_events_json(events):
     for event in events:
         eventJSON = create_event_json(event)
         events_list.append(eventJSON)
+    events_list = reversed(events_list)
     return events_list
 
 
