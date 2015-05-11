@@ -146,7 +146,7 @@ class ApiMethods {
         
         NSLog("PostData: %@",post);
         
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_personal_news/")!
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_owned_groups/")!
         
         var request = self.getRequest(url, post: post)
         
