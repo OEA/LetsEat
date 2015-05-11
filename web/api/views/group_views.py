@@ -47,6 +47,14 @@ def create_group_JSON(group):
     return groupJSON
 
 
+def create_groups_json(groups):
+    groups_list = []
+    for group in groups:
+        groupJSON = create_group_JSON(group)
+        groups_list.append(groupJSON)
+    return groups_list
+
+
 def create_group(request):
     responseJSON = {}
     if is_POST(request):
@@ -98,3 +106,16 @@ def remove_member(request):
 
     file.create_file(request, responseJSON, "remove_member", request.method)
     return HttpResponse(json.dumps(responseJSON))
+
+
+def get_owned_groups(request):
+    responseJSON = {}
+    if is_POST(request):
+        username = request.POST["username"]
+        user = User.objects.filter(username=username)[0]
+        groups = Group.objects.filter(owner=user)
+        responseJSON["groups"] = create_groups_json(groups)
+        success_response(responseJSON)
+        responseJSON["message"] = "Owned groups returned"
+    return HttpResponse(json.dumps(responseJSON))
+
