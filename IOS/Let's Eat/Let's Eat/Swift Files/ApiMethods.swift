@@ -48,9 +48,10 @@ class ApiMethods {
                     {
                         NSLog("Get Owned SUCCESS");
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            vc.eventList = jsonData.valueForKey("events") as! [[String: AnyObject]]
-                            vc.tabelView.reloadData()
+                            if let list = jsonData.valueForKey("events") as? [[String: AnyObject]]{
+                                vc.eventList = list
+                                vc.tabelView.reloadData()
+                            }
                         })
                         
                     }else {
@@ -112,8 +113,10 @@ class ApiMethods {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             if vc is OwnedEventsTableViewController{
                                 let viewC = vc as! OwnedEventsTableViewController
-                                viewC.ownedEventList = jsonData.valueForKey("events") as! [[String: AnyObject]]
-                                viewC.eventTBV.reloadData()
+                                if let list = jsonData.valueForKey("events") as? [[String: AnyObject]] {
+                                    viewC.ownedEventList = list
+                                    viewC.eventTBV.reloadData()
+                                }
                             }else{
                                 self.goBack(vc)
                             }
