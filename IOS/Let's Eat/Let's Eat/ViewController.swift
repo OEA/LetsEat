@@ -138,7 +138,7 @@ class ViewController: UIViewController, SideBarDelegate, UISearchBarDelegate, UI
         if (isLoggedIn != 1) {
             self.performSegueWithIdentifier("goto_login", sender: self)
         } else {
-            
+            apiMethod.getTimeLine(self)
         }
         
     }
