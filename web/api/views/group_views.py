@@ -119,3 +119,14 @@ def get_owned_groups(request):
         responseJSON["message"] = "Owned groups returned"
     return HttpResponse(json.dumps(responseJSON))
 
+
+def get_participant_groups(request):
+    responseJSON = {}
+    if is_POST(request):
+        username = request.POST["username"]
+        user = User.objects.filter(username=username)[0]
+        groups = user.members.all()
+        responseJSON["groups"] = create_groups_json(groups)
+        success_response(responseJSON)
+        responseJSON["message"] = "Participated groups returned"
+    return HttpResponse(json.dumps(responseJSON))
