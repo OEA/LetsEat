@@ -18,6 +18,7 @@ class OwnedEventsTableViewController: UITableViewController {
     @IBOutlet var eventTBV: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
