@@ -120,6 +120,17 @@ def profile(request, username):
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
+def get_event(event_id):
+    params = urllib.parse.urlencode({'event': event_id})
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+    connection = http.client.HTTPConnection('127.0.0.1', 8000)
+    connection.request("POST", "/api/get_event/", params, headers)
+    friend_request_response = connection.getresponse()
+    friend_request_json_data = friend_request_response.read()
+    friend_request_data = json.loads(friend_request_json_data.decode("utf-8"))
+    friend_request_list = friend_request_data["event"]
+    return friend_request_list
+
 def events(request, username, event_id):
     user = None
     if request.user.is_authenticated():
@@ -131,11 +142,13 @@ def events(request, username, event_id):
         friends_count = get_friends_count(user)
         friends_request_count = len(friend_request_list)
         events_count = len(event_request_list)
+        event = get_event(event_id)
         context = {'user': user, 'username': request.user.username,'friend_request': friend_request_list,
                    'event_request': event_request_list,
                    'friends_count': friends_count,
                    'friend_request_count': friends_request_count,
-                   'event_request_count': events_count}
+                   'event_request_count': events_count,
+                   'event': event}
         return render(request, 'events.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
@@ -157,25 +170,38 @@ def get_owned_groups(request):
     params = urllib.parse.urlencode({'username': request.user.username})
     headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
     connection = http.client.HTTPConnection('127.0.0.1', 8000)
-    connection.request("POST", "/api/get_owned_events/", params, headers)
+    connection.request("POST", "/api/get_owned_groups/", params, headers)
     event_list_response = connection.getresponse()
     event_list_json_data = event_list_response.read()
     event_list_data = json.loads(event_list_json_data.decode("utf-8"))
-    event_list = event_list_data["events"]
+    event_list = event_list_data["groups"]
     return event_list
+
+def get_participant_groups(request):
+    params = urllib.parse.urlencode({'username': request.user.username})
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "application/json"}
+    connection = http.client.HTTPConnection('127.0.0.1', 8000)
+    connection.request("POST", "/api/get_participant_groups/", params, headers)
+    event_list_response = connection.getresponse()
+    event_list_json_data = event_list_response.read()
+    event_list_data = json.loads(event_list_json_data.decode("utf-8"))
+    event_list = event_list_data["groups"]
+    return event_list
+
 
 def groups(request, username):
     user = None
     if request.user.is_authenticated():
-        groups = None
+        groups = get_owned_groups(request)
+        participantgroups = get_participant_groups(request)
     #It will be replaced by web service when it runs
         user = get_object_or_404(User, username=username)
-        context = {'user': user, 'username': request.user.username, 'groups': groups}
+        context = {'user': user, 'username': request.user.username, 'owned_groups': groups, 'groups': participantgroups}
         return render(request, 'groups.html', context)
     else:
         return redirect("http://127.0.0.1:8000/login/")
 
-def g1(request, username):
+def g1(request, username, group_id):
     user = None
     if request.user.is_authenticated():
     #It will be replaced by web service when it runs

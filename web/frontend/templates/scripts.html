@@ -247,7 +247,9 @@ $(".submit-comment").click(function() {
             data: 'event=' + event_id + "&username=" + username + "&content=" + message,
             dataType: "JSON",
             success: function (data) {
-                console.log(data);
+                generate("success", "Your comment is successfully added");
+                comment_area.val('');
+                window.location = "./";
             },
             error: function (data) {
                 console.log(data);
@@ -279,7 +281,7 @@ $(".submit-comment").click(function() {
     });
 
 $(".create-group").click(function (){
-    var group_name = $(".group-name").val();
+    var group_name = $(".group_name").val();
     var participants = $(".participant").val();
     var username = $(".owner").val();
     $.ajax({
@@ -328,13 +330,12 @@ $(".create-group").click(function (){
 
         });
 
-        generate("success", "Your event is successfully created.");
+        generate("success", "Your group is successfully created.");
 
 });
 
     $(".create-event").click(function () {
         var event_name = $(".event_name").val();
-        alert(event_name);
         var start_time = $(".start_time").val();
         var owner = $(".owner").val();
         var restaurant = $(".restaurant").val();
@@ -554,7 +555,7 @@ function generate(type, text) {
                 easing: 'swing', // unavailable - no need
                 speed: 1500 // unavailable - no need
             },
-            timeout     : 10000,
+            timeout     : 3000,
             modal       : true,
             closeWith   : ['click'],
             layout      : 'topCenter',

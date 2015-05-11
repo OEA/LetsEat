@@ -52,7 +52,7 @@
                                     alone.
                                 {% endif %}
                             {% endfor %}
-                            <i class="fa fa-map-marker"></i> {{ event.restaurant }} <strong>—</strong> <a href="#">{{ event.name }}</a>
+                            <i class="fa fa-map-marker"></i> {{ event.restaurant }} <strong>—</strong> <a href="{% url 'events' username event.id %}">{{ event.name }}</a>
                         </div>
                         <div class="panel-footer">
                             <a class="toggle-comment"> <i class="fa fa-comments-o"></i> Comment {% if event.comments|length > 0 %} ( {{ event.comments|length  }} ) {% endif %} </a> .
@@ -111,7 +111,7 @@
             {% else %}
 
                 <div class="well">
-                    <h4>There is no event in your timeline :(</h4>
+                    <h4>There is no event in timeline :(</h4>
                 </div>
             {% endif %}
             </div>

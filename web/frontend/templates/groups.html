@@ -1,8 +1,6 @@
 {% include 'header.html' with user=user username=username title='Groups' %}
 
-<div class="container">
-  <h2><small>Group Lists</small> </h2>
-   <div class="modal fade" id="myGroupModal">
+<div class="modal fade" id="myGroupModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -17,7 +15,7 @@
                                 </div>
                                 <div class="panel-body event-name">
                                     <input type="hidden" class="owner" name="owner" value="{{ user.username }}">
-                                    <input class="form-control event_name" type="text" placeholder="Group Name" name="group_name">
+                                    <input class="form-control group_name" type="text" placeholder="Group Name" name="group_name">
                                 </div>
                             </div>
 
@@ -45,24 +43,26 @@
                 <!-- /.modal-dialog -->
             </div>
 
+<div class="container">
+<p><a href="#" class="btn btn-primary " data-toggle="modal" data-target="#myGroupModal"><i class="fa fa-search "></i> add-group</a></p>
+  <div class="row">
+    <div class="col-md-4">
+        <h2><small>Owned Group Lists</small> </h2>
 
-
-
-  <p><a href="#" class="btn btn-primary " data-toggle="modal" data-target="#myGroupModal"><i class="fa fa-search "></i> add-group</a></p>
   <table class="table">
     <thead>
       <tr>
         <th>Group Names</th>
-        <th>Remove</th>
+        <th>Member</th>
 
       </tr>
     </thead>
     <tbody>
     {% if groups %}
-        {% for group in groups %}
+        {% for group in owned_groups %}
       <tr>
-        <td><a href="{% url 'group_detail' group.name %}"> {{ group.name }}</a></td>
-        <td><a href="#" class="btn btn-danger remove-group" data-sender="yns" data-receiver="y"><i class="fa fa-times "></i>remove</a></td>
+        <td><a href="#"  data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-title="{{ group.name }}" data-content="{% for member in group.members %} {{ member.name }} {{ member.surname }} - @{{ member.username }} <br> {% endfor %}"> {{ group.name }}</a></td>
+        <td>{{ group.members|length }}</td>
 
       </tr>
         {% endfor %}
@@ -71,6 +71,35 @@
     </tbody>
   </table>
 
+    </div>
+
+    <div class="col-md-4">
+        <h2><small>Group Lists</small> </h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Group Names</th>
+        <th>Member</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% if groups %}
+        {% for group in groups %}
+      <tr>
+        <td><a href="#"  data-container="body" data-toggle="popover" data-placement="top" data-html="true" data-title="{{ group.name }}" data-content="{% for member in group.members %} {{ member.name }} {{ member.surname }} - @{{ member.username }} <br> {% endfor %}"> {{ group.name }}</a></td>
+        <td>{{ group.members|length }}</td>
+
+      </tr>
+        {% endfor %}
+    {% endif %}
+
+    </tbody>
+  </table>
+
+    </div>
+</div>
 </div>
 
 {% include 'footer.html' %}

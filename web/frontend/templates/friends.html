@@ -2,6 +2,7 @@
 <!--<div class="front-bg"><image src="http://lorempixel.com/1366/867/food/" /></div> -->
 
 <div class="container">
+<div class="row">
     <div class="col-md-3">
             {% include 'profile_menu.html' with user=user friends_count=friends_count %}
         </div>
@@ -36,9 +37,10 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3 well">
+
+    <div class="col-md-3">
         <h5>Who to Add Friend</h5>
-        <div class="content">
+        <div class="content well">
             <div class="media">
                 <div class="media-left">
                     <a href="#">
@@ -87,5 +89,6 @@
 
 
 
+</div>
 </div>
 {% include 'footer.html' %}
