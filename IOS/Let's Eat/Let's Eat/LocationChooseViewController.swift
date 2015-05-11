@@ -30,36 +30,43 @@ class LocationChooseViewController: UIViewController, UISearchBarDelegate, MKMap
         myMapView.removeAnnotations(list)
         list = [MKPointAnnotation]()
         
-        
-        geocoder.geocodeAddressString(mySearchBar.text, completionHandler: { (placemarkss, error) -> Void in
-        if placemarkss != nil {
-            var region = MKCoordinateRegion()
-            var placemarks: [CLPlacemark] = placemarkss as! [CLPlacemark]
-            var placemark = placemarks[0]
-            var newLocation = placemark.location.coordinate
-            region.center = newLocation
+        if searchBar.text != "Aras Et"{
+            geocoder.geocodeAddressString(mySearchBar.text, completionHandler: { (placemarkss, error) -> Void in
+                if placemarkss != nil {
+                    var region = MKCoordinateRegion()
+                    var placemarks: [CLPlacemark] = placemarkss as! [CLPlacemark]
+                    var placemark = placemarks[0]
+                    var newLocation = placemark.location.coordinate
+                    region.center = newLocation
+                    
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = newLocation
+                    annotation.title = placemark.name
+                    
+                    self.list.append(annotation)
+                    self.myMapView.addAnnotation(annotation)
+                    //self.get()
+                    if self.list.count == 1{
+                        self.myMapView.selectAnnotation(self.list[0], animated: true)
+                    }
+                    
+                    self.myMapView.showAnnotations(self.list, animated: true)
+                }
+            })
+        }else{
             
             let annotation = MKPointAnnotation()
-            annotation.coordinate = newLocation
-            annotation.title = placemark.name
+            annotation.coordinate = CLLocationCoordinate2DMake(41.026756, 29.219937000000073)
+            annotation.title = "Aras Et"
             
             self.list.append(annotation)
             self.myMapView.addAnnotation(annotation)
-            //self.get()
             if self.list.count == 1{
                 self.myMapView.selectAnnotation(self.list[0], animated: true)
             }
-            
             self.myMapView.showAnnotations(self.list, animated: true)
-            }
-        })
-        
-        
-        
-        
-        
-        
-        
+        }
+       
        
     }
     
