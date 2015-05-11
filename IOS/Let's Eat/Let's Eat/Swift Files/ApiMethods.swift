@@ -12,6 +12,66 @@ import EventKit
 class ApiMethods {
     let alert = Alerts()
     
+    func getTimeLine(vc: ViewController){
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), {() -> Void in
+            let errorText = "Get TimeLine Failed"
+            var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
+            let username = prefs.valueForKey("USERNAME") as! NSString
+            var post:NSString = "username=\(username)"
+            
+            NSLog("PostData: %@",post);
+            
+            var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_personal_news/")!
+            
+            var request = self.getRequest(url, post: post)
+            
+            var responseError: NSError?
+            var response: NSURLResponse?
+            
+            var urlData: NSData? = NSURLConnection.sendSynchronousRequest(request, returningResponse:&response, error:&responseError)
+            if ( urlData != nil ) {
+                let res = response as! NSHTTPURLResponse!;
+                
+                NSLog("Response code: %ld", res.statusCode);
+                
+                if (res.statusCode >= 200 && res.statusCode < 300){
+                    
+                    let jsonData:NSDictionary = self.getJsonData(urlData!)
+                    
+                    let status:String = jsonData.valueForKey("status") as! String
+                    
+                    //[jsonData[@"success"] integerValue];
+                    
+                    println("Success: " + status)
+                    
+                    if(status == "success")
+                    {
+                        NSLog("Get Owned SUCCESS");
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            vc.eventList = jsonData.valueForKey("events") as! [[String: AnyObject]]
+                            vc.tabelView.reloadData()
+                        })
+                        
+                    }else {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
+                        })
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.alert.getStatusCodeError(errorText, vc: vc)
+                    })
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.alert.getUrlDataError(responseError, str: errorText, vc: vc)
+                })
+            }
+        })
+        
+    }
+
     
     
     func getOwnedEvent(vc: UIViewController){
@@ -80,11 +140,15 @@ class ApiMethods {
     
     func getGroups(vc : GroupTableViewController){
         var prefs:NSUserDefaults = NSUserDefaults.standardUserDefaults()
-        let user = prefs.valueForKey("USERNAME") as! NSString
+        let username = prefs.valueForKey("USERNAME") as! NSString
         let errorText = "Get Groups Failed"
+        var post:NSString = "username=\(username)"
         
-        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/\(user)/groups/")!
-        var request:NSMutableURLRequest = NSMutableURLRequest(URL: url)
+        NSLog("PostData: %@",post);
+        
+        var url:NSURL = NSURL(string: "http://127.0.0.1:8000/api/get_personal_news/")!
+        
+        var request = self.getRequest(url, post: post)
         
         var responseError: NSError?
         var response: NSURLResponse?
@@ -95,21 +159,22 @@ class ApiMethods {
             
             NSLog("Response code: %ld", res.statusCode);
             
-            if (res.statusCode >= 200 && res.statusCode < 300)
-            {
+            if (res.statusCode >= 200 && res.statusCode < 300){
                 
-                let jsonData:NSDictionary = getJsonData(urlData!)
+                let jsonData:NSDictionary = self.getJsonData(urlData!)
                 
-                let status:NSString = jsonData.valueForKey("status") as! NSString
+                let status:String = jsonData.valueForKey("status") as! String
                 
+                //[jsonData[@"success"] integerValue];
                 
-                println("Success: " + (status as String))
+                println("Success: " + status)
                 
                 if(status == "success")
                 {
-                    NSLog("Create Group SUCCESS");
-                    
-                } else {
+                    NSLog("Get Owned SUCCESS");
+                    vc.groupList = jsonData.valueForKey("groups") as! [[String: AnyObject]]
+                    vc.groupsTable.reloadData()
+                }else {
                     self.alert.getSuccesError(jsonData, str: errorText, vc: vc)
                 }
             } else {

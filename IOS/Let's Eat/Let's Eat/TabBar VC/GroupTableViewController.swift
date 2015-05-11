@@ -26,14 +26,14 @@ class GroupTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        /*
         members.append(member1)
         members.append(member2)
         group.updateValue(members, forKey: "members")
         groupList.append(group)
-        groupsTable.reloadData()
+        groupsTable.reloadData()*/
         
-        //apiMethods.getGroup(self)
+        apiMethods.getGroups(self)
         
         
         // Uncomment the following line to preserve selection between presentations
